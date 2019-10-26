@@ -28,8 +28,8 @@ public class AdScrapper {
                 .findElements(By.className("tileV1"));
         log.info("Fetched {} ads from page: {}", scrappedAds.size(), 1);
 
-        List<Ad> ads = scrappedAds.stream()
-                .map(adPreProcessor::parse)
+        List<AdSummary> adSummaries = scrappedAds.stream()
+                .map(adPreProcessor::parseAdSummary)
                 .collect(Collectors.toList());
     }
 
