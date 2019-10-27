@@ -19,6 +19,7 @@
 		<selenium-java.version>3.141.59</selenium-java.version>
 		<quartz.version>2.3.2</quartz.version>
 		<lombok.version>1.18.10</lombok.version>
+		<testcontainers.version>1.12.2</testcontainers.version>
 	</properties>
 
 	<dependencies>
@@ -53,6 +54,12 @@
 					<artifactId>junit-vintage-engine</artifactId>
 				</exclusion>
 			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.testcontainers</groupId>
+			<artifactId>testcontainers</artifactId>
+			<version>${testcontainers.version}</version>
+			<scope>test</scope>
 		</dependency>
 	</dependencies>
 

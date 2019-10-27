@@ -9,9 +9,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
-import java.util.List;
-import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 @Slf4j
@@ -19,26 +17,23 @@ import java.util.stream.Collectors;
 public class AdScrapper {
     private Selenium.WebDriverFactory webDriverFactory;
     private AdPreProcessor adPreProcessor;
-    private AdEvaluator adEvaluator;
-    private AdRepository adRepository;
 
-    @PostConstruct
-    public void scrapAds() {
+    public Stream<Ad> scrapAds() {
         WebDriver webDriver = openAdsPage();
-
-        List<AdSummary> scrappedAds = webDriver.findElement(By.className("results"))
+        return webDriver.findElement(By.className("results"))
                 .findElement(By.className("view"))
                 .findElements(By.className("tileV1"))
                 .stream()
                 .map(adPreProcessor::parseAdSummary)
-                .collect(Collectors.toList());
-        log.info("Fetched {} ads from page: {}", scrappedAds.size(), 1);
-
-        scrappedAds.stream()
+                .peek(adSummary -> log.info("Ad scrapped: {}", adSummary.getTitle()))
                 .map(adSummary -> scrapAd(webDriver, adSummary))
-                .map(adPreProcessor::parseAd)
-                .filter(adEvaluator::isNew)
-                .forEach(adRepository::save);
+                .map(adPreProcessor::parseAd);
+    }
+
+    private WebDriver openAdsPage() {
+        RemoteWebDriver webDriver = webDriverFactory.initialize();
+        webDriver.get("https://www.gumtree.pl/s-mieszkania-i-domy-do-wynajecia/wroclaw/zmywarka/v1c9008l3200114q0p1");
+        return webDriver;
     }
 
     private ScrappedAd scrapAd(WebDriver webDriver, AdSummary adSummary) {
@@ -48,11 +43,5 @@ public class AdScrapper {
                 .adSummary(adSummary)
                 .ad(scrappedAd)
                 .build();
-    }
-
-    private WebDriver openAdsPage() {
-        RemoteWebDriver webDriver = webDriverFactory.initialize();
-        webDriver.get("https://www.gumtree.pl/s-mieszkania-i-domy-do-wynajecia/wroclaw/zmywarka/v1c9008l3200114q0p1");
-        return webDriver;
     }
 }
