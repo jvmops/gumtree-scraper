@@ -1,4 +1,4 @@
-package com.jvmops.gumtree.scrapper.ads;
+package com.jvmops.gumtree.scrapper;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

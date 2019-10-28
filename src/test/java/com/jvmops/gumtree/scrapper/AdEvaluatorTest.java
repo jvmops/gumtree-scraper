@@ -1,6 +1,6 @@
-package com.jvmops.gumtree.scrapper.ads;
+package com.jvmops.gumtree.scrapper;
 
-import com.jvmops.gumtree.scrapper.Main;
+import com.jvmops.gumtree.Main;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.ClassRule;

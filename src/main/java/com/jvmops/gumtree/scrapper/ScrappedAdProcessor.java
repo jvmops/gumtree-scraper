@@ -1,4 +1,4 @@
-package com.jvmops.gumtree.scrapper.ads;
+package com.jvmops.gumtree.scrapper;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
@@ -11,8 +11,8 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Component
-class AdPreProcessor {
-    AdSummary parseAdSummary(WebElement webElement) {
+class ScrappedAdProcessor {
+    ScrappedAdSummary parseAdSummary(WebElement webElement) {
         WebElement titleElement = webElement.findElement(By.className("title"));
         String url = titleElement.findElement(By.tagName("a")).getAttribute("href");
         String price = webElement.findElement(By.className("ad-price"))
@@ -20,26 +20,26 @@ class AdPreProcessor {
                 .replace("zł", "")
                 .trim()
                 .replace(" ", "");
-        return AdSummary.builder()
+        return ScrappedAdSummary.builder()
                 .url(url)
                 .title(titleElement.getText().trim())
                 .price(Integer.valueOf(price))
                 .build();
     }
 
-    Ad parseAd(ScrappedAd scrappedAd) {
-        WebElement ad = scrappedAd.getAd();
+    Ad parseAd(ScrappedAd scrapped) {
+        WebElement ad = scrapped.getAd();
         String description = ad.findElement(By.className("description"))
                 .getText();
 
         WebElement scrappedAdAttributes = ad.findElement(By.className("selMenu"));
-        AdAttributes adAttributes = parseAdAttributes(scrappedAdAttributes);
+        ScrappedAdAttributes adAttributes = parseAdAttributes(scrappedAdAttributes);
 
         return Ad.builder()
-                .url(scrappedAd.getAdSummary().getUrl())
-                .title(scrappedAd.getAdSummary().getTitle())
+                .url(scrapped.getScrappedAdSummary().getUrl())
+                .title(scrapped.getScrappedAdSummary().getTitle())
                 .description(description)
-                .price(scrappedAd.getAdSummary().getPrice())
+                .price(scrapped.getScrappedAdSummary().getPrice())
                 .availableSince(adAttributes.getAvailableSince())
                 .landlord(adAttributes.getLandlord())
                 .size(adAttributes.getSize())
@@ -48,7 +48,7 @@ class AdPreProcessor {
                 .build();
     }
 
-    private AdAttributes parseAdAttributes(WebElement scrappedAdAttributes) {
+    private ScrappedAdAttributes parseAdAttributes(WebElement scrappedAdAttributes) {
         var adAttributes = scrappedAdAttributes.findElements(By.tagName("li")).stream()
                 .map(this::findAttributeElement)
                 .flatMap(Optional::stream)
@@ -58,7 +58,7 @@ class AdPreProcessor {
                         Pair::getSecond
                 ));
 
-        return new AdAttributes(adAttributes);
+        return new ScrappedAdAttributes(adAttributes);
     }
 
     private Optional<WebElement> findAttributeElement(WebElement element) {

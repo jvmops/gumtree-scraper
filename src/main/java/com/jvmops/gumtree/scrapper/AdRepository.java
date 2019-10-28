@@ -1,4 +1,4 @@
-package com.jvmops.gumtree.scrapper.ads;
+package com.jvmops.gumtree.scrapper;
 
 import org.bson.types.ObjectId;
 import org.springframework.data.repository.CrudRepository;

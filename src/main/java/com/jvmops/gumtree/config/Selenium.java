@@ -1,4 +1,4 @@
-package com.jvmops.gumtree.scrapper.config;
+package com.jvmops.gumtree.config;
 
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;

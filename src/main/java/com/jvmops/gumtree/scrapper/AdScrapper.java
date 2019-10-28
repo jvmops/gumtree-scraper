@@ -1,6 +1,6 @@
-package com.jvmops.gumtree.scrapper.ads;
+package com.jvmops.gumtree.scrapper;
 
-import com.jvmops.gumtree.scrapper.config.Selenium;
+import com.jvmops.gumtree.config.Selenium;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.By;
@@ -16,7 +16,7 @@ import java.util.stream.Stream;
 @AllArgsConstructor
 public class AdScrapper {
     private Selenium.WebDriverFactory webDriverFactory;
-    private AdPreProcessor adPreProcessor;
+    private ScrappedAdProcessor scrappedAdProcessor;
 
     public Stream<Ad> scrapAds() {
         WebDriver webDriver = openAdsPage();
@@ -24,10 +24,10 @@ public class AdScrapper {
                 .findElement(By.className("view"))
                 .findElements(By.className("tileV1"))
                 .stream()
-                .map(adPreProcessor::parseAdSummary)
-                .peek(adSummary -> log.info("Ad scrapped: {}", adSummary.getTitle()))
-                .map(adSummary -> scrapAd(webDriver, adSummary))
-                .map(adPreProcessor::parseAd);
+                .map(scrappedAdProcessor::parseAdSummary)
+                .peek(scrappedAdSummary -> log.info("Ad scrapped: {}", scrappedAdSummary.getTitle()))
+                .map(scrappedAdSummary -> scrapAd(webDriver, scrappedAdSummary))
+                .map(scrappedAdProcessor::parseAd);
     }
 
     private WebDriver openAdsPage() {
@@ -36,11 +36,11 @@ public class AdScrapper {
         return webDriver;
     }
 
-    private ScrappedAd scrapAd(WebDriver webDriver, AdSummary adSummary) {
-        webDriver.get(adSummary.getUrl());
+    private ScrappedAd scrapAd(WebDriver webDriver, ScrappedAdSummary scrappedAdSummary) {
+        webDriver.get(scrappedAdSummary.getUrl());
         WebElement scrappedAd = webDriver.findElement(By.className("vip-details"));
         return ScrappedAd.builder()
-                .adSummary(adSummary)
+                .scrappedAdSummary(scrappedAdSummary)
                 .ad(scrappedAd)
                 .build();
     }
