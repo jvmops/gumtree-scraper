@@ -4,18 +4,20 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import org.bson.types.ObjectId;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.index.TextIndexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Document
 @Getter
 @Setter
 @Builder
-class Ad {
+public class Ad {
     private ObjectId id;
     private String url;
     @Indexed
@@ -27,11 +29,15 @@ class Ad {
     private String landlord;
     private Integer size;
     @Indexed
-    private LocalDate creationDate;
+    private LocalDate gumtreeCreationDate;
     private List<LocalDate> updates;
+    @CreatedDate
+    private LocalDateTime creationTime;
+    private boolean refreshed = false;
 
-    public void setCreationDate(LocalDate creationDate) {
-        this.creationDate = creationDate;
-        this.updates.add(creationDate);
+    void setGumtreeCreationDate(LocalDate gumtreeCreationDate) {
+        this.gumtreeCreationDate = gumtreeCreationDate;
+        this.updates.add(gumtreeCreationDate);
+        this.refreshed = true;
     }
 }

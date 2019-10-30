@@ -27,15 +27,15 @@ class AdEvaluator {
     private AdWrapper updateCreationDateIfPossible(AdWrapper adWrapper) {
         Ad fromDb = adWrapper.getFromDb();
         if (fromDb != null && creationDateIsDifferent(adWrapper)) {
-            fromDb.setCreationDate(adWrapper.getScrapped().getCreationDate());
+            fromDb.setGumtreeCreationDate(adWrapper.getScrapped().getGumtreeCreationDate());
         }
         return adWrapper;
     }
 
     private boolean creationDateIsDifferent(AdWrapper adWrapper) {
         return ! Objects.equals(
-                adWrapper.getFromDb().getCreationDate(),
-                adWrapper.getScrapped().getCreationDate()
+                adWrapper.getFromDb().getGumtreeCreationDate(),
+                adWrapper.getScrapped().getGumtreeCreationDate()
         );
     }
 

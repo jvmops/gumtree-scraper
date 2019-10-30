@@ -38,7 +38,7 @@ public class AdEvaluatorTest {
         LocalDate creationTime = LocalDate.parse("2019-10-27");
         Ad ad = Ad.builder()
                 .title("Test ad")
-                .creationDate(creationTime)
+                .gumtreeCreationDate(creationTime)
                 .updates(List.of(creationTime))
                 .build();
         adRepository.save(ad);
@@ -48,13 +48,13 @@ public class AdEvaluatorTest {
     public void creation_date_of_refreshed_ad_will_be_updated() {
         Ad scrappedAd = Ad.builder()
                 .title("Test ad")
-                .creationDate(LocalDate.parse("2019-10-28"))
+                .gumtreeCreationDate(LocalDate.parse("2019-10-28"))
                 .build();
 
         adEvaluator.processAds(Stream.of(scrappedAd));
 
         Ad fromDb = adRepository.findByTitle("Test ad");
-        Assert.assertEquals(fromDb.getCreationDate(), LocalDate.parse("2019-10-28"));
+        Assert.assertEquals(fromDb.getGumtreeCreationDate(), LocalDate.parse("2019-10-28"));
         Assert.assertEquals("Two creation dates should be present for refreshed ad", 2, fromDb.getUpdates().size());
     }
 

@@ -43,7 +43,7 @@ class ScrappedAdProcessor {
                 .availableSince(adAttributes.getAvailableSince())
                 .landlord(adAttributes.getLandlord())
                 .size(adAttributes.getSize())
-                .creationDate(adAttributes.getCreationDate())
+                .gumtreeCreationDate(adAttributes.getCreationDate())
                 .updates(List.of(adAttributes.getCreationDate()))
                 .build();
     }
