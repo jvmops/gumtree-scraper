@@ -2,7 +2,7 @@ package com.jvmops.gumtree.config;
 
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -11,12 +11,12 @@ import java.net.URL;
 
 @Configuration
 public class Selenium {
-    @Value("${gumtree.scrapper.selenium-url}")
-    private String seleniumUrl;
+    @Autowired
+    private GumtreeScrapperProperties gumtreeScrapperProperties;
 
     @Bean
     WebDriverFactory webDriverFactory() {
-        return new WebDriverFactory(seleniumUrl);
+        return new WebDriverFactory(gumtreeScrapperProperties.getSeleniumUrl());
     }
 
     public class WebDriverFactory {
