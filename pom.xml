@@ -12,14 +12,12 @@
 	<artifactId>gumtree-scrapper</artifactId>
 	<version>1.0.0</version>
 	<name>gumtree-scrapper</name>
-	<description>Searching for a flat made effortless</description>
+	<description>Searching for an apartment made effortless</description>
 
 	<properties>
 		<java.version>13</java.version>
 		<selenium-java.version>3.141.59</selenium-java.version>
-		<quartz.version>2.3.2</quartz.version>
-		<lombok.version>1.18.10</lombok.version>
-		<testcontainers.version>1.12.2</testcontainers.version>
+		<testcontainers.version>1.12.3</testcontainers.version>
 	</properties>
 
 	<dependencies>
@@ -31,17 +29,15 @@
 		<dependency>
 			<groupId>org.quartz-scheduler</groupId>
 			<artifactId>quartz</artifactId>
-			<version>${quartz.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.projectlombok</groupId>
-			<artifactId>lombok</artifactId>
-			<version>${lombok.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-mongodb</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
 		</dependency>
 
 		<dependency>
@@ -58,6 +54,12 @@
 		<dependency>
 			<groupId>org.testcontainers</groupId>
 			<artifactId>testcontainers</artifactId>
+			<version>${testcontainers.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.testcontainers</groupId>
+			<artifactId>junit-jupiter</artifactId>
 			<version>${testcontainers.version}</version>
 			<scope>test</scope>
 		</dependency>
