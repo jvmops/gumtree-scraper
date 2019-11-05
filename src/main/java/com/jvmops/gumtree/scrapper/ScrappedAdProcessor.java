@@ -84,7 +84,7 @@ class ScrappedAdProcessor {
     }
 
     @PostConstruct
-    public void log() {
-        log.warn("COMPONENT: ScrappedAdProcessor created!");
+    void log() {
+        log.warn("Lazy ScrappedAdProcessor created!");
     }
 }

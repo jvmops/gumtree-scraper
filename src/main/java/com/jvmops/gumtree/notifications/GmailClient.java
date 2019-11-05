@@ -10,7 +10,7 @@ import javax.annotation.PostConstruct;
 @Lazy
 @Slf4j
 public class GmailClient implements NotificationSender {
-    private static final String TITLE = "Wroclaw apartments report";
+    private static final String TITLE_PATTERN = "%s :: Wroclaw apartments report";
 
     @Override
     public boolean send(String content, String contentType) {
@@ -20,6 +20,6 @@ public class GmailClient implements NotificationSender {
 
     @PostConstruct
     public void log() {
-        log.warn("Lazy GmailClient created. WIP - does not send mails for now...");
+        log.warn("WIP: Lazy GmailClient created");
     }
 }

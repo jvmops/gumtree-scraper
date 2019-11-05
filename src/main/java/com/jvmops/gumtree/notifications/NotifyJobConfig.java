@@ -31,15 +31,15 @@ class NotifyJobConfig {
         return notify;
     }
 
-
     @PostConstruct
     void log() {
-        log.info("JOB: NotifyJobConfig created!");
+        log.warn("BEAN: Lazy NotifyJobConfig created!");
     }
 
     @Getter
     @Setter
-    class NotifyJob implements Job {
+    @Slf4j
+    static class NotifyJob implements Job {
         @Autowired
         private ApartmentReportFactory apartmentReportFactory;
         @Autowired
@@ -51,7 +51,10 @@ class NotifyJobConfig {
         }
 
         private void notifyAboutNewReport() {
+            log.info("Job executed. Creating an apartment report!");
             var apartmentReport = apartmentReportFactory.create();
+            
+            log.info("Apartment report created. Notifying watchers!");
             notificationSender.send(
                     apartmentReport.getReport(),
                     apartmentReport.getContentType()

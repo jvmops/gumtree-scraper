@@ -49,7 +49,7 @@ public class AdScrapper {
     }
 
     @PostConstruct
-    public void log() {
+    void log() {
         log.warn("Lazy AdScrapper created.");
     }
 }
