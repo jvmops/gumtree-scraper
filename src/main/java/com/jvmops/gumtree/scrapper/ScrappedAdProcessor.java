@@ -1,16 +1,21 @@
 package com.jvmops.gumtree.scrapper;
 
+import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Component
+@Lazy
+@Slf4j
 class ScrappedAdProcessor {
     ScrappedAdSummary parseAdSummary(WebElement webElement) {
         WebElement titleElement = webElement.findElement(By.className("title"));
@@ -76,5 +81,10 @@ class ScrappedAdProcessor {
         String key = webElement.findElement(By.className("name")).getText();
         String value = webElement.findElement(By.className("value")).getText();
         return Pair.of(key, value);
+    }
+
+    @PostConstruct
+    public void log() {
+        log.warn("COMPONENT: ScrappedAdProcessor created!");
     }
 }

@@ -7,11 +7,14 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.RemoteWebDriver;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import java.util.stream.Stream;
 
 @Service
+@Lazy
 @Slf4j
 @AllArgsConstructor
 public class AdScrapper {
@@ -43,5 +46,10 @@ public class AdScrapper {
                 .scrappedAdSummary(scrappedAdSummary)
                 .ad(scrappedAd)
                 .build();
+    }
+
+    @PostConstruct
+    public void log() {
+        log.warn("Lazy AdScrapper created.");
     }
 }
