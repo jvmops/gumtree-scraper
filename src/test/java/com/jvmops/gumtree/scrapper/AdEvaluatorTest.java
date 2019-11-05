@@ -1,69 +1,73 @@
 package com.jvmops.gumtree.scrapper;
 
 import com.jvmops.gumtree.Main;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.ClassRule;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.util.TestPropertyValues;
 import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.testcontainers.containers.GenericContainer;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Stream;
 
-@RunWith(SpringRunner.class)
+import static com.jvmops.gumtree.scrapper.AdEvaluatorTest.Initializer;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 @SpringBootTest(classes = Main.class)
-@ContextConfiguration(initializers = {AdEvaluatorTest.Initializer.class})
-public class AdEvaluatorTest {
+@ContextConfiguration(initializers = {Initializer.class})
+@Testcontainers
+class AdEvaluatorTest {
+    public static class Initializer implements ApplicationContextInitializer<ConfigurableApplicationContext> {
+        @Override
+        public void initialize(ConfigurableApplicationContext configurableApplicationContext) {
+            TestPropertyValues.of(
+                    "spring.data.mongodb.port=" + MONGO.getFirstMappedPort()
+            ).applyTo(configurableApplicationContext.getEnvironment());
+        }
+    }
 
     @Autowired
     private AdRepository adRepository;
     @Autowired
     private AdEvaluator adEvaluator;
 
-    @ClassRule
-    public static final GenericContainer TEST_MONGO = new GenericContainer("mongo:3.4.23-xenial")
+    @Container
+    private static final GenericContainer MONGO = new GenericContainer("mongo:3.4.23-xenial")
             .withExposedPorts(27017);
 
-    @Before
+    @BeforeEach
     public void setupDb() {
-        LocalDate creationTime = LocalDate.parse("2019-10-27");
-        Ad ad = Ad.builder()
-                .title("Test ad")
-                .gumtreeCreationDate(creationTime)
-                .updates(List.of(creationTime))
-                .build();
-        adRepository.save(ad);
+        adRepository.deleteAll();
+        adRepository.save(testAd());
     }
 
     @Test
     public void creation_date_of_refreshed_ad_will_be_updated() {
+        LocalDate nextDay = LocalDate.parse("2019-10-28");
         Ad scrappedAd = Ad.builder()
                 .title("Test ad")
-                .gumtreeCreationDate(LocalDate.parse("2019-10-28"))
+                .gumtreeCreationDate(nextDay)
                 .build();
 
         adEvaluator.processAds(Stream.of(scrappedAd));
 
         Ad fromDb = adRepository.findByTitle("Test ad");
-        Assert.assertEquals(fromDb.getGumtreeCreationDate(), LocalDate.parse("2019-10-28"));
-        Assert.assertEquals("Two creation dates should be present for refreshed ad", 2, fromDb.getUpdates().size());
+        assertEquals(2, fromDb.getUpdates().size());
     }
 
-    static class Initializer implements ApplicationContextInitializer<ConfigurableApplicationContext> {
-        @Override
-        public void initialize(ConfigurableApplicationContext configurableApplicationContext) {
-            TestPropertyValues.of(
-                    "spring.data.mongodb.port=" + TEST_MONGO.getFirstMappedPort()
-            ).applyTo(configurableApplicationContext.getEnvironment());
-        }
+    private Ad testAd() {
+        LocalDate creationTime = LocalDate.parse("2019-10-27");
+        return Ad.builder()
+                .title("Test ad")
+                .gumtreeCreationDate(creationTime)
+                .updates(List.of(creationTime))
+                .build();
     }
 }
