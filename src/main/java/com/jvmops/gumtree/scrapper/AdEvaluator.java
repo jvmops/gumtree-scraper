@@ -13,14 +13,18 @@ class AdEvaluator {
     AdRepository adRepository;
 
     void processAds(Stream<Ad> ads) {
-        ads.map(this::findInDb)
+        ads.map(this::process)
                 .map(this::updateCreationDateIfPossible)
                 .map(AdWrapper::getTheOneToSave)
                 .forEach(adRepository::save);
     }
 
-    private AdWrapper findInDb(Ad scrapped) {
-        Ad fromDb = adRepository.findByTitle(scrapped.getTitle());
+    Ad findInRepository(Ad scrapped) {
+        return adRepository.findByTitle(scrapped.getTitle());
+    }
+
+    private AdWrapper process(Ad scrapped) {
+        Ad fromDb = findInRepository(scrapped);
         return new AdWrapper(scrapped, fromDb);
     }
 

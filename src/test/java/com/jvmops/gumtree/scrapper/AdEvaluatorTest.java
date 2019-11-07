@@ -23,7 +23,7 @@ class AdEvaluatorTest extends AdCollectionTest {
 
         adEvaluator.processAds(Stream.of(scrappedAd));
 
-        Ad fromDb = adRepository.findByTitle("Modify this ad");
+        Ad fromDb = adEvaluator.findInRepository(scrappedAd);
         assertEquals(3, fromDb.getUpdates().size());
     }
 }

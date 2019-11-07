@@ -20,7 +20,7 @@ public class AdCollectionTest extends MongoTest {
     protected static final LocalDateTime FOUR_WEEKS_AGO = TIME_NOW.minusWeeks(4);
 
     @Autowired
-    protected AdRepository adRepository;
+    private AdRepository adRepository;
 
     @BeforeEach
     public void setupDb() {
