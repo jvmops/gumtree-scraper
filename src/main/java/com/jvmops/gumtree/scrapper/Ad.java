@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.index.TextIndexed;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -33,6 +34,8 @@ public class Ad {
     private List<LocalDate> updates;
     @CreatedDate
     private LocalDateTime creationTime;
+    @LastModifiedDate
+    private LocalDateTime modificationTime;
     private boolean refreshed = false;
 
     void setGumtreeCreationDate(LocalDate gumtreeCreationDate) {
