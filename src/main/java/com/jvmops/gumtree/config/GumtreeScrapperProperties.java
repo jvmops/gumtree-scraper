@@ -12,12 +12,12 @@ import java.util.stream.Collectors;
 @Getter
 public class GumtreeScrapperProperties {
     private final String seleniumUrl;
-    private final List<String> notificationEmails;
+    private final List<String> emailAddresses;
 
     @ConstructorBinding
-    public GumtreeScrapperProperties(String seleniumUrl, String[] notificationEmails) {
+    public GumtreeScrapperProperties(String seleniumUrl, String[] emailAddresses) {
         this.seleniumUrl = seleniumUrl;
-        this.notificationEmails = Arrays.stream(notificationEmails)
+        this.emailAddresses = Arrays.stream(emailAddresses)
                 .map(String::trim)
                 .collect(Collectors.toUnmodifiableList());
     }
