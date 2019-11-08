@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.stream.Stream;
 
@@ -12,8 +13,9 @@ import java.util.stream.Stream;
 class AdEvaluator {
     AdRepository adRepository;
 
-    void processAds(Stream<Ad> ads) {
-        ads.map(this::process)
+    void processAds(List<Ad> ads) {
+        ads.stream()
+                .map(this::findInDb)
                 .map(this::updateCreationDateIfPossible)
                 .map(AdWrapper::getTheOneToSave)
                 .forEach(adRepository::save);
@@ -42,15 +44,15 @@ class AdEvaluator {
                 adWrapper.getScrapped().getGumtreeCreationDate()
         );
     }
+}
 
-    @Getter
-    @AllArgsConstructor
-    private static class AdWrapper {
-        Ad scrapped;
-        Ad fromDb;
+@Getter
+@AllArgsConstructor
+class AdWrapper {
+    Ad scrapped;
+    Ad fromDb;
 
-        Ad getTheOneToSave() {
-            return fromDb != null ? fromDb : scrapped;
-        }
+    Ad getTheOneToSave() {
+        return fromDb != null ? fromDb : scrapped;
     }
 }

@@ -4,7 +4,7 @@ import com.jvmops.gumtree.AdCollectionTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.stream.Stream;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -21,7 +21,7 @@ class AdEvaluatorTest extends AdCollectionTest {
                 .gumtreeCreationDate(DATE_NOW)
                 .build();
 
-        adEvaluator.processAds(Stream.of(scrappedAd));
+        adEvaluator.processAds(List.of(scrappedAd));
 
         Ad fromDb = adEvaluator.findInRepository(scrappedAd);
         assertEquals(3, fromDb.getUpdates().size());

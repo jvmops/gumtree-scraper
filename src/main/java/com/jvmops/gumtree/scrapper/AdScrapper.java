@@ -11,7 +11,8 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
-import java.util.stream.Stream;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Lazy
@@ -21,16 +22,21 @@ public class AdScrapper {
     private Selenium.WebDriverFactory webDriverFactory;
     private ScrappedAdProcessor scrappedAdProcessor;
 
-    public Stream<Ad> scrapAds() {
+    public List<Ad> scrapAds() {
         WebDriver webDriver = openAdsPage();
-        return webDriver.findElement(By.className("results"))
-                .findElement(By.className("view"))
-                .findElements(By.className("tileV1"))
+        return scrapAds(webDriver)
                 .stream()
                 .map(scrappedAdProcessor::parseAdSummary)
                 .peek(scrappedAdSummary -> log.info("Ad scrapped: {}", scrappedAdSummary.getTitle()))
                 .map(scrappedAdSummary -> scrapAd(webDriver, scrappedAdSummary))
-                .map(scrappedAdProcessor::parseAd);
+                .map(scrappedAdProcessor::parseAd)
+                .collect(Collectors.toList());
+    }
+
+    private List<WebElement> scrapAds(WebDriver webDriver) {
+        return webDriver.findElement(By.className("results"))
+                .findElement(By.className("view"))
+                .findElements(By.className("tileV1"));
     }
 
     private WebDriver openAdsPage() {
