@@ -26,7 +26,7 @@ public abstract class ScrapperDataInitializer extends MongoTest {
     @BeforeEach
     private void insertDataIfNecessary() {
         if (adRepository.count() == 0) {
-            log.info("Inserting test data for scrapper");
+            log.info("Inserting ads that will be modified by scrapper tests");
             createTestAds().forEach(adRepository::save);
         }
     }

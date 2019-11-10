@@ -14,20 +14,21 @@ import java.util.UUID;
 
 @Slf4j
 public abstract class ReportDataInitializer extends MongoTest {
+
     @Autowired
     private AdRepository adRepository;
     @Autowired
     protected Time time;
 
     @BeforeAll
-    public static void setupDb() {
+    public static void clearData() {
         deleteAll();
     }
 
     @BeforeEach
     private void insertDataIfNecessary() {
         if (adRepository.count() == 0) {
-            log.info("Inserting test data for report");
+            log.info("Inserting multiple ads for report tests");
             createFewAds().forEach(adRepository::save);
         }
     }

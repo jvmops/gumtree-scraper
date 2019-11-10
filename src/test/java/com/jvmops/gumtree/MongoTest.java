@@ -16,6 +16,8 @@ public abstract class MongoTest {
     public static class Initializer implements ApplicationContextInitializer<ConfigurableApplicationContext> {
         @Override
         public void initialize(ConfigurableApplicationContext configurableApplicationContext) {
+            log.info("Updating spring context with mongo testcontainer port");
+            log.info("MONGO.getFirstMappedPort() == {}", MONGO.getFirstMappedPort());
             TestPropertyValues.of(
                     "spring.data.mongodb.port=" + MONGO.getFirstMappedPort()
             ).applyTo(configurableApplicationContext.getEnvironment());
@@ -28,13 +30,19 @@ public abstract class MongoTest {
     public static final MongoClient MONGO_CLIENT;
 
     static {
+        log.info("::: STARTING CONTAINER :::");
         MONGO.start();
+        log.info("::: CONTAINER STARTED :::");
+
+        log.info(":: Initializing static MongoClient ::");
+        // for direct access to the test Mongo
         MONGO_CLIENT = new MongoClient("localhost", MONGO.getFirstMappedPort());
+        log.info(":: static MongoClient initialized ::");
     }
 
-    public static void deleteAll() {
+    protected static void deleteAll() {
         BasicDBObject all = new BasicDBObject();
-        log.info("Removing all the data from [ gumtree.ad ] collection");
+        log.info("Removing all the data from [ test-gumtree.ad ] collection");
         MONGO_CLIENT.getDatabase("test-gumtree")
                 .getCollection("ad")
                 .deleteMany(all);

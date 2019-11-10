@@ -15,22 +15,26 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @ContextConfiguration(
         initializers = MongoTest.Initializer.class)
 class AdEvaluatorTest extends ScrapperDataInitializer {
+
     @Autowired
     private AdEvaluator adEvaluator;
 
     @Test
     public void creation_date_of_refreshed_ad_will_be_updated() {
-        Ad scrappedAd = Ad.builder()
-                .title("Modify this ad")
-                .gumtreeCreationDate(time.now().toLocalDate())
-                .updates(List.of())
-                .build();
-
+        Ad scrappedAd = scrappedAd();
         adEvaluator.processAds(List.of(scrappedAd));
 
         Ad fromDb = adEvaluator.findInRepository(scrappedAd)
                 .orElse(scrappedAd);
         assertEquals(time.now().toLocalDate(), fromDb.getGumtreeCreationDate(), "Date has not been updated");
         assertEquals(3, fromDb.getUpdates().size());
+    }
+
+    private Ad scrappedAd() {
+        return Ad.builder()
+                .title("Modify this ad")
+                .gumtreeCreationDate(time.now().toLocalDate())
+                .updates(List.of())
+                .build();
     }
 }
