@@ -27,14 +27,14 @@ public class GmailClient implements NotificationSender {
     public boolean send(String content, String contentType) {
         log.info("Email is about to be send..");
         try {
-            sendMessageWithAttachment(gumtreeScrapperProperties.getEmailAddresses(), content);
+            sendEmail(gumtreeScrapperProperties.getEmailAddresses(), content);
         } catch (MessagingException e) {
             log.error("Unable to send email", e);
         }
         return false;
     }
 
-    void sendMessageWithAttachment(List<String> to, String text) throws MessagingException {
+    void sendEmail(List<String> to, String text) throws MessagingException {
         MimeMessage message = emailSender.createMimeMessage();
 
         MimeMessageHelper helper = new MimeMessageHelper(message, "UTF-8");

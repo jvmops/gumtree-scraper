@@ -24,16 +24,18 @@ public class AdScrapper {
 
     public List<Ad> scrapAds() {
         WebDriver webDriver = openAdsPage();
-        return scrapAds(webDriver)
-                .stream()
+        return scrapAds(webDriver).stream()
                 .map(scrappedAdProcessor::parseAdSummary)
-                .peek(scrappedAdSummary -> log.info("Ad scrapped: {}", scrappedAdSummary.getTitle()))
+                .peek(scrappedAdSummary -> log.debug("Ad scrapped: {}", scrappedAdSummary.getTitle()))
                 .map(scrappedAdSummary -> scrapAd(webDriver, scrappedAdSummary))
+                .peek(scrappedAd -> log.debug("Ad details fetched"))
                 .map(scrappedAdProcessor::parseAd)
+                .peek(scrappedAd -> log.debug("Ad has been parsed"))
                 .collect(Collectors.toList());
     }
 
     private List<WebElement> scrapAds(WebDriver webDriver) {
+        log.info("Downloading ad list from a gumtree");
         return webDriver.findElement(By.className("results"))
                 .findElement(By.className("view"))
                 .findElements(By.className("tileV1"));
