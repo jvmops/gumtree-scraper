@@ -1,4 +1,4 @@
-package com.jvmops.gumtree.notifications;
+package com.jvmops.gumtree.report;
 
 import com.jvmops.gumtree.config.GumtreeScrapperProperties;
 import lombok.AllArgsConstructor;

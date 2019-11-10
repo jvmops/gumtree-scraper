@@ -1,4 +1,4 @@
-package com.jvmops.gumtree.notifications;
+package com.jvmops.gumtree.report;
 
 import com.jvmops.gumtree.Main;
 import com.jvmops.gumtree.MongoTest;
