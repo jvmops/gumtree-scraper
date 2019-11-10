@@ -2,11 +2,12 @@ package com.jvmops.gumtree.scrapper;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Stream;
+import java.util.Optional;
 
 @Component
 @AllArgsConstructor
@@ -15,44 +16,43 @@ class AdEvaluator {
 
     void processAds(List<Ad> ads) {
         ads.stream()
-                .map(this::findInDb)
-                .map(this::updateCreationDateIfPossible)
-                .map(AdWrapper::getTheOneToSave)
+                .map(this::findAndWrap)
+                .map(AdWrapper::updateCreationDateIfPossible)
                 .forEach(adRepository::save);
     }
 
-    Ad findInRepository(Ad scrapped) {
+    private AdWrapper findAndWrap(Ad scrapped) {
+        return new AdWrapper(scrapped, findInRepository(scrapped));
+    }
+
+    Optional<Ad> findInRepository(Ad scrapped) {
         return adRepository.findByTitle(scrapped.getTitle());
-    }
-
-    private AdWrapper process(Ad scrapped) {
-        Ad fromDb = findInRepository(scrapped);
-        return new AdWrapper(scrapped, fromDb);
-    }
-
-    private AdWrapper updateCreationDateIfPossible(AdWrapper adWrapper) {
-        Ad fromDb = adWrapper.getFromDb();
-        if (fromDb != null && creationDateIsDifferent(adWrapper)) {
-            fromDb.setGumtreeCreationDate(adWrapper.getScrapped().getGumtreeCreationDate());
-        }
-        return adWrapper;
-    }
-
-    private boolean creationDateIsDifferent(AdWrapper adWrapper) {
-        return ! Objects.equals(
-                adWrapper.getFromDb().getGumtreeCreationDate(),
-                adWrapper.getScrapped().getGumtreeCreationDate()
-        );
     }
 }
 
 @Getter
+@Slf4j
 @AllArgsConstructor
 class AdWrapper {
-    Ad scrapped;
-    Ad fromDb;
+    private Ad scrapped;
+    private Optional<Ad> fromDb;
 
-    Ad getTheOneToSave() {
-        return fromDb != null ? fromDb : scrapped;
+    Ad updateCreationDateIfPossible() {
+        if (fromDb.isPresent() && scrappedIsNewer()) {
+            log.info("updating gumtree creation time");
+            fromDb.get().setGumtreeCreationDate(scrapped.getGumtreeCreationDate());
+        }
+        return getTheOneToSave();
+    }
+
+    private Ad getTheOneToSave() {
+        return fromDb.orElse(scrapped);
+    }
+
+    private boolean scrappedIsNewer() {
+        return ! Objects.equals(
+                fromDb.get().getGumtreeCreationDate(),
+                scrapped.getGumtreeCreationDate()
+        );
     }
 }
