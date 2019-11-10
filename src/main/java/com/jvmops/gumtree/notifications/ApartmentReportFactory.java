@@ -1,5 +1,6 @@
 package com.jvmops.gumtree.notifications;
 
+import com.jvmops.gumtree.config.Time;
 import com.jvmops.gumtree.scrapper.Ad;
 import com.jvmops.gumtree.scrapper.AdRepository;
 import lombok.AllArgsConstructor;
@@ -18,6 +19,7 @@ public class ApartmentReportFactory {
     private static final Sort SORT_BY_PRICE = Sort.by("price");
 
     private AdRepository adRepository;
+    private Time time;
 
     public ApartmentReport create() {
         List<Ad> newestAds = newestAds();
@@ -40,7 +42,7 @@ public class ApartmentReportFactory {
     }
 
     private List<Ad> cheapestApartments() {
-        LocalDate threeDaysAgo = LocalDate.now().minusDays(3);
+        LocalDate threeDaysAgo = time.now().minusDays(3).toLocalDate();
         return adRepository.findTop10ByGumtreeCreationDateGreaterThan(threeDaysAgo, SORT_BY_PRICE);
     }
 }
