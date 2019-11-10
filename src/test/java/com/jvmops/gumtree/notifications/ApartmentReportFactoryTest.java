@@ -1,14 +1,18 @@
 package com.jvmops.gumtree.notifications;
 
-import com.jvmops.gumtree.AdCollectionTest;
-import lombok.extern.slf4j.Slf4j;
+import com.jvmops.gumtree.Main;
+import com.jvmops.gumtree.MongoTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ContextConfiguration;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@Slf4j
-class ApartmentReportFactoryTest extends AdCollectionTest {
+@SpringBootTest(classes = Main.class)
+@ContextConfiguration(
+        initializers = MongoTest.Initializer.class)
+class ApartmentReportFactoryTest extends ReportDataInitializer {
 
     @Autowired
     private ApartmentReportFactory apartmentReportFactory;
