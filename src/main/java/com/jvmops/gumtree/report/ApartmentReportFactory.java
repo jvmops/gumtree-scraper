@@ -33,7 +33,7 @@ public class ApartmentReportFactory {
     }
 
     private List<Ad> newestAds() {
-        LocalDateTime yesterday = LocalDateTime.now().minusDays(1);
+        LocalDateTime yesterday = time.now().minusDays(1);
         return adRepository.findAllByCreationTimeGreaterThanAndRefreshedFalseOrderByPrice(yesterday);
     }
 
