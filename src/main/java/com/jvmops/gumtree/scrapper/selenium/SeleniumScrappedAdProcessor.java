@@ -1,5 +1,8 @@
-package com.jvmops.gumtree.scrapper;
+package com.jvmops.gumtree.scrapper.selenium;
 
+import com.jvmops.gumtree.scrapper.Ad;
+import com.jvmops.gumtree.scrapper.ListedAd;
+import com.jvmops.gumtree.scrapper.ScrappedAdAttributes;
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
@@ -16,8 +19,8 @@ import java.util.stream.Collectors;
 @Component
 @Lazy
 @Slf4j
-class ScrappedAdProcessor {
-    ScrappedAdSummary parseAdSummary(WebElement webElement) {
+class SeleniumScrappedAdProcessor {
+    ListedAd parseAdSummary(WebElement webElement) {
         WebElement titleElement = webElement.findElement(By.className("title"));
         String url = titleElement.findElement(By.tagName("a")).getAttribute("href");
         String price = webElement.findElement(By.className("ad-price"))
@@ -25,14 +28,14 @@ class ScrappedAdProcessor {
                 .replace("zł", "")
                 .trim()
                 .replace(" ", "");
-        return ScrappedAdSummary.builder()
+        return ListedAd.builder()
                 .url(url)
                 .title(titleElement.getText().trim())
                 .price(Integer.valueOf(price))
                 .build();
     }
 
-    Ad parseAd(ScrappedAd scrapped) {
+    Ad parseAd(AdScrapperSelenium.ScrappedAd scrapped) {
         WebElement ad = scrapped.getAd();
         String description = ad.findElement(By.className("description"))
                 .getText();
@@ -41,10 +44,10 @@ class ScrappedAdProcessor {
         ScrappedAdAttributes adAttributes = parseAdAttributes(scrappedAdAttributes);
 
         return Ad.builder()
-                .url(scrapped.getScrappedAdSummary().getUrl())
-                .title(scrapped.getScrappedAdSummary().getTitle())
+                .url(scrapped.getListedAd().getUrl())
+                .title(scrapped.getListedAd().getTitle())
                 .description(description)
-                .price(scrapped.getScrappedAdSummary().getPrice())
+                .price(scrapped.getListedAd().getPrice())
                 .availableSince(adAttributes.getAvailableSince())
                 .landlord(adAttributes.getLandlord())
                 .size(adAttributes.getSize())
