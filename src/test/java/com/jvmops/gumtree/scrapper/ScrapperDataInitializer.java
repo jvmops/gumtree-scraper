@@ -39,7 +39,7 @@ public abstract class ScrapperDataInitializer extends MongoTest {
                 .price(1800)
                 .creationTime(time.now().minusWeeks(5))
                 .modificationTime(time.now().minusWeeks(4))
-                .gumtreeCreationDate(time.now().minusWeeks(5).toLocalDate())
+                .gumtreeCreationDate(time.now().minusWeeks(4).toLocalDate())
                 .updates(updates)
                 .build();
 

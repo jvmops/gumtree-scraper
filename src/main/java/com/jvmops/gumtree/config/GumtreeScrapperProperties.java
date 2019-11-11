@@ -11,12 +11,10 @@ import java.util.stream.Collectors;
 @ConfigurationProperties(prefix = "gumtree.scrapper")
 @Getter
 public class GumtreeScrapperProperties {
-    private final String seleniumUrl;
     private final List<String> emailAddresses;
 
     @ConstructorBinding
-    public GumtreeScrapperProperties(String seleniumUrl, String[] emailAddresses) {
-        this.seleniumUrl = seleniumUrl;
+    public GumtreeScrapperProperties(String[] emailAddresses) {
         this.emailAddresses = Arrays.stream(emailAddresses)
                 .map(String::trim)
                 .collect(Collectors.toUnmodifiableList());

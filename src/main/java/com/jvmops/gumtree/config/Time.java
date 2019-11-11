@@ -12,5 +12,5 @@ public interface Time {
 }
 
 @Component
-@ConditionalOnMissingBean(Time.class)
+@ConditionalOnMissingBean(name = "customTime")
 class Now implements Time {}

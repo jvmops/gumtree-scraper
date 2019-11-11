@@ -2,8 +2,8 @@ package com.jvmops.gumtree.scrapper;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Profile;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -15,7 +15,7 @@ import javax.annotation.PostConstruct;
 public class ScrapJobScheduler {
     private ScrapJob scrapJob;
 
-    @Bean
+    @Scheduled(cron = "0 0 */1 ? * *")
     public void scrapAds() {
         scrapJob.execute();
     }

@@ -16,17 +16,11 @@
 
 	<properties>
 		<java.version>13</java.version>
-		<selenium-java.version>3.141.59</selenium-java.version>
 		<testcontainers.version>1.12.3</testcontainers.version>
 		<jsoup.version>1.12.1</jsoup.version>
 	</properties>
 
 	<dependencies>
-		<dependency>
-			<groupId>org.seleniumhq.selenium</groupId>
-			<artifactId>selenium-java</artifactId>
-			<version>${selenium-java.version}</version>
-		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context-support</artifactId>
