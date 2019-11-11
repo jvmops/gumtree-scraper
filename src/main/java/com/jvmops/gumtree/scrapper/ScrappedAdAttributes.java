@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @AllArgsConstructor
-class ScrappedAdAttributes {
+public class ScrappedAdAttributes {
     private static final String LANDLORD = "Do wynajęcia przez";
     private static final String AVAILABLE_SINCE = "Dostępny od";
     private static final String SIZE = "Wielkość (m2)";
@@ -16,10 +16,6 @@ class ScrappedAdAttributes {
     private static final DateTimeFormatter CREATION_DATE_FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
     private Map<String, String> attributes;
-
-    private Optional<String> getOptionalValue(String key) {
-        return Optional.ofNullable(attributes.get(key));
-    }
 
     LocalDate getCreationDate() {
         return getOptionalValue(CREATION_DATE)
@@ -41,5 +37,9 @@ class ScrappedAdAttributes {
 
     String getLandlord() {
         return attributes.get(LANDLORD);
+    }
+
+    private Optional<String> getOptionalValue(String key) {
+        return Optional.ofNullable(attributes.get(key));
     }
 }
