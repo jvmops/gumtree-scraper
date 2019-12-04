@@ -24,7 +24,7 @@ public abstract class MongoTest {
         }
     }
 
-    public static final GenericContainer MONGO = new GenericContainer("mongo:3.4.23-xenial")
+    public static final GenericContainer MONGO = new GenericContainer("mongo:3.4")
             .withExposedPorts(27017);
 
     public static final MongoClient MONGO_CLIENT;

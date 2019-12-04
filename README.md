@@ -4,7 +4,7 @@ Scraps info about apartments in Wroclaw and notifies you through email about int
 ## running:
 
 ```bash
-docker run --name mongo -d -p 27017:27017 mongo:3.4.23-xenial
+docker run --name mongo -d -p 27017:27017 mongo:3.4
 ```
 
 ## Scheduler
