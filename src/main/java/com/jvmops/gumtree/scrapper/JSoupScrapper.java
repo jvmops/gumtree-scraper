@@ -13,12 +13,14 @@ import java.util.stream.Collectors;
 @Slf4j
 @AllArgsConstructor
 class JSoupScrapper implements AdScrapper {
+    static final String GUMTREE = "https://www.gumtree.pl";
+
     private JSoupAdListingParser adListingParser;
     private JSoupAdParser adParser;
 
     @Override
     public List<Ad> scrapAds(String url) {
-        return adListingParser.scrap(url).stream()
+        return adListingParser.scrap(GUMTREE + url).stream()
                 .map(adParser::scrap)
                 .collect(Collectors.toUnmodifiableList());
     }

@@ -9,8 +9,11 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+import static java.util.Objects.isNull;
+
 @Component
 @AllArgsConstructor
+@Slf4j
 class AdEvaluator {
     AdScrapperRepository adScrapperRepository;
 
@@ -18,7 +21,14 @@ class AdEvaluator {
         ads.stream()
                 .map(this::findAndWrap)
                 .map(AdWrapper::updateCreationDateIfPossible)
+                .peek(this::logIfNew)
                 .forEach(adScrapperRepository::save);
+    }
+
+    private void logIfNew(Ad ad) {
+        if (isNull(ad.getId())) {
+            log.info("Saving \"{}\"", ad.getTitle());
+        }
     }
 
     private AdWrapper findAndWrap(Ad scrapped) {
@@ -35,23 +45,24 @@ class AdEvaluator {
 @AllArgsConstructor
 class AdWrapper {
     private Ad scrapped;
-    private Optional<Ad> fromDb;
+    private Optional<Ad> fromDbOpt;
 
     Ad updateCreationDateIfPossible() {
-        if (fromDb.isPresent() && scrappedIsNewer()) {
-            log.info("updating gumtree creation time");
-            fromDb.get().setGumtreeCreationDate(scrapped.getGumtreeCreationDate());
+        if (fromDbOpt.isPresent() && scrappedIsNewer()) {
+            Ad fromDb = fromDbOpt.get();
+            log.info("Updating gumtree creation time for \"{}\" :: {}", fromDb.getTitle(), fromDb.getId());
+            fromDb.setGumtreeCreationDate(scrapped.getGumtreeCreationDate());
         }
         return getTheOneToSave();
     }
 
     private Ad getTheOneToSave() {
-        return fromDb.orElse(scrapped);
+        return fromDbOpt.orElse(scrapped);
     }
 
     private boolean scrappedIsNewer() {
         return ! Objects.equals(
-                fromDb.get().getGumtreeCreationDate(),
+                fromDbOpt.get().getGumtreeCreationDate(),
                 scrapped.getGumtreeCreationDate()
         );
     }

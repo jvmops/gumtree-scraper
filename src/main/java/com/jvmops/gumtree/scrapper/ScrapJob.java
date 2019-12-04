@@ -13,7 +13,7 @@ import java.util.List;
 @Slf4j
 @AllArgsConstructor
 public class ScrapJob {
-    private static final String GUMTREE_WROCLAW_APARTMENTS_URL = "https://www.gumtree.pl/s-mieszkania-i-domy-do-wynajecia/wroclaw/zmywarka/v1c9008l3200114q0p1";
+    private static final String GUMTREE_WROCLAW_APARTMENTS_URL = "/s-mieszkania-i-domy-do-wynajecia/wroclaw/zmywarka/v1c9008l3200114q0p1";
 
     private AdScrapper adScrapper;
     private AdEvaluator adEvaluator;
@@ -27,7 +27,7 @@ public class ScrapJob {
         log.info("Scrapping ads...");
         List<Ad> scrappedAds = adScrapper.scrapAds(GUMTREE_WROCLAW_APARTMENTS_URL);
 
-        log.info("{} ads scrapped.  Processing them now...", scrappedAds.size());
+        log.info("{} ads scrapped. Evaluation process started...", scrappedAds.size());
         adEvaluator.processAds(scrappedAds);
     }
 }

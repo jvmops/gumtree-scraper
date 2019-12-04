@@ -1,6 +1,7 @@
 package com.jvmops.gumtree.scrapper;
 
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -15,11 +16,13 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Component
+@Slf4j
 @AllArgsConstructor
 class JSoupAdParser {
     private HtmlProvider htmlProvider;
 
     Ad scrap(ListedAd listedAd) {
+        log.info("Scrapping - {} :: {}", listedAd.getTitle(), listedAd.getUrl());
         String adHtml = htmlProvider.get(listedAd.getUrl());
         Document adPage = Jsoup.parse(adHtml);
         String description = adPage.select("div.description").text();
