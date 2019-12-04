@@ -18,6 +18,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Scanner;
 
+import static com.jvmops.gumtree.scrapper.JSoupScrapper.GUMTREE;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -39,7 +40,7 @@ class JSoupScrapperTest {
     void ad_listing_html_file_contain_20_ads() {
         setupHtmlMockFor(HtmlFile.AD_LISTING);
 
-        List<ListedAd> ads = JSoupAdListingParser.scrap(HtmlFile.AD_LISTING.getUrl());
+        List<ListedAd> ads = JSoupAdListingParser.scrap(GUMTREE + HtmlFile.AD_LISTING.getUrl());
 
         Assertions.assertEquals(20, ads.size());
     }
@@ -49,7 +50,7 @@ class JSoupScrapperTest {
         setupHtmlMockFor(HtmlFile.AD_DETAILS);
 
         ListedAd listedAd = ListedAd.builder()
-                .url(HtmlFile.AD_DETAILS.getUrl())
+                .url(GUMTREE + HtmlFile.AD_DETAILS.getUrl())
                 .build();
         Ad ad = JSoupAdParser.scrap(listedAd);
 
@@ -68,7 +69,7 @@ class JSoupScrapperTest {
     }
 
     private void setupHtmlMockFor(HtmlFile htmlFile) {
-        when(htmlProvider.get(htmlFile.getUrl()))
+        when(htmlProvider.get(GUMTREE + htmlFile.getUrl()))
                 .thenReturn(htmlFile.getHtml());
     }
 
