@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 @Component
 @Slf4j
 @AllArgsConstructor
-public class JSoupScrapper implements AdScrapper {
+class JSoupScrapper implements AdScrapper {
     private JSoupAdListingParser adListingParser;
     private JSoupAdParser adParser;
 

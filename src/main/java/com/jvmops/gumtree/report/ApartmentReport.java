@@ -1,6 +1,5 @@
 package com.jvmops.gumtree.report;
 
-import com.jvmops.gumtree.scrapper.Ad;
 import lombok.AllArgsConstructor;
 import lombok.ToString;
 
@@ -9,7 +8,7 @@ import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @ToString
-public class ApartmentReport {
+class ApartmentReport {
     private static final String APARTMENT = "%s :: %s :: %sm2 - %szł :: %s :: refreshed %s times";
     private static final String TWO_LINES = "\n\n";
 

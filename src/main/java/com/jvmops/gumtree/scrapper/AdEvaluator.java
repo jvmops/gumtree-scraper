@@ -12,13 +12,13 @@ import java.util.Optional;
 @Component
 @AllArgsConstructor
 class AdEvaluator {
-    AdRepository adRepository;
+    AdScrapperRepository adScrapperRepository;
 
     void processAds(List<Ad> ads) {
         ads.stream()
                 .map(this::findAndWrap)
                 .map(AdWrapper::updateCreationDateIfPossible)
-                .forEach(adRepository::save);
+                .forEach(adScrapperRepository::save);
     }
 
     private AdWrapper findAndWrap(Ad scrapped) {
@@ -26,7 +26,7 @@ class AdEvaluator {
     }
 
     Optional<Ad> findInRepository(Ad scrapped) {
-        return adRepository.findByTitle(scrapped.getTitle());
+        return adScrapperRepository.findByTitle(scrapped.getTitle());
     }
 }
 

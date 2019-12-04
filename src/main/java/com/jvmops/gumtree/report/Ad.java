@@ -1,11 +1,9 @@
-package com.jvmops.gumtree.scrapper;
+package com.jvmops.gumtree.report;
 
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import org.bson.types.ObjectId;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.index.TextIndexed;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -32,10 +30,7 @@ class Ad {
     @Indexed
     private LocalDate gumtreeCreationDate;
     private List<LocalDate> updates;
-    @CreatedDate
     private LocalDateTime creationTime;
-    @LastModifiedDate
-    private LocalDateTime modificationTime;
     private boolean refreshed = false;
 
     void setGumtreeCreationDate(LocalDate gumtreeCreationDate) {

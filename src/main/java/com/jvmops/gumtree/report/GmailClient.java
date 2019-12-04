@@ -17,7 +17,7 @@ import java.util.List;
 @Lazy
 @Slf4j
 @AllArgsConstructor
-public class GmailClient implements NotificationSender {
+class GmailClient implements NotificationSender {
     private static final String TITLE_PATTERN = "%s :: Wroclaw apartments report";
 
     final private GumtreeScrapperProperties gumtreeScrapperProperties;

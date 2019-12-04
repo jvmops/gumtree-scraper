@@ -12,7 +12,7 @@ import javax.annotation.PostConstruct;
 @Component
 @Slf4j
 @AllArgsConstructor
-public class ScrapJobScheduler {
+class ScrapJobScheduler {
     private ScrapJob scrapJob;
 
     @Scheduled(cron = "0 0 */1 ? * *")

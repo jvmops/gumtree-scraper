@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 @Builder
-public class ListedAd {
+class ListedAd {
     private String url;
     private String title;
     private Integer price;

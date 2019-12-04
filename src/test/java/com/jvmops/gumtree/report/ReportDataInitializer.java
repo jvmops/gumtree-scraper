@@ -2,8 +2,6 @@ package com.jvmops.gumtree.report;
 
 import com.jvmops.gumtree.MongoTest;
 import com.jvmops.gumtree.config.Time;
-import com.jvmops.gumtree.scrapper.Ad;
-import com.jvmops.gumtree.scrapper.AdRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;

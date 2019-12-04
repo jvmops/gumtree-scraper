@@ -14,7 +14,7 @@ import java.util.List;
 public abstract class ScrapperDataInitializer extends MongoTest {
 
     @Autowired
-    protected AdRepository adRepository;
+    protected AdScrapperRepository adScrapperRepository;
     @Autowired
     protected Time time;
 
@@ -25,9 +25,9 @@ public abstract class ScrapperDataInitializer extends MongoTest {
 
     @BeforeEach
     private void insertDataIfNecessary() {
-        if (adRepository.count() == 0) {
+        if (adScrapperRepository.count() == 0) {
             log.info("Inserting ads that will be modified by scrapper tests");
-            createTestAds().forEach(adRepository::save);
+            createTestAds().forEach(adScrapperRepository::save);
         }
     }
 

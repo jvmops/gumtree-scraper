@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 @Component
 @Slf4j
 @AllArgsConstructor
-class NotifyJob {
+public class NotifyJob {
     private ApartmentReportFactory apartmentReportFactory;
     private NotificationSender notificationSender;
 

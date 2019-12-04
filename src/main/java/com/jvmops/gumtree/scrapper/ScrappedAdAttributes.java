@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @AllArgsConstructor
-public class ScrappedAdAttributes {
+class ScrappedAdAttributes {
     private static final String LANDLORD = "Do wynajęcia przez";
     private static final String AVAILABLE_SINCE = "Dostępny od";
     private static final String SIZE = "Wielkość (m2)";
