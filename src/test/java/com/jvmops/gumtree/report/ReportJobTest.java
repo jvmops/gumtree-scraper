@@ -15,15 +15,15 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @ContextConfiguration(
         initializers = MongoTest.Initializer.class)
 @Slf4j
-class NotifyJobTest extends ReportDataInitializer {
+class ReportJobTest extends ReportDataInitializer {
     @Autowired
-    private NotifyJob notifyJob;
+    private ReportJob reportJob;
 
     // EnableIf(..) doesn't work for maven - you can run this test in IntelliJ no prob and it ignores it but maven has a hiccup
     // TODO: check issues at Junit5 / maven plugin
     // @Test
     void email_should_be_send_through_gmail() {
-        notifyJob.execute();
+        reportJob.execute();
         log.info("Email shipped to the test inbox");
         assertEquals(1, 1);
     }

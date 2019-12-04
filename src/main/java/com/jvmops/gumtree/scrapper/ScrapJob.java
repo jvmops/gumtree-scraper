@@ -2,12 +2,13 @@ package com.jvmops.gumtree.scrapper;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.annotation.Lazy;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.util.List;
 
+@Profile("scrapper")
 @Component
 @Slf4j
 @AllArgsConstructor
@@ -17,6 +18,7 @@ public class ScrapJob {
     private AdScrapper adScrapper;
     private AdEvaluator adEvaluator;
 
+    @PostConstruct
     void execute() {
         scrapGumtreeAds();
     }

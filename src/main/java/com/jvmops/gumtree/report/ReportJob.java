@@ -2,15 +2,20 @@ package com.jvmops.gumtree.report;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
+
+@Profile("report")
 @Component
 @Slf4j
 @AllArgsConstructor
-public class NotifyJob {
+public class ReportJob {
     private ApartmentReportFactory apartmentReportFactory;
     private NotificationSender notificationSender;
 
+    @PostConstruct
     void execute() {
         notifyAboutNewReport();
     }
