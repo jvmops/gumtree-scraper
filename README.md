@@ -1,7 +1,7 @@
 ## About
-Polish private rental apartment market is based around gumtree. Ads are displayed based on creation time (newest first). The main issue here is that most of these ads are re-posted every day in order for them to show up on top of the page. From the user perspective it kind of sux because you need to get through many ads you already seen until you find the one introduced today...
+Polish private rental apartment market is established around gumtree. Ads are displayed based on creation time (newest first). The main issue here is that most of these ads are re-posted every day in order for them to show up on top of the list. From the user perspective it kind of sux because you need to get through many ads before you find the ones introduced today...
 
-This app solves that problem. It scrap ads, save/update them in the db and generates daily report with interesting findings.
+This app solves that problem. It scrap ads, watch for duplicated offers and gather those data. Daily report with interesting findings is distributed to the concerned parties via a gmail account.
 
 ## Building from source:
 In order to build from source you need:
