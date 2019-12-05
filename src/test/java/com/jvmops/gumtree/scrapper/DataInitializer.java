@@ -11,7 +11,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Slf4j
-public abstract class ScrapperDataInitializer extends MongoTest {
+abstract class DataInitializer extends MongoTest {
 
     @Autowired
     protected AdScrapperRepository adScrapperRepository;

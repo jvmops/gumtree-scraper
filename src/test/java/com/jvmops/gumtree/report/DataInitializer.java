@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Slf4j
-public abstract class ReportDataInitializer extends MongoTest {
+abstract class DataInitializer extends MongoTest {
 
     @Autowired
     private AdRepository adRepository;

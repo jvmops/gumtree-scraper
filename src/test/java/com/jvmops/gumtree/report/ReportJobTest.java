@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @ContextConfiguration(
         initializers = MongoTest.Initializer.class)
 @Slf4j
-class ReportJobTest extends ReportDataInitializer {
+class ReportJobTest extends DataInitializer {
     @Autowired
     private ReportJob reportJob;
 

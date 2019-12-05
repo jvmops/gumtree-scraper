@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @SpringBootTest(classes = Main.class)
 @ContextConfiguration(
         initializers = MongoTest.Initializer.class)
-class AdEvaluatorTest extends ScrapperDataInitializer {
+class AdEvaluatorTest extends DataInitializer {
 
     @Autowired
     private AdEvaluator adEvaluator;

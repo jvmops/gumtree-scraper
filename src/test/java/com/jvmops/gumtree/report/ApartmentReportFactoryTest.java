@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @SpringBootTest(classes = Main.class)
 @ContextConfiguration(
         initializers = MongoTest.Initializer.class)
-class ApartmentReportFactoryTest extends ReportDataInitializer {
+class ApartmentReportFactoryTest extends DataInitializer {
 
     @Autowired
     private ApartmentReportFactory apartmentReportFactory;
