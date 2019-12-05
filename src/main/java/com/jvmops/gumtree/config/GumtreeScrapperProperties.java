@@ -4,19 +4,26 @@ import lombok.Getter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.ConstructorBinding;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Map;
+import java.util.Set;
 
 @ConfigurationProperties(prefix = "gumtree.scrapper")
 @Getter
 public class GumtreeScrapperProperties {
-    private final List<String> emailAddresses;
+    private final Map<String, String> cities;
 
     @ConstructorBinding
-    public GumtreeScrapperProperties(String[] emailAddresses) {
-        this.emailAddresses = Arrays.stream(emailAddresses)
-                .map(String::trim)
-                .collect(Collectors.toUnmodifiableList());
+    public GumtreeScrapperProperties(Map<String, String> cities) {
+        this.cities = cities;
+    }
+
+    public Set<String> getCitiesToScrap() {
+        return cities.keySet();
+    }
+
+    public Set<String> getEmailAddressesBy(String city) {
+        String[] emails = cities.get(city)
+                .split(",");
+        return Set.of(emails);
     }
 }

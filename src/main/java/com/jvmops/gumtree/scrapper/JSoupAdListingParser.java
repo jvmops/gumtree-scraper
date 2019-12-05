@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.jvmops.gumtree.scrapper.JSoupScrapper.GUMTREE;
+import static com.jvmops.gumtree.scrapper.ScrapJob.GUMTREE_URL;
 
 @Component
 @Slf4j
@@ -42,7 +42,7 @@ class JSoupAdListingParser {
                 .replace(" ", "");
 
         return ListedAd.builder()
-                .url(GUMTREE + url)
+                .url(GUMTREE_URL + url)
                 .title(title.text().trim())
                 .price(Integer.valueOf(price))
                 .build();

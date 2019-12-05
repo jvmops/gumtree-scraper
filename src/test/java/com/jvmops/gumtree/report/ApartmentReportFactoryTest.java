@@ -19,31 +19,31 @@ class ApartmentReportFactoryTest extends ReportDataInitializer {
 
     @Test
     void content_type_of_test_report_will_be_text_plain() {
-        var apartmentReport = apartmentReportFactory.create();
+        var apartmentReport = apartmentReportFactory.create("wroclaw");
         assertEquals("text/plain", apartmentReport.getContentType());
     }
 
     @Test
     void there_will_be_two_newest_ads() {
-        var apartmentReport = apartmentReportFactory.create();
+        var apartmentReport = apartmentReportFactory.create("wroclaw");
         assertEquals(2, apartmentReport.getNewApartments().size());
     }
 
     @Test
     void there_will_be_one_gas_ad() {
-        var apartmentReport = apartmentReportFactory.create();
+        var apartmentReport = apartmentReportFactory.create("wroclaw");
         assertEquals(1, apartmentReport.getGasApartments().size());
     }
 
     @Test
     void there_will_be_two_cheapest_ads() {
-        var apartmentReport = apartmentReportFactory.create();
+        var apartmentReport = apartmentReportFactory.create("wroclaw");
         assertEquals(2, apartmentReport.getCheapestApartments().size());
     }
 
     @Test
     void test_report_will_have_15_lines() {
-        var apartmentReport = apartmentReportFactory.create();
+        var apartmentReport = apartmentReportFactory.create("wroclaw");
         assertEquals(15L, apartmentReport.getReport().lines().count());
     }
 }

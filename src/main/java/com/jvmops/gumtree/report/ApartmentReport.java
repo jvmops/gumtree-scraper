@@ -1,17 +1,20 @@
 package com.jvmops.gumtree.report;
 
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.ToString;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-@AllArgsConstructor
+@Getter
 @ToString
+@AllArgsConstructor
 class ApartmentReport {
     private static final String APARTMENT = "%s :: %s :: %sm2 - %szł :: %s :: refreshed %s times";
     private static final String TWO_LINES = "\n\n";
 
+    private String city;
     private List<Ad> newApartments;
     private List<Ad> gasApartments;
     private List<Ad> cheapestApartments;
@@ -36,6 +39,8 @@ class ApartmentReport {
     private String toString(Ad ad) {
         return String.format(APARTMENT, ad.getGumtreeCreationDate(), ad.getLandlord(), ad.getSize(), ad.getPrice(),  ad.getTitle(), ad.getUpdates().size());
     }
+
+
 
     List<Ad> getNewApartments() {
         return newApartments;

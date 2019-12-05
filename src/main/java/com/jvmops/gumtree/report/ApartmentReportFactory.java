@@ -19,27 +19,30 @@ public class ApartmentReportFactory {
     private AdRepository adRepository;
     private Time time;
 
-    public ApartmentReport create() {
-        List<Ad> newestAds = newestAds();
-        List<Ad> gasApartments = gasApartments();
-        List<Ad> cheapestApartments = cheapestApartments();
-        log.info("Creating ApartmentReport :: newestAds.size() == {} :: gasApartments.size() == {} :: cheapestApartments.size() == {}",
-                newestAds.size(), gasApartments.size(), cheapestApartments.size());
-        ApartmentReport apartmentReport = new ApartmentReport(newestAds, gasApartments, cheapestApartments);
+    public ApartmentReport create(String city) {
+        List<Ad> newestAds = newestAds(city);
+        List<Ad> gasApartments = gasApartments(city);
+        List<Ad> cheapestApartments = cheapestApartments(city);
+        log.info("Creating {} ApartmentReport :: newestAds.size() == {} :: gasApartments.size() == {} :: cheapestApartments.size() == {}",
+                city, newestAds.size(), gasApartments.size(), cheapestApartments.size());
+        var apartmentReport = new ApartmentReport(city, newestAds, gasApartments, cheapestApartments);
         log.debug(apartmentReport.toString());
         return apartmentReport;
     }
 
-    private List<Ad> newestAds() {
+    // TODO implement city
+    private List<Ad> newestAds(String city) {
         LocalDateTime yesterday = time.now().minusDays(1);
         return adRepository.findAllByCreationTimeGreaterThanAndRefreshedFalseOrderByPrice(yesterday);
     }
 
-    private List<Ad> gasApartments() {
+    // TODO implement city
+    private List<Ad> gasApartments(String city) {
         return adRepository.findByDescriptionContains("gaz");
     }
 
-    private List<Ad> cheapestApartments() {
+    // TODO implement city
+    private List<Ad> cheapestApartments(String city) {
         LocalDate threeDaysAgo = time.now().minusDays(3).toLocalDate();
         return adRepository.findTop10ByGumtreeCreationDateGreaterThan(threeDaysAgo, SORT_BY_PRICE);
     }

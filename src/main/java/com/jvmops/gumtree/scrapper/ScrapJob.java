@@ -1,5 +1,6 @@
 package com.jvmops.gumtree.scrapper;
 
+import com.jvmops.gumtree.config.GumtreeScrapperProperties;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Profile;
@@ -8,26 +9,30 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 import java.util.List;
 
+import static org.springframework.util.StringUtils.capitalize;
+
 @Profile("scrapper")
 @Component
 @Slf4j
 @AllArgsConstructor
 public class ScrapJob {
-    private static final String GUMTREE_WROCLAW_APARTMENTS_URL = "/s-mieszkania-i-domy-do-wynajecia/wroclaw/zmywarka/v1c9008l3200114q0p1";
+    public static final String GUMTREE_URL = "https://www.gumtree.pl";
+    private static final String URL_TEMPLATE = "%s/s-mieszkania-i-domy-do-wynajecia/%s/zmywarka/v1c9008l3200114q0p1";
 
     private AdScrapper adScrapper;
     private AdEvaluator adEvaluator;
+    private GumtreeScrapperProperties properties;
 
     @PostConstruct
-    void execute() {
-        scrapGumtreeAds();
+    private void scrapAds() {
+        properties.getCitiesToScrap().stream()
+                .map(this::scrapAdsFrom)
+                .forEach(adEvaluator::processAds);
     }
 
-    private void scrapGumtreeAds() {
-        log.info("Scrapping ads...");
-        List<Ad> scrappedAds = adScrapper.scrapAds(GUMTREE_WROCLAW_APARTMENTS_URL);
-
-        log.info("{} ads scrapped. Evaluation process started...", scrappedAds.size());
-        adEvaluator.processAds(scrappedAds);
+    private List<Ad> scrapAdsFrom(String city) {
+        String url = String.format(URL_TEMPLATE, GUMTREE_URL, city);
+        log.info("Scrapping ads from {}... {}", capitalize(city), url);
+        return adScrapper.scrapAds(url);
     }
 }

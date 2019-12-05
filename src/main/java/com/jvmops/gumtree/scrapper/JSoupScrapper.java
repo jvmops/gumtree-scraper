@@ -1,5 +1,6 @@
 package com.jvmops.gumtree.scrapper;
 
+import com.jvmops.gumtree.config.GumtreeScrapperProperties;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
@@ -13,14 +14,12 @@ import java.util.stream.Collectors;
 @Slf4j
 @AllArgsConstructor
 class JSoupScrapper implements AdScrapper {
-    static final String GUMTREE = "https://www.gumtree.pl";
-
     private JSoupAdListingParser adListingParser;
     private JSoupAdParser adParser;
 
     @Override
     public List<Ad> scrapAds(String url) {
-        return adListingParser.scrap(GUMTREE + url).stream()
+        return adListingParser.scrap(url).stream()
                 .map(adParser::scrap)
                 .collect(Collectors.toUnmodifiableList());
     }
