@@ -25,12 +25,12 @@ public class ScrapJob {
 
     @PostConstruct
     private void scrapAds() {
-        properties.getCitiesToScrap().stream()
-                .map(this::scrapAdsFrom)
+        properties.getCitiesToWatch().stream()
+                .map(this::scrapAds)
                 .forEach(adEvaluator::processAds);
     }
 
-    private List<Ad> scrapAdsFrom(String city) {
+    private List<Ad> scrapAds(String city) {
         String url = String.format(URL_TEMPLATE, GUMTREE_URL, city);
         log.info("Scrapping ads from {}... {}", capitalize(city), url);
         return adScrapper.scrapAds(url);

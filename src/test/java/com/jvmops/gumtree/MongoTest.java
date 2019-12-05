@@ -40,6 +40,7 @@ public abstract class MongoTest {
         log.info(":: static MongoClient initialized ::");
     }
 
+    // just for refecerence on how to use MongoClient directly
     protected static void deleteAll() {
         BasicDBObject all = new BasicDBObject();
         log.info("Removing all the data from [ test-gumtree.ad ] collection");

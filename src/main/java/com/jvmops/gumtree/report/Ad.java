@@ -18,6 +18,7 @@ import java.util.List;
 @Builder
 class Ad {
     private ObjectId id;
+    private String city;
     private String url;
     @Indexed
     private String title;

@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+import org.springframework.util.Assert;
 
 import java.util.List;
 import java.util.Objects;
@@ -36,7 +37,9 @@ class AdEvaluator {
     }
 
     Optional<Ad> findInRepository(Ad scrapped) {
-        return adScrapperRepository.findByTitle(scrapped.getTitle());
+        Assert.hasText(scrapped.getCity(), "Scrapped ad does not contain city!");
+        Assert.hasText(scrapped.getTitle(), "Scrapped ad does not contain title!");
+        return adScrapperRepository.findByCityAndTitle(scrapped.getCity(), scrapped.getTitle());
     }
 }
 

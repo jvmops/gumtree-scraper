@@ -8,5 +8,5 @@ import java.util.Optional;
 
 @Repository
 interface AdScrapperRepository extends CrudRepository<Ad, ObjectId> {
-    Optional<Ad> findByTitle(String title);
+    Optional<Ad> findByCityAndTitle(String city, String title);
 }

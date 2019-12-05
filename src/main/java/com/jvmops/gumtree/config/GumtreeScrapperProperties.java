@@ -17,7 +17,7 @@ public class GumtreeScrapperProperties {
         this.cities = cities;
     }
 
-    public Set<String> getCitiesToScrap() {
+    public Set<String> getCitiesToWatch() {
         return cities.keySet();
     }
 

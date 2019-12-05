@@ -23,7 +23,7 @@ public class ReportJob {
     }
 
     private void notifyAboutNewReport() {
-        properties.getCitiesToScrap().stream()
+        properties.getCitiesToWatch().stream()
                 .peek(city -> log.info("Creating an apartment report for {}", city))
                 .map(apartmentReportFactory::create)
                 .peek(report -> log.info("Sending {} apartment report to {}", report.getCity(), properties.getEmailAddressesBy(report.getCity())))

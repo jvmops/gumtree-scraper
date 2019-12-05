@@ -19,31 +19,39 @@ class ApartmentReportFactoryTest extends DataInitializer {
 
     @Test
     void content_type_of_test_report_will_be_text_plain() {
-        var apartmentReport = apartmentReportFactory.create("wroclaw");
+        var apartmentReport = apartmentReportFactory.create("katowice");
         assertEquals("text/plain", apartmentReport.getContentType());
     }
 
     @Test
-    void there_will_be_two_newest_ads() {
+    void there_are_no_persisted_ads_from_wroclaw() {
         var apartmentReport = apartmentReportFactory.create("wroclaw");
+        assertEquals(0, apartmentReport.getNewApartments().size());
+        assertEquals(0, apartmentReport.getGasApartments().size());
+        assertEquals(0, apartmentReport.getCheapestApartments().size());
+    }
+
+    @Test
+    void there_will_be_two_newest_ads() {
+        var apartmentReport = apartmentReportFactory.create("katowice");
         assertEquals(2, apartmentReport.getNewApartments().size());
     }
 
     @Test
     void there_will_be_one_gas_ad() {
-        var apartmentReport = apartmentReportFactory.create("wroclaw");
+        var apartmentReport = apartmentReportFactory.create("katowice");
         assertEquals(1, apartmentReport.getGasApartments().size());
     }
 
     @Test
     void there_will_be_two_cheapest_ads() {
-        var apartmentReport = apartmentReportFactory.create("wroclaw");
+        var apartmentReport = apartmentReportFactory.create("katowice");
         assertEquals(2, apartmentReport.getCheapestApartments().size());
     }
 
     @Test
     void test_report_will_have_15_lines() {
-        var apartmentReport = apartmentReportFactory.create("wroclaw");
+        var apartmentReport = apartmentReportFactory.create("katowice");
         assertEquals(15L, apartmentReport.getReport().lines().count());
     }
 }

@@ -33,6 +33,7 @@ abstract class DataInitializer extends MongoTest {
 
     private List<Ad> createFewAds() {
         Ad newAd = Ad.builder()
+                .city("katowice")
                 .title(UUID.randomUUID().toString())
                 .description("Just added ad")
                 .price(2400)
@@ -42,6 +43,7 @@ abstract class DataInitializer extends MongoTest {
                 .build();
 
         Ad gasApartment = Ad.builder()
+                .city("katowice")
                 .title(UUID.randomUUID().toString())
                 .description("Apartment with kuchnia gazowa (gas) in the kitchen")
                 .price(2200)
@@ -51,6 +53,7 @@ abstract class DataInitializer extends MongoTest {
                 .build();
 
         Ad oldAd = Ad.builder()
+                .city("katowice")
                 .title(UUID.randomUUID().toString())
                 .description("Some two week old ad")
                 .price(700)
