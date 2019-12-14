@@ -10,7 +10,7 @@ import java.util.List;
 
 @org.springframework.stereotype.Repository
 interface AdRepository extends CrudRepository<Ad, ObjectId> {
-    List<Ad> findAllByCityAndCreationTimeGreaterThanAndRefreshedFalseOrderByPrice(String city, LocalDateTime yesterday);
+    List<Ad> findAllByCityAndCreationTimeGreaterThanOrderByPrice(String city, LocalDateTime yesterday);
     List<Ad> findByCityAndDescriptionContains(String city, String description);
     List<Ad> findTop10ByCityAndGumtreeCreationDateGreaterThan(String city, LocalDate gumtreeCreationDate, Sort sort);
 }

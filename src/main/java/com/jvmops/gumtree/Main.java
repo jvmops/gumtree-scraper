@@ -8,6 +8,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 @SpringBootApplication
 @EnableConfigurationProperties({ApplicationProperties.class})
 public class Main {
+	@SuppressWarnings("squid:S4823")
 	public static void main(String[] args) {
 		SpringApplication.run(Main.class, args);
 	}

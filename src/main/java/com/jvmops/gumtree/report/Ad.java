@@ -32,11 +32,9 @@ class Ad {
     private LocalDate gumtreeCreationDate;
     private List<LocalDate> updates;
     private LocalDateTime creationTime;
-    private boolean refreshed = false;
 
     void setGumtreeCreationDate(LocalDate gumtreeCreationDate) {
         this.gumtreeCreationDate = gumtreeCreationDate;
         this.updates.add(gumtreeCreationDate);
-        this.refreshed = true;
     }
 }

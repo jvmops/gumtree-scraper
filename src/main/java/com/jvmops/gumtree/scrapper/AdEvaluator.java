@@ -16,14 +16,15 @@ import static java.util.Objects.isNull;
 @AllArgsConstructor
 @Slf4j
 class AdEvaluator {
-    AdScrapperRepository adScrapperRepository;
+    ScrappedAdRepository scrappedAdRepository;
 
+    @SuppressWarnings("squid:S3864")
     void processAds(List<Ad> ads) {
         ads.stream()
                 .map(this::findAndWrap)
                 .map(AdWrapper::updateCreationDateIfPossible)
                 .peek(this::logIfNew)
-                .forEach(adScrapperRepository::save);
+                .forEach(scrappedAdRepository::save);
     }
 
     private void logIfNew(Ad ad) {
@@ -39,7 +40,7 @@ class AdEvaluator {
     Optional<Ad> findInRepository(Ad scrapped) {
         Assert.hasText(scrapped.getCity(), "Scrapped ad does not contain city!");
         Assert.hasText(scrapped.getTitle(), "Scrapped ad does not contain title!");
-        return adScrapperRepository.findByCityAndTitle(scrapped.getCity(), scrapped.getTitle());
+        return scrappedAdRepository.findByCityAndTitle(scrapped.getCity(), scrapped.getTitle());
     }
 }
 
@@ -51,18 +52,19 @@ class AdWrapper {
     private Optional<Ad> fromDbOpt;
 
     Ad updateCreationDateIfPossible() {
-        return fromDbOpt.filter(saved -> scrappedIsNewer(scrapped, saved))
-                .map(this::updateModificationTime)
+        return fromDbOpt.map(this::updateModificationTime)
                 .orElse(scrapped);
     }
 
     private Ad updateModificationTime(Ad saved) {
-        log.info("Updating gumtree creation time for \"{}\" :: {}", saved.getTitle(), saved.getId());
-        saved.setGumtreeCreationDate(scrapped.getGumtreeCreationDate());
+        if (scrappedIsNewer(saved)) {
+            log.info("Updating gumtree creation time for \"{}\" :: {}", saved.getTitle(), saved.getId());
+            saved.setGumtreeCreationDate(scrapped.getGumtreeCreationDate());
+        }
         return saved;
     }
 
-    private boolean scrappedIsNewer(Ad scrapped, Ad saved) {
+    private boolean scrappedIsNewer(Ad saved) {
         return ! Objects.equals(
                 scrapped.getGumtreeCreationDate(),
                 saved.getGumtreeCreationDate()

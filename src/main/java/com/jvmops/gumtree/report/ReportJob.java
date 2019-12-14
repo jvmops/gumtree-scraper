@@ -22,6 +22,7 @@ public class ReportJob {
         notifyAboutNewReport();
     }
 
+    @SuppressWarnings("squid:S3864")
     private void notifyAboutNewReport() {
         config.getCities().stream()
                 .peek(city -> log.info("Creating an apartment report for {}", city))

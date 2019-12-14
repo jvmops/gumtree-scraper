@@ -22,7 +22,7 @@ class AdEvaluatorTest extends DataInitializer {
 
     @Test
     public void if_city_is_null_or_empty_exception_will_be_thrown() {
-        Ad scrappedAd = scrappedAd(null);
+        Ad scrappedAd = scrappedAd("", "Just added apartment");
         assertThrows(
                 IllegalArgumentException.class,
                 () -> adEvaluator.processAds(List.of(scrappedAd))
@@ -32,7 +32,7 @@ class AdEvaluatorTest extends DataInitializer {
     @Test
     public void non_existing_ad_will_be_saved() {
         // in the db there is only one ad from katowice
-        Ad scrappedAd = scrappedAd("wroclaw");
+        Ad scrappedAd = scrappedAd("wroclaw", "Just added apartment");
         adEvaluator.processAds(List.of(scrappedAd));
 
         Ad fromDb = adEvaluator.findInRepository(scrappedAd)
@@ -41,22 +41,24 @@ class AdEvaluatorTest extends DataInitializer {
     }
 
     @Test
-    public void creation_date_of_refreshed_ad_will_be_updated() {
-        Ad scrappedAd = scrappedAd("katowice");
+    public void the_same_ad_will_be_ignored() {
+        Ad scrappedAd = scrappedAd("wroclaw", "Takie sobie mieszkanie");
         adEvaluator.processAds(List.of(scrappedAd));
 
         Ad fromDb = adEvaluator.findInRepository(scrappedAd)
-                .orElse(scrappedAd);
+                .orElseThrow(() -> new IllegalStateException("Scrapped ad not found in the repository"));
         assertEquals(time.now().toLocalDate(), fromDb.getGumtreeCreationDate(), "Date has not been updated");
-        assertEquals(3, fromDb.getUpdates().size());
+        assertEquals(1, fromDb.getUpdates().size());
     }
 
-    private Ad scrappedAd(String city) {
-        return Ad.builder()
-                .city(city)
-                .title("Modify this ad")
-                .gumtreeCreationDate(time.now().toLocalDate())
-                .updates(List.of())
-                .build();
+    @Test
+    public void creation_date_of_refreshed_ad_will_be_updated() {
+        Ad scrappedAd = scrappedAd("katowice", "Modify this ad");
+        adEvaluator.processAds(List.of(scrappedAd));
+
+        Ad fromDb = adEvaluator.findInRepository(scrappedAd)
+                .orElseThrow(() -> new IllegalStateException("Scrapped ad not found in the repository"));
+        assertEquals(time.now().toLocalDate(), fromDb.getGumtreeCreationDate(), "Date has not been updated");
+        assertEquals(3, fromDb.getUpdates().size());
     }
 }

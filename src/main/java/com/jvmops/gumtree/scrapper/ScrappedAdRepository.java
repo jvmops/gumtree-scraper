@@ -7,6 +7,6 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-interface AdScrapperRepository extends CrudRepository<Ad, ObjectId> {
+interface ScrappedAdRepository extends CrudRepository<Ad, ObjectId> {
     Optional<Ad> findByCityAndTitle(String city, String title);
 }

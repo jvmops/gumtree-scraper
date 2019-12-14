@@ -32,7 +32,7 @@ public class ApartmentReportFactory {
 
     private List<Ad> newestAds(String city) {
         LocalDateTime yesterday = time.now().minusDays(1);
-        return adRepository.findAllByCityAndCreationTimeGreaterThanAndRefreshedFalseOrderByPrice(city, yesterday);
+        return adRepository.findAllByCityAndCreationTimeGreaterThanOrderByPrice(city, yesterday);
     }
 
     private List<Ad> gasApartments(String city) {
