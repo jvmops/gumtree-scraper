@@ -1,6 +1,6 @@
 package com.jvmops.gumtree.report;
 
-import com.jvmops.gumtree.config.GumtreeScrapperProperties;
+import com.jvmops.gumtree.config.ManagedConfiguration;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Profile;
@@ -15,7 +15,7 @@ import javax.annotation.PostConstruct;
 public class ReportJob {
     private ApartmentReportFactory apartmentReportFactory;
     private NotificationSender notificationSender;
-    private GumtreeScrapperProperties properties;
+    private ManagedConfiguration config;
 
     @PostConstruct
     void execute() {
@@ -23,10 +23,10 @@ public class ReportJob {
     }
 
     private void notifyAboutNewReport() {
-        properties.getCitiesToWatch().stream()
+        config.getCities().stream()
                 .peek(city -> log.info("Creating an apartment report for {}", city))
                 .map(apartmentReportFactory::create)
-                .peek(report -> log.info("Sending {} apartment report to {}", report.getCity(), properties.getEmailAddressesBy(report.getCity())))
+                .peek(report -> log.info("Sending {} apartment report to {}", report.getCity(), config.getEmails(report.getCity())))
                 .forEach(notificationSender::send);
     }
 }

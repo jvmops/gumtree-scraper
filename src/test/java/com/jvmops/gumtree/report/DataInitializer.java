@@ -41,7 +41,6 @@ abstract class DataInitializer extends MongoTest {
                 .gumtreeCreationDate(time.now().toLocalDate())
                 .updates(List.of(time.now().toLocalDate()))
                 .build();
-
         Ad gasApartment = Ad.builder()
                 .city("katowice")
                 .title(UUID.randomUUID().toString())
@@ -51,7 +50,6 @@ abstract class DataInitializer extends MongoTest {
                 .gumtreeCreationDate(time.now().toLocalDate())
                 .updates(List.of(time.now().toLocalDate()))
                 .build();
-
         Ad oldAd = Ad.builder()
                 .city("katowice")
                 .title(UUID.randomUUID().toString())
@@ -61,7 +59,6 @@ abstract class DataInitializer extends MongoTest {
                 .gumtreeCreationDate(time.now().minusWeeks(2).toLocalDate())
                 .updates(List.of(time.now().minusWeeks(2).toLocalDate()))
                 .build();
-
         return List.of(newAd, gasApartment, oldAd);
     }
 }

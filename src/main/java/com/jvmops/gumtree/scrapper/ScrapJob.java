@@ -1,6 +1,6 @@
 package com.jvmops.gumtree.scrapper;
 
-import com.jvmops.gumtree.config.GumtreeScrapperProperties;
+import com.jvmops.gumtree.config.ManagedConfiguration;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Profile;
@@ -21,11 +21,11 @@ public class ScrapJob {
 
     private AdScrapper adScrapper;
     private AdEvaluator adEvaluator;
-    private GumtreeScrapperProperties properties;
+    private ManagedConfiguration config;
 
     @PostConstruct
     private void scrapAds() {
-        properties.getCitiesToWatch().stream()
+        config.getCities().stream()
                 .map(this::scrapAds)
                 .forEach(adEvaluator::processAds);
     }
@@ -33,6 +33,8 @@ public class ScrapJob {
     private List<Ad> scrapAds(String city) {
         String url = String.format(URL_TEMPLATE, GUMTREE_URL, city);
         log.info("Scrapping ads from {}... {}", capitalize(city), url);
-        return adScrapper.scrapAds(url);
+        List<Ad> ads = adScrapper.scrapAds(url);
+        ads.forEach(ad -> ad.setCity(city));
+        return ads;
     }
 }
