@@ -1,6 +1,5 @@
 package com.jvmops.gumtree.scrapper;
 
-import com.jvmops.gumtree.config.GumtreeScrapperProperties;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
