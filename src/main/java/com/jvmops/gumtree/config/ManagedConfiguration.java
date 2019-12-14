@@ -59,20 +59,6 @@ public class ManagedConfiguration {
         var iterable = mailConfigRepository.findAll();
         return StreamSupport.stream(iterable.spliterator(), false);
     }
-
-    private void initializeCollection() {
-        mailConfigRepository.saveAll(
-                Set.of(katowice())
-        );
-    }
-
-    private static MailConfig katowice() {
-        return MailConfig.builder()
-                .id(ObjectId.get())
-                .city("katowice")
-                .emails(Set.of("jvmops+default@gmail.com"))
-                .build();
-    }
 }
 
 @Repository

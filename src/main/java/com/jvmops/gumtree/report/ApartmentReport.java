@@ -25,10 +25,6 @@ class ApartmentReport {
                 + toString("Cheapest apartments:", cheapestApartments);
     }
 
-    public String getContentType() {
-        return "text/plain";
-    }
-
     private String toString(String headline, List<Ad> ads) {
         String formattedAds = ads.stream()
                 .map(this::toString)

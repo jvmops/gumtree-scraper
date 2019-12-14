@@ -30,18 +30,15 @@ public class ApartmentReportFactory {
         return apartmentReport;
     }
 
-    // TODO implement city
     private List<Ad> newestAds(String city) {
         LocalDateTime yesterday = time.now().minusDays(1);
         return adRepository.findAllByCityAndCreationTimeGreaterThanAndRefreshedFalseOrderByPrice(city, yesterday);
     }
 
-    // TODO implement city
     private List<Ad> gasApartments(String city) {
         return adRepository.findByCityAndDescriptionContains(city, "gaz");
     }
 
-    // TODO implement city
     private List<Ad> cheapestApartments(String city) {
         LocalDate threeDaysAgo = time.now().minusDays(3).toLocalDate();
         return adRepository.findTop10ByCityAndGumtreeCreationDateGreaterThan(city, threeDaysAgo, SORT_BY_PRICE);
