@@ -19,8 +19,8 @@ import java.util.Set;
 class GmailClient implements NotificationSender {
     private static final String TITLE_PATTERN = "%s apartments report";
 
-    final private ManagedConfiguration config;
-    final private JavaMailSender emailSender;
+    private final ManagedConfiguration config;
+    private final JavaMailSender emailSender;
 
     @Override
     public boolean send(ApartmentReport apartmentReport) {

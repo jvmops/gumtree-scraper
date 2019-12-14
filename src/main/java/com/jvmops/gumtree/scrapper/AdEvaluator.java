@@ -51,22 +51,21 @@ class AdWrapper {
     private Optional<Ad> fromDbOpt;
 
     Ad updateCreationDateIfPossible() {
-        if (fromDbOpt.isPresent() && scrappedIsNewer()) {
-            Ad fromDb = fromDbOpt.get();
-            log.info("Updating gumtree creation time for \"{}\" :: {}", fromDb.getTitle(), fromDb.getId());
-            fromDb.setGumtreeCreationDate(scrapped.getGumtreeCreationDate());
-        }
-        return getTheOneToSave();
+        return fromDbOpt.filter(saved -> scrappedIsNewer(scrapped, saved))
+                .map(this::updateModificationTime)
+                .orElse(scrapped);
     }
 
-    private Ad getTheOneToSave() {
-        return fromDbOpt.orElse(scrapped);
+    private Ad updateModificationTime(Ad saved) {
+        log.info("Updating gumtree creation time for \"{}\" :: {}", saved.getTitle(), saved.getId());
+        saved.setGumtreeCreationDate(scrapped.getGumtreeCreationDate());
+        return saved;
     }
 
-    private boolean scrappedIsNewer() {
+    private boolean scrappedIsNewer(Ad scrapped, Ad saved) {
         return ! Objects.equals(
-                fromDbOpt.get().getGumtreeCreationDate(),
-                scrapped.getGumtreeCreationDate()
+                scrapped.getGumtreeCreationDate(),
+                saved.getGumtreeCreationDate()
         );
     }
 }

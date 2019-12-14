@@ -2,13 +2,13 @@ package com.jvmops.gumtree.report;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.ToString;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Getter
-@ToString
+@Slf4j
 @AllArgsConstructor
 class ApartmentReport {
     private static final String APARTMENT = "%s :: %s :: %sm2 - %szł :: %s :: refreshed %s times";
@@ -25,10 +25,6 @@ class ApartmentReport {
                 + toString("Cheapest apartments:", cheapestApartments);
     }
 
-    public String getContentType() {
-        return "text/plain";
-    }
-
     private String toString(String headline, List<Ad> ads) {
         String formattedAds = ads.stream()
                 .map(this::toString)
@@ -38,19 +34,5 @@ class ApartmentReport {
 
     private String toString(Ad ad) {
         return String.format(APARTMENT, ad.getGumtreeCreationDate(), ad.getLandlord(), ad.getSize(), ad.getPrice(),  ad.getTitle(), ad.getUpdates().size());
-    }
-
-
-
-    List<Ad> getNewApartments() {
-        return newApartments;
-    }
-
-    List<Ad> getGasApartments() {
-        return gasApartments;
-    }
-
-    List<Ad> getCheapestApartments() {
-        return cheapestApartments;
     }
 }

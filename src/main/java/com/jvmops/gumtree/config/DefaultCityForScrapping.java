@@ -14,7 +14,7 @@ import java.util.Set;
 @Slf4j
 @AllArgsConstructor
 class DefaultCityForScrapping {
-    private final static MailConfig KATOWICE_SCRAPPER_ON_NOTIFICATIONS_OFF = MailConfig.builder()
+    private static final MailConfig KATOWICE_SCRAPPER_ON_NOTIFICATIONS_OFF = MailConfig.builder()
             .id(ObjectId.get())
             .emails(Set.of())
             .city("katowice")

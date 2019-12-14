@@ -37,7 +37,7 @@ class AdEvaluatorTest extends DataInitializer {
 
         Ad fromDb = adEvaluator.findInRepository(scrappedAd)
                 .orElse(scrappedAd);
-        assertEquals(fromDb.getCity(), "wroclaw");
+        assertEquals("wroclaw", fromDb.getCity());
     }
 
     @Test

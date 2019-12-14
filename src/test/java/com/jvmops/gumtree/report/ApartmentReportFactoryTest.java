@@ -18,12 +18,6 @@ class ApartmentReportFactoryTest extends DataInitializer {
     private ApartmentReportFactory apartmentReportFactory;
 
     @Test
-    void content_type_of_test_report_will_be_text_plain() {
-        var apartmentReport = apartmentReportFactory.create("katowice");
-        assertEquals("text/plain", apartmentReport.getContentType());
-    }
-
-    @Test
     void there_are_no_persisted_ads_from_wroclaw() {
         var apartmentReport = apartmentReportFactory.create("wroclaw");
         assertEquals(0, apartmentReport.getNewApartments().size());

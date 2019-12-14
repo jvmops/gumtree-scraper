@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @org.springframework.stereotype.Repository
-public interface AdRepository extends CrudRepository<Ad, ObjectId> {
+interface AdRepository extends CrudRepository<Ad, ObjectId> {
     List<Ad> findAllByCityAndCreationTimeGreaterThanAndRefreshedFalseOrderByPrice(String city, LocalDateTime yesterday);
     List<Ad> findByCityAndDescriptionContains(String city, String description);
     List<Ad> findTop10ByCityAndGumtreeCreationDateGreaterThan(String city, LocalDate gumtreeCreationDate, Sort sort);
