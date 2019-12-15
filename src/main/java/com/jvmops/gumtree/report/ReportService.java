@@ -1,13 +1,12 @@
 package com.jvmops.gumtree.report;
 
-import com.jvmops.gumtree.config.ManagedConfiguration;
+import com.jvmops.gumtree.city.City;
+import com.jvmops.gumtree.city.CityService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Lazy;
-import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
 import java.util.Set;
 
 @Component
@@ -17,19 +16,20 @@ import java.util.Set;
 public class ReportService {
     private ApartmentReportFactory apartmentReportFactory;
     private NotificationSender notificationSender;
-    private ManagedConfiguration config;
+    private CityService config;
 
-    public void createReportAndNotifySingleEmail(String city, String email) {
+    public void createReportAndNotifySingleEmail(String cityName, String email) {
+        City city = config.findCityByName(cityName);
         ApartmentReport apartmentReport = apartmentReportFactory.create(city);
         notificationSender.send(apartmentReport, Set.of(email));
     }
 
     @SuppressWarnings("squid:S3864")
     public void createReportAndNotifyForEachCity() {
-        config.getCities().stream()
-                .peek(city -> log.info("Creating an apartment report for {}", city))
+        config.cities().stream()
+                .peek(city -> log.info("Creating {} apartment report", city))
                 .map(apartmentReportFactory::create)
-                .peek(report -> log.info("Sending {} apartment report to {}", report.getCity(), config.getEmails(report.getCity())))
+                .peek(report -> log.info("Sending {} apartment report to {}", report.getCity().getName(), report.getCity().getEmails()))
                 .forEach(notificationSender::send);
     }
 }

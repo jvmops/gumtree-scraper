@@ -1,5 +1,6 @@
 package com.jvmops.gumtree.report;
 
+import com.jvmops.gumtree.city.City;
 import com.jvmops.gumtree.config.Time;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,10 +22,10 @@ class ApartmentReportFactory {
     private AdRepository adRepository;
     private Time time;
 
-    ApartmentReport create(String city) {
-        List<Ad> newestAds = newestAds(city);
-        List<Ad> gasApartments = gasApartments(city);
-        List<Ad> cheapestApartments = cheapestApartments(city);
+    ApartmentReport create(City city) {
+        List<Ad> newestAds = newestAds(city.getName());
+        List<Ad> gasApartments = gasApartments(city.getName());
+        List<Ad> cheapestApartments = cheapestApartments(city.getName());
         log.info("Creating {} ApartmentReport :: newestAds.size() == {} :: gasApartments.size() == {} :: cheapestApartments.size() == {}",
                 city, newestAds.size(), gasApartments.size(), cheapestApartments.size());
         var apartmentReport = new ApartmentReport(city, newestAds, gasApartments, cheapestApartments);

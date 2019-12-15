@@ -1,6 +1,7 @@
-package com.jvmops.gumtree.config;
+package com.jvmops.gumtree.city;
 
 import com.jvmops.gumtree.MongoTest;
+import com.jvmops.gumtree.config.Time;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.BeforeAll;
@@ -40,7 +41,7 @@ abstract class DataInitializer extends MongoTest {
         City wroclaw = City.builder()
                 .id(ObjectId.get())
                 .name("wroclaw")
-                .emails(Set.of())
+                .emails(Set.of("to.be.removed@gmail.com"))
                 .creationTime(time.now())
                 .build();
         return List.of(katowice, wroclaw);

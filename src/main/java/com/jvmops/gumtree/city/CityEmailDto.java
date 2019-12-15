@@ -1,9 +1,8 @@
-package com.jvmops.gumtree.cities;
+package com.jvmops.gumtree.city;
 
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 
 @Getter

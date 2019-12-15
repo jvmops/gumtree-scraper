@@ -1,6 +1,6 @@
 package com.jvmops.gumtree.report;
 
-import com.jvmops.gumtree.config.ManagedConfiguration;
+import com.jvmops.gumtree.city.CityService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Lazy;
@@ -19,12 +19,12 @@ import java.util.Set;
 class GmailClient implements NotificationSender {
     private static final String TITLE_PATTERN = "%s apartments report";
 
-    private final ManagedConfiguration config;
+    private final CityService config;
     private final JavaMailSender emailSender;
 
     @Override
     public boolean send(ApartmentReport apartmentReport) {
-        Set<String> emailAddresses = config.getEmails(apartmentReport.getCity());
+        Set<String> emailAddresses = apartmentReport.getCity().getEmails();
         return send(apartmentReport, emailAddresses);
     }
 

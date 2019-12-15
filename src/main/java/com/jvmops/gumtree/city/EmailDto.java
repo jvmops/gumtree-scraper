@@ -1,4 +1,4 @@
-package com.jvmops.gumtree.cities;
+package com.jvmops.gumtree.city;
 
 import lombok.Getter;
 import lombok.Setter;

@@ -1,6 +1,6 @@
 package com.jvmops.gumtree.report;
 
-import com.jvmops.gumtree.cities.CityEmailDto;
+import com.jvmops.gumtree.city.CityEmailDto;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Controller;

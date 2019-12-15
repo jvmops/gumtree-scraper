@@ -1,4 +1,4 @@
-package com.jvmops.gumtree.config;
+package com.jvmops.gumtree.city;
 
 import lombok.*;
 import org.bson.types.ObjectId;
@@ -29,6 +29,10 @@ public class City {
     private LocalDateTime creationTime;
     @LastModifiedDate
     private LocalDateTime modificationTime;
+
+    public City(String name) {
+        this.name = name;
+    }
 
     public List<String> getEmailsAsList() {
         return new ArrayList<>(emails);

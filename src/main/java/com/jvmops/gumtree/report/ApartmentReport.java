@@ -1,5 +1,6 @@
 package com.jvmops.gumtree.report;
 
+import com.jvmops.gumtree.city.City;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
@@ -14,7 +15,7 @@ class ApartmentReport {
     private static final String APARTMENT = "%s :: %s :: %sm2 - %szł :: %s :: refreshed %s times";
     private static final String TWO_LINES = "\n\n";
 
-    private String city;
+    private City city;
     private List<Ad> newApartments;
     private List<Ad> gasApartments;
     private List<Ad> cheapestApartments;
