@@ -1,3 +1,6 @@
+[![GitHub license](https://img.shields.io/github/license/jvmops/gumtree-scrapper.svg)](https://github.com/jvmops/gumtree-scrapper/blob/master/LICENSE)
+[![GitHub Actions build](https://github.com/jvmops/gumtree-scrapper/workflows/build/badge.svg)](https://github.com/jvmops/gumtree-scrapper/actions)
+
 ## About
 Polish private rental apartment market is established around gumtree. Ads are displayed based on creation time (newest first). The main issue here is that most of these ads are re-posted every day in order for them to show up on top of the list. From the user perspective it kind of sux because you need to get through many ads before you find the ones introduced today...
 
@@ -39,3 +42,6 @@ docker run --name gumtree-report \
 
 ## Roadmap
 https://github.com/jvmops/gumtree-scrapper/projects
+
+
+5d76a538-533f-46c6-a697-e41c025ec258
