@@ -16,8 +16,8 @@ import java.util.Set;
 class DefaultCityForScrapping {
     private static final City KATOWICE_SCRAPPER_ON_NOTIFICATIONS_OFF = City.builder()
             .id(ObjectId.get())
-            .emails(Set.of())
             .name("katowice")
+            .emails(Set.of("jvmops+default@gmail.com"))
             .build();
 
     private CityRepository cityRepository;

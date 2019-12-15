@@ -36,10 +36,26 @@ public class CityServiceTest extends DataInitializer {
     }
 
     @Test
-    public void email_can_be_unsubscribed_from_notifications() {
-        cityService.stopNotifications("to.be.removed@gmail.com");
+    public void email_can_be_unsubscribed_from_notifications_globally() {
+        cityService.stopNotifications("jvmops@gmail.com");
+        City katowice = cityService.findCityByName("katowice");
         City wroclaw = cityService.findCityByName("wroclaw");
-        assertFalse(wroclaw.getEmails().contains("to.be.removed@gmail.com"));
+        assertEquals(1, katowice.getEmails().size());
+        assertEquals(0, wroclaw.getEmails().size());
+    }
+
+    @Test
+    public void email_can_subscribed_to_notifications() {
+        cityService.subscribeToNotifications("wroclaw", "other@gmail.com");
+        City wroclaw = cityService.findCityByName("wroclaw");
+        assertEquals(2, wroclaw.getEmails().size());
+    }
+
+    @Test
+    public void new_city_with_empty_mailing_list_can_be_added() {
+        cityService.subscribeToNotifications("gliwice", null);
+        City wroclaw = cityService.findCityByName("gliwice");
+        assertEquals(0, wroclaw.getEmails().size());
     }
 
     @Test
@@ -52,11 +68,5 @@ public class CityServiceTest extends DataInitializer {
     void there_are_two_emails_configured_for_katowice() {
         Set<String> emails = cityService.emails("katowice");
         assertEquals(2, emails.size());
-    }
-
-    @Test
-    void wroclaw_is_only_scrapped_that_means_notifications_will_not_be_send() {
-        Set<String> emails = cityService.emails("wroclaw");
-        assertEquals(0, emails.size());
     }
 }

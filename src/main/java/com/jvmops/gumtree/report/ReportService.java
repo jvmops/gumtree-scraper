@@ -16,17 +16,17 @@ import java.util.Set;
 public class ReportService {
     private ApartmentReportFactory apartmentReportFactory;
     private NotificationSender notificationSender;
-    private CityService config;
+    private CityService cityService;
 
     public void createReportAndNotifySingleEmail(String cityName, String email) {
-        City city = config.findCityByName(cityName);
+        City city = new City(cityName);
         ApartmentReport apartmentReport = apartmentReportFactory.create(city);
         notificationSender.send(apartmentReport, Set.of(email));
     }
 
     @SuppressWarnings("squid:S3864")
     public void createReportAndNotifyForEachCity() {
-        config.cities().stream()
+        cityService.cities().stream()
                 .peek(city -> log.info("Creating {} apartment report", city))
                 .map(apartmentReportFactory::create)
                 .peek(report -> log.info("Sending {} apartment report to {}", report.getCity().getName(), report.getCity().getEmails()))
