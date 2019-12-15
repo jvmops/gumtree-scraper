@@ -17,6 +17,7 @@ import java.util.Set;
 @Setter
 @Getter
 @Builder
+@EqualsAndHashCode(of = "name")
 @NoArgsConstructor
 @AllArgsConstructor
 public class City {

@@ -55,10 +55,6 @@ public class CityService {
         cityRepository.saveAll(cities);
     }
 
-    Set<City> findAllByEmail(String email) {
-        return cityRepository.findAllByEmailsContaining(email);
-    }
-
     private Stream<City> findAll() {
         var iterable = cityRepository.findAll();
         return StreamSupport.stream(iterable.spliterator(), false);

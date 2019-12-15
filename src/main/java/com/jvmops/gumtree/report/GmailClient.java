@@ -1,16 +1,18 @@
 package com.jvmops.gumtree.report;
 
-import com.jvmops.gumtree.city.CityService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.util.Set;
+
+import static org.springframework.util.CollectionUtils.isEmpty;
 
 @Component
 @Lazy
@@ -19,25 +21,25 @@ import java.util.Set;
 class GmailClient implements NotificationSender {
     private static final String TITLE_PATTERN = "%s apartments report";
 
-    private final CityService config;
     private final JavaMailSender emailSender;
 
     @Override
-    public boolean send(ApartmentReport apartmentReport) {
+    public void send(ApartmentReport apartmentReport) {
         Set<String> emailAddresses = apartmentReport.getCity().getEmails();
-        return send(apartmentReport, emailAddresses);
+        send(apartmentReport, emailAddresses);
     }
 
     @Override
-    public boolean send(ApartmentReport apartmentReport, Set<String> emails) {
-        boolean sent = false;
+    public void send(ApartmentReport apartmentReport, Set<String> emails) {
+        if (isEmpty(emails)) {
+            return;
+        }
+
         try {
             sendEmail(apartmentReport, emails);
-            sent = true;
         } catch (MessagingException e) {
             log.error("Unable to send email to {}", emails, e);
         }
-        return sent;
     }
 
     void sendEmail(ApartmentReport apartmentReport, Set<String> emails) throws MessagingException {

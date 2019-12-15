@@ -4,7 +4,6 @@ import com.jvmops.gumtree.MongoTest;
 import com.jvmops.gumtree.config.Time;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -19,29 +18,23 @@ abstract class DataInitializer extends MongoTest {
     @Autowired
     protected Time time;
 
-    @BeforeAll
-    public static void clearData() {
-        deleteAll();
-    }
-
     @BeforeEach
     private void insertDataIfNecessary() {
-        if (cityRepository.count() == 0) {
-            cityRepository.saveAll(mapEmailsToCities());
-        }
+        cityRepository.deleteAll();
+        cityRepository.saveAll(mapEmailsToCities());
     }
 
     private List<City> mapEmailsToCities() {
         City katowice = City.builder()
                 .id(ObjectId.get())
                 .name("katowice")
-                .emails(Set.of("jvmops+test1@gmail.com", "jvmops+test2e@gmail.com"))
+                .emails(Set.of("jvmops@gmail.com", "jvmops+test@gmail.com"))
                 .creationTime(time.now())
                 .build();
         City wroclaw = City.builder()
                 .id(ObjectId.get())
                 .name("wroclaw")
-                .emails(Set.of("to.be.removed@gmail.com"))
+                .emails(Set.of("jvmops@gmail.com"))
                 .creationTime(time.now())
                 .build();
         return List.of(katowice, wroclaw);
