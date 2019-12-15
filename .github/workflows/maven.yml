@@ -1,10 +1,9 @@
-name: build-and-push-image
+name: build
 
 on:
   push:
     branches:
       - master
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -15,9 +14,19 @@ jobs:
       with:
         java-version: 13
     - name: Build with Maven
-      run: ./mvnw package
+      run: ./mvnw package && ./mvnw jacoco:report
+    - name: Send coverage report
+      run: bash <(curl -s https://codecov.io/bash) -t ${{ secrets.CODECOV_TOKEN }}
+    - name: Setup git ssh access
+      uses: webfactory/ssh-agent@v0.1.1
+      with:
+        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
     - name: Setup latest tag for docker
-      run: git tag -d latest && git push --delete origin latest &&  git tag latest && git push origin latest
+      run: git remote set-url origin "git@github.com:jvmops/gumtree-scrapper.git"
+        && git tag -d latest
+        && git push --delete origin latest
+        && git tag latest
+        && git push origin latest
     - name: Build and publish docker image
       uses: elgohr/Publish-Docker-Github-Action@master
       with:
