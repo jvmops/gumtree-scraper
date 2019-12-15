@@ -3,6 +3,7 @@ package com.jvmops.gumtree.report;
 import com.jvmops.gumtree.config.Time;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
@@ -11,15 +12,16 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Component
+@Lazy
 @AllArgsConstructor
 @Slf4j
-public class ApartmentReportFactory {
+class ApartmentReportFactory {
     private static final Sort SORT_BY_PRICE = Sort.by("price");
 
     private AdRepository adRepository;
     private Time time;
 
-    public ApartmentReport create(String city) {
+    ApartmentReport create(String city) {
         List<Ad> newestAds = newestAds(city);
         List<Ad> gasApartments = gasApartments(city);
         List<Ad> cheapestApartments = cheapestApartments(city);

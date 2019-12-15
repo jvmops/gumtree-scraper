@@ -5,11 +5,13 @@ import com.jvmops.gumtree.MongoTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.test.context.ContextConfiguration;
 
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest(classes = Main.class)
 @ContextConfiguration(
@@ -17,6 +19,14 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class ManagedConfigurationTest extends DataInitializer {
     @Autowired
     private ManagedConfiguration managedConfiguration;
+
+    @Test
+    public void city_name_is_unique() {
+        assertThrows(
+                DuplicateKeyException.class,
+                () -> managedConfiguration.addCity("wroclaw")
+        );
+    }
 
     @Test
     void config_will_provide_two_cities_to_scrap() {

@@ -25,22 +25,27 @@ class GmailClient implements NotificationSender {
     @Override
     public boolean send(ApartmentReport apartmentReport) {
         Set<String> emailAddresses = config.getEmails(apartmentReport.getCity());
+        return send(apartmentReport, emailAddresses);
+    }
+
+    @Override
+    public boolean send(ApartmentReport apartmentReport, Set<String> emails) {
         boolean sent = false;
         try {
-            sendEmail(emailAddresses, apartmentReport);
+            sendEmail(apartmentReport, emails);
             sent = true;
         } catch (MessagingException e) {
-            log.error("Unable to send email to {}", emailAddresses, e);
+            log.error("Unable to send email to {}", emails, e);
         }
         return sent;
     }
 
-    void sendEmail(Set<String> to, ApartmentReport apartmentReport) throws MessagingException {
+    void sendEmail(ApartmentReport apartmentReport, Set<String> emails) throws MessagingException {
         MimeMessage message = emailSender.createMimeMessage();
 
         MimeMessageHelper helper = new MimeMessageHelper(message, "UTF-8");
 
-        helper.setBcc(to.toArray(new String[0]));
+        helper.setBcc(emails.toArray(new String[0]));
         helper.setSubject(String.format(TITLE_PATTERN, apartmentReport.getCity()));
         helper.setText(apartmentReport.getReport());
 

@@ -14,7 +14,7 @@ import java.util.Set;
 abstract class DataInitializer extends MongoTest {
 
     @Autowired
-    private MailConfigRepository mailConfigRepository;
+    private CityRepository cityRepository;
     @Autowired
     protected Time time;
 
@@ -25,21 +25,21 @@ abstract class DataInitializer extends MongoTest {
 
     @BeforeEach
     private void insertDataIfNecessary() {
-        if (mailConfigRepository.count() == 0) {
-            mailConfigRepository.saveAll(mapEmailsToCities());
+        if (cityRepository.count() == 0) {
+            cityRepository.saveAll(mapEmailsToCities());
         }
     }
 
-    private List<MailConfig> mapEmailsToCities() {
-        MailConfig katowice = MailConfig.builder()
+    private List<City> mapEmailsToCities() {
+        City katowice = City.builder()
                 .id(ObjectId.get())
-                .city("katowice")
+                .name("katowice")
                 .emails(Set.of("jvmops+test1@gmail.com", "jvmops+test2e@gmail.com"))
                 .creationTime(time.now())
                 .build();
-        MailConfig wroclaw = MailConfig.builder()
+        City wroclaw = City.builder()
                 .id(ObjectId.get())
-                .city("wroclaw")
+                .name("wroclaw")
                 .emails(Set.of())
                 .creationTime(time.now())
                 .build();

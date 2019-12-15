@@ -57,7 +57,7 @@ public abstract class MongoTest {
 
     @NotNull
     private static Stream<String> mongoCollectionNames() {
-        return Stream.of("ad", "mailConfig");
+        return Stream.of("ad", "city");
     }
 
     private static long countAll() {

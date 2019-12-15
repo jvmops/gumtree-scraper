@@ -14,18 +14,18 @@ import java.util.Set;
 @Slf4j
 @AllArgsConstructor
 class DefaultCityForScrapping {
-    private static final MailConfig KATOWICE_SCRAPPER_ON_NOTIFICATIONS_OFF = MailConfig.builder()
+    private static final City KATOWICE_SCRAPPER_ON_NOTIFICATIONS_OFF = City.builder()
             .id(ObjectId.get())
             .emails(Set.of())
-            .city("katowice")
+            .name("katowice")
             .build();
 
-    private MailConfigRepository mailConfigRepository;
+    private CityRepository cityRepository;
 
     @PostConstruct
     void addIfNoneSet() {
-        if (mailConfigRepository.count() == 0) {
-            mailConfigRepository.save(KATOWICE_SCRAPPER_ON_NOTIFICATIONS_OFF);
+        if (cityRepository.count() == 0) {
+            cityRepository.save(KATOWICE_SCRAPPER_ON_NOTIFICATIONS_OFF);
         }
     }
 }

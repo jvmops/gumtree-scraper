@@ -6,11 +6,11 @@ This app solves that problem. It scrap ads, watch for duplicated offers and gath
 ## Building from source:
 In order to build from source you need:
 - JDK 13
-- Maven
+- Docker on the host machine (integration tests dependency)
 ```
 git clone https://github.com/jvmops/gumtree-scrapper.git
 cd gumtree-scrapper
-mvn package
+./mvnw test
 ```
 
 ## Running:
@@ -36,3 +36,6 @@ docker run --name gumtree-report \
   -e SPRING_MAIL_PASSWORD=... \
     jvmops/gumtree-scrapper
 ```
+
+## Roadmap
+https://github.com/jvmops/gumtree-scrapper/projects
