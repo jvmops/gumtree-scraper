@@ -22,47 +22,16 @@ cd gumtree-scrapper
 
 ## Running:
 Runtime involves:
-- Docker
-- Mongo
+- docker-compose
 - Gmail account (you should generate app password)
 
-With a mongo connection URI you can run a container using an image from the docker hub. Start scrapping by typing:
+Adjust the `.env` file and run:
 ```bash
-docker run -d \
-  --name gumtree-scrapper \
-  -e SPRING_PROFILES_ACTIVE=scrapper \
-  -e SPRING_DATA_MONGODB_AUTHENTICATION-DATABASE=gumtree \
-  -e SPRING_DATA_MONGODB_USERNAME=gumtree \
-  -e SPRING_DATA_MONGODB_PASSWORD=... \
-  --network="host" \
-  jvmops/gumtree-scrapper
+docker-compose up
 ```
-
-In order for emails to be send run:
-```bash
-docker run -d \
-  --name gumtree-report \
-  -e SPRING_PROFILES_ACTIVE=report \
-  -e SPRING_MAIL_USERNAME=your_email@gmail.com \
-  -e SPRING_MAIL_PASSWORD=your_gmail_app_password \
-  -e SPRING_DATA_MONGODB_AUTHENTICATION-DATABASE=gumtree \
-  -e SPRING_DATA_MONGODB_USERNAME=gumtree \
-  -e SPRING_DATA_MONGODB_PASSWORD=... \
-  --network="host" \
-  jvmops/gumtree-scrapper
-```
-
-In order to start web run:
-```bash
-docker run -d \
-  --name gumtree-web \
-  -e SPRING_PROFILES_ACTIVE=web \
-  -e SPRING_DATA_MONGODB_AUTHENTICATION-DATABASE=gumtree \
-  -e SPRING_DATA_MONGODB_USERNAME=gumtree \
-  -e SPRING_DATA_MONGODB_PASSWORD=... \
-  --network="host" \
-  jvmops/gumtree-scrapper
-```
+You can now open an admin page in the browser: http://localhost:8080/cities  
+To run a scrap job: `docker start gumtree-scrapper`  
+To send reports: `docker start gumtree-report`
 
 ## Roadmap
 [github issues](https://github.com/jvmops/gumtree-scrapper/projects)

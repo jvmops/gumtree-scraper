@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 import java.util.Set;
 
-@Profile("!default")
+@Profile("web")
 @Component
 @Slf4j
 @AllArgsConstructor
