@@ -14,23 +14,28 @@ jobs:
       with:
         java-version: 13
     - name: Increment minor (always when you build container)
-    - run: mvn build-helper:parse-version versions:set -DnewVersion=\${parsedVersion.majorVersion}.\
-      ${parsedVersion.minorVersion}.\
-      ${parsedVersion.nextIncrementalVersion}
+      run: ./mvnw build-helper:parse-version versions:set
+        -DnewVersion=\${parsedVersion.majorVersion}.\${parsedVersion.MinorVersion}.\${parsedVersion.nextIncrementalVersion}
+        versions:commit
     - name: Build with Maven
       run: ./mvnw package && ./mvnw jacoco:report
     - name: Send coverage report
       run: bash <(curl -s https://codecov.io/bash) -t ${{ secrets.CODECOV_TOKEN }}
+    - name: Setup version variable for git tags
+      run: version=$(./mvnw build-helper:parse-version help:evaluate -Dexpression=project.version -q -DforceStdout)
     - name: Setup git ssh access
       uses: webfactory/ssh-agent@v0.1.1
       with:
         ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
     - name: Setup latest tag for docker
-      run: git remote set-url origin "git@github.com:jvmops/gumtree-scrapper.git"
+      run: git symbolic-ref HEAD | cut -d"/" -f 3
+        && git remote set-url origin "git@github.com:jvmops/gumtree-scrapper.git"
         && git tag -d latest
         && git push --delete origin latest
         && git tag latest
+        && git tag $version
         && git push origin latest
+        && git push origin "$version"
     - name: Build and publish docker image
       uses: elgohr/Publish-Docker-Github-Action@master
       with:
