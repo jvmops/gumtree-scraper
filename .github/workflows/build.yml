@@ -13,6 +13,10 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: 13
+    - name: Increment minor (always when you build container)
+    - run: mvn build-helper:parse-version versions:set -DnewVersion=\${parsedVersion.majorVersion}.\
+      ${parsedVersion.minorVersion}.\
+      ${parsedVersion.nextIncrementalVersion}
     - name: Build with Maven
       run: ./mvnw package && ./mvnw jacoco:report
     - name: Send coverage report

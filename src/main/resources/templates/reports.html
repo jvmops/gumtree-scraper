@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Oferty</title>
+    <title>Send report</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <link th:replace="commons :: bootstrap-css"/>
     <link th:replace="commons :: font-awesome"/>
@@ -12,7 +12,7 @@
 <div class="container">
 
     <form class="py-4" method="post" th:action="@{/reports}" th:object="${emailMapping}">
-        <div class="btn-toolbar" role="toolbar" aria-label="add account">
+        <div class="btn-toolbar" role="toolbar" aria-label="Send report">
             <div class="input-group px-2">
                 <input type="text" class="form-control" placeholder="city"
                        aria-describedby="sizing-addon2"
@@ -29,7 +29,7 @@
             </div>
             <div class="btn-group px-2" role="group" aria-label="First group">
                 <button type="submit" class="btn btn-secondary">
-                    <i class="fa fa-plus fa-lg" aria-hidden="true"></i>
+                    <i class="far fa-paper-plane"></i>
                 </button>
             </div>
         </div>

@@ -43,7 +43,7 @@ public class CitiesController {
     @PostMapping("emails")
     public String stopNotifications(@Valid EmailDto email) {
         cityService.stopNotifications(email.getValue());
-        return "redirect:cities";
+        return "redirect:/cities";
     }
 
     private CityDto toDto(City city) {
