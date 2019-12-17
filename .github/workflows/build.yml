@@ -21,21 +21,26 @@ jobs:
       run: ./mvnw package && ./mvnw jacoco:report
     - name: Send coverage report
       run: bash <(curl -s https://codecov.io/bash) -t ${{ secrets.CODECOV_TOKEN }}
-    - name: Setup version variable for git tags
-      run: version=$(./mvnw build-helper:parse-version help:evaluate -Dexpression=project.version -q -DforceStdout)
     - name: Setup git ssh access
       uses: webfactory/ssh-agent@v0.1.1
       with:
         ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-    - name: Setup latest tag for docker
-      run: git symbolic-ref HEAD | cut -d"/" -f 3
-        && git remote set-url origin "git@github.com:jvmops/gumtree-scrapper.git"
+    - name: Setup version and latest tags for docker images
+      run: version=$(./mvnw build-helper:parse-version help:evaluate -Dexpression=project.version -q -DforceStdout)
+        && git switch -c ${GITHUB_REF##*/}
+        && origin_url="git@github.com:jvmops/gumtree-scrapper.git"
+        && git remote set-url origin "$origin_url"
+        && echo "git-bot > origin_url set to $origin_url"
         && git tag -d latest
+        && git tag -d version
         && git push --delete origin latest
+        && git push --delete origin $version
         && git tag latest
         && git tag $version
+        && echo "git-bot > branches re-tagged"
         && git push origin latest
         && git push origin "$version"
+        && echo "git-bot > latest and $version tags pushed to origin"
     - name: Build and publish docker image
       uses: elgohr/Publish-Docker-Github-Action@master
       with:
