@@ -15,7 +15,7 @@ jobs:
         java-version: 13
     - name: Increment minor (always when you build container)
       run: ./mvnw build-helper:parse-version versions:set
-        -DnewVersion=\${parsedVersion.majorVersion}.\${parsedVersion.MinorVersion}.\${parsedVersion.nextIncrementalVersion}
+        -DnewVersion=\${parsedVersion.majorVersion}.\${parsedVersion.minorVersion}.\${parsedVersion.nextIncrementalVersion}
         versions:commit
     - name: Build with Maven
       run: ./mvnw package && ./mvnw jacoco:report
@@ -31,10 +31,10 @@ jobs:
         && origin_url="git@github.com:jvmops/gumtree-scrapper.git"
         && git remote set-url origin "$origin_url"
         && echo "git-bot > origin_url set to $origin_url"
-        && git tag -d latest
-        && git tag -d version
-        && git push --delete origin latest
-        && git push --delete origin $version
+        && git tag -d latest || true
+        && git tag -d version || true
+        && git push --delete origin latest || true
+        && git push --delete origin $version || true
         && git tag latest
         && git tag $version
         && echo "git-bot > branches re-tagged"
