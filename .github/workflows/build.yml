@@ -32,7 +32,7 @@ jobs:
         && git remote set-url origin "$origin_url"
         && echo "git-bot > origin_url set to $origin_url"
         && git tag -d latest || true
-        && git tag -d version || true
+        && git tag -d $version || true
         && git push --delete origin latest || true
         && git push --delete origin $version || true
         && git tag latest

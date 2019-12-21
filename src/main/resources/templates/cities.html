@@ -11,7 +11,7 @@
 
 <div class="container">
 
-    <form class="py-4" method="post" th:action="@{/cities}" th:object="${cityEmail}">
+    <form class="py-4" method="post" th:action="@{cities}" th:object="${cityEmail}">
         <p>Subscribe to notifications:</p>
         <div class="btn-toolbar" role="toolbar" aria-label="add city">
             <div class="input-group px-2">
@@ -35,7 +35,7 @@
             </div>
         </div>
     </form>
-    <form class="py-4" method="post" th:action="@{/cities/emails}" th:object="${email}">
+    <form class="py-4" method="post" th:action="@{cities/emails}" th:object="${email}">
         <p>Remove email from all notifications:</p>
         <div class="btn-toolbar" role="toolbar" aria-label="remove email from notification">
             <div class="input-group px-2">
