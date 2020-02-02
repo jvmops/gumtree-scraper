@@ -5,7 +5,6 @@ import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.Document;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.boot.test.util.TestPropertyValues;
 import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -55,7 +54,6 @@ public abstract class MongoTest {
                 .forEach(collection -> collection.deleteMany(all));
     }
 
-    @NotNull
     private static Stream<String> mongoCollectionNames() {
         return Stream.of("ad", "city");
     }
