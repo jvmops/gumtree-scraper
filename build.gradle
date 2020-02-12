@@ -2,10 +2,11 @@ plugins {
 	id 'org.springframework.boot' version '2.3.0.M1'
 	id 'io.spring.dependency-management' version '1.0.9.RELEASE'
 	id 'java'
+	id 'jacoco'
 }
 
 group = 'com.jvmops'
-version = '1.0.0-SNAPSHOT'
+version = '1.0.1'
 sourceCompatibility = JavaVersion.VERSION_13
 
 repositories {
@@ -16,6 +17,10 @@ repositories {
 ext {
 	jsoupVersion = '1.12.1'
 	testcontainersVersion = '1.12.5'
+	jacoco = project.properties['run.jacoco'] ?: "false"
+
+	println "jacoco: $jacoco"
+	println "jacoco: $jacoco"
 }
 
 dependencies {
@@ -38,10 +43,46 @@ dependencies {
 	}
 }
 
+task jacoco {
+	onlyIf {
+		project.ext.jacoco == "true"
+	}
+	jacocoTestReport {
+		reports {
+			xml.enabled false
+			csv.enabled false
+			html.destination file("${buildDir}/jacocoHtml")
+		}
+	}
+
+	jacocoTestCoverageVerification {
+		violationRules {
+			rule {
+				limit {
+					minimum = 0.9
+				}
+			}
+		}
+	}
+
+//	check.dependsOn jacocoTestCoverageVerification
+//	jacocoTestReport.mustRunAfter jacocoTestCoverageVerification
+}
+
 test {
+//	Uncomment for extensive docker and spring logging
 	testLogging.showStandardStreams = true
+	afterSuite { desc, result ->
+		if (!desc.parent)
+			println("${result.resultType} " +
+					"(${result.testCount} tests, " +
+					"${result.successfulTestCount} successes, " +
+					"${result.failedTestCount} failures, " +
+					"${result.skippedTestCount} skipped)")
+	}
 	testLogging {
 		events "passed", "skipped", "failed"
 	}
 	useJUnitPlatform()
+//	TODO: make jacoco execute with profile?
 }
