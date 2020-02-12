@@ -6,7 +6,6 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
-import org.springframework.util.CollectionUtils;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
@@ -25,7 +24,7 @@ class GmailClient implements NotificationSender {
 
     @Override
     public void send(ApartmentReport apartmentReport) {
-        Set<String> emailAddresses = apartmentReport.getCity().getEmails();
+        Set<String> emailAddresses = apartmentReport.getCity().getNotifications();
         send(apartmentReport, emailAddresses);
     }
 

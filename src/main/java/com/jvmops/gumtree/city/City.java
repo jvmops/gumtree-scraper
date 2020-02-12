@@ -25,7 +25,7 @@ public class City {
     private ObjectId id;
     @Indexed(unique = true)
     private String name;
-    private Set<String> emails;
+    private Set<String> notifications;
     @CreatedDate
     private LocalDateTime creationTime;
     @LastModifiedDate
@@ -35,11 +35,11 @@ public class City {
         this.name = name;
     }
 
-    public List<String> getEmailsAsList() {
-        return new ArrayList<>(emails);
+    public List<String> getNotificationsList() {
+        return new ArrayList<>(notifications);
     }
 
     public boolean subscribe(String email) {
-        return emails.add(email);
+        return notifications.add(email);
     }
 }

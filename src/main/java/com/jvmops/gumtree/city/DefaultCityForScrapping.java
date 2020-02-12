@@ -14,10 +14,10 @@ import java.util.Set;
 @Slf4j
 @AllArgsConstructor
 class DefaultCityForScrapping {
-    private static final City KATOWICE_SCRAPPER_ON_NOTIFICATIONS_OFF = City.builder()
+    private static final City KATOWICE = City.builder()
             .id(ObjectId.get())
             .name("katowice")
-            .emails(Set.of("jvmops+default@gmail.com"))
+            .notifications(Set.of("jvmops+default@gmail.com"))
             .build();
 
     private CityRepository cityRepository;
@@ -25,7 +25,7 @@ class DefaultCityForScrapping {
     @PostConstruct
     void addIfNoneSet() {
         if (cityRepository.count() == 0) {
-            cityRepository.save(KATOWICE_SCRAPPER_ON_NOTIFICATIONS_OFF);
+            cityRepository.save(KATOWICE);
         }
     }
 }

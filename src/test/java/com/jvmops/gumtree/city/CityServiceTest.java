@@ -40,22 +40,22 @@ public class CityServiceTest extends DataInitializer {
         cityService.stopNotifications("jvmops@gmail.com");
         City katowice = cityService.findCityByName("katowice");
         City wroclaw = cityService.findCityByName("wroclaw");
-        assertEquals(1, katowice.getEmails().size());
-        assertEquals(0, wroclaw.getEmails().size());
+        assertEquals(1, katowice.getNotifications().size());
+        assertEquals(0, wroclaw.getNotifications().size());
     }
 
     @Test
     public void email_can_subscribed_to_notifications() {
         cityService.subscribeToNotifications("wroclaw", "other@gmail.com");
         City wroclaw = cityService.findCityByName("wroclaw");
-        assertEquals(2, wroclaw.getEmails().size());
+        assertEquals(2, wroclaw.getNotifications().size());
     }
 
     @Test
     public void new_city_with_empty_mailing_list_can_be_added() {
         cityService.subscribeToNotifications("gliwice", null);
         City wroclaw = cityService.findCityByName("gliwice");
-        assertEquals(0, wroclaw.getEmails().size());
+        assertEquals(0, wroclaw.getNotifications().size());
     }
 
     @Test

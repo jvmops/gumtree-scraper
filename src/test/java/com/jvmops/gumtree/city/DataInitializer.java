@@ -28,13 +28,13 @@ abstract class DataInitializer extends MongoTest {
         City katowice = City.builder()
                 .id(ObjectId.get())
                 .name("katowice")
-                .emails(Set.of("jvmops@gmail.com", "jvmops+test@gmail.com"))
+                .notifications(Set.of("jvmops@gmail.com", "jvmops+test@gmail.com"))
                 .creationTime(time.now())
                 .build();
         City wroclaw = City.builder()
                 .id(ObjectId.get())
                 .name("wroclaw")
-                .emails(Set.of("jvmops@gmail.com"))
+                .notifications(Set.of("jvmops@gmail.com"))
                 .creationTime(time.now())
                 .build();
         return List.of(katowice, wroclaw);

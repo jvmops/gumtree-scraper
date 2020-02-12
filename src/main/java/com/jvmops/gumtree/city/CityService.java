@@ -24,7 +24,7 @@ public class CityService {
 
     public Set<String> emails(String city) {
         return findCityByName(city)
-                .getEmails();
+                .getNotifications();
     }
 
     public City findCityByName(String city) {
@@ -48,10 +48,10 @@ public class CityService {
 
     @SuppressWarnings("squid:S3864")
     public void stopNotifications(String email) {
-        Set<City> cities = cityRepository.findAllByEmailsContaining(email);
+        Set<City> cities = cityRepository.findAllByNotificationsContaining(email);
         cities.stream()
                 .peek(city -> log.info("Removing {} from {} notifications", email, city.getName()))
-                .forEach(city -> city.getEmails().remove(email));
+                .forEach(city -> city.getNotifications().remove(email));
         cityRepository.saveAll(cities);
     }
 
@@ -73,7 +73,7 @@ public class CityService {
         return City.builder()
                 .id(ObjectId.get())
                 .name(city)
-                .emails(emails)
+                .notifications(emails)
                 .build();
     }
 }

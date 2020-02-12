@@ -52,7 +52,7 @@ public class CitiesController {
     private CityDto toDto(City city) {
         return CityDto.builder()
                 .name(city.getName())
-                .emails(city.getEmails())
+                .emails(city.getNotifications())
                 .build();
     }
 }
