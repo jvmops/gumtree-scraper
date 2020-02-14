@@ -70,8 +70,7 @@ task jacoco {
 }
 
 test {
-//	Uncomment for extensive docker and spring logging
-	testLogging.showStandardStreams = true
+	testLogging.showStandardStreams = true // extensive docker and spring logging
 	afterSuite { desc, result ->
 		if (!desc.parent)
 			println("${result.resultType} " +
