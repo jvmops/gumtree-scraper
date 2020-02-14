@@ -8,8 +8,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
-    - name: Set up JDK 13
+    - name: git checkout
+      uses: actions/checkout@v1
+    - name: JDK 13 setup
       uses: actions/setup-java@v1
       with:
         java-version: 13
