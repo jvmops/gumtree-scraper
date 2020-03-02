@@ -1,6 +1,6 @@
 package com.jvmops.gumtree.report;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -13,10 +13,10 @@ import java.util.Set;
 
 import static org.springframework.util.CollectionUtils.isEmpty;
 
-@Component
 @Lazy
+@Component
 @Slf4j
-@AllArgsConstructor
+@RequiredArgsConstructor
 class GmailClient implements NotificationSender {
     private static final String TITLE_PATTERN = "%s apartments report";
 

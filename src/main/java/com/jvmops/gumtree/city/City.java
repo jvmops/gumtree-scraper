@@ -1,6 +1,9 @@
 package com.jvmops.gumtree.city;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
@@ -12,12 +15,10 @@ import java.time.LocalDateTime;
 import java.util.Set;
 
 @Document
-@Setter
-@Getter
-@Builder
-@EqualsAndHashCode(of = "name")
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class City {
     @Id
     private ObjectId id;

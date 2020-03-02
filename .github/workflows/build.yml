@@ -13,15 +13,11 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: 13
-    - name: Increment minor (always when you build container)
-      run: ./mvnw build-helper:parse-version versions:set
-        -DnewVersion=\${parsedVersion.majorVersion}.\${parsedVersion.minorVersion}.\${parsedVersion.nextIncrementalVersion}
-        versions:commit
     - name: Build with Maven
       run: ./mvnw package && ./mvnw jacoco:report
     - name: Send coverage report
       run: bash <(curl -s https://codecov.io/bash) -t ${{ secrets.CODECOV_TOKEN }}
-    - name: Setup git ssh access
+    - name: Setup git ssh access for tag management
       uses: webfactory/ssh-agent@v0.1.1
       with:
         ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}

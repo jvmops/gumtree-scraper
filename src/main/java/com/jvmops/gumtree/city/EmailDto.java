@@ -1,12 +1,10 @@
 package com.jvmops.gumtree.city;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 import javax.validation.constraints.Email;
 
-@Getter
-@Setter
+@Data
 public class EmailDto {
     @Email
     private String value;

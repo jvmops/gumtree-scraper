@@ -5,11 +5,8 @@ import lombok.*;
 import java.time.LocalDateTime;
 import java.util.Set;
 
-@Getter
-@Setter
+@Data
 @Builder
-@NoArgsConstructor
-@AllArgsConstructor
 public class CityDto {
     private String name;
     private Set<String> emails;

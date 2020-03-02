@@ -3,6 +3,7 @@ plugins {
 	id 'io.spring.dependency-management' version '1.0.9.RELEASE'
 	id 'java'
 	id 'jacoco'
+	id "io.freefair.lombok" version "5.0.0-rc4"
 }
 
 group = 'com.jvmops'

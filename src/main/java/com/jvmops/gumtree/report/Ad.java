@@ -1,8 +1,6 @@
 package com.jvmops.gumtree.report;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.index.TextIndexed;
@@ -13,8 +11,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Document
-@Getter
-@Setter
+@Data
 @Builder
 class Ad {
     private ObjectId id;
