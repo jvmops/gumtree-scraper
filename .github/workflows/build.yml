@@ -13,14 +13,14 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: 13
-    - name: Build with Maven
-      run: ./mvnw package && ./mvnw jacoco:report
-    - name: Send coverage report
-      run: bash <(curl -s https://codecov.io/bash) -t ${{ secrets.CODECOV_TOKEN }}
     - name: Setup git ssh access for tag management
       uses: webfactory/ssh-agent@v0.1.1
       with:
         ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+    - name: Build with Maven
+      run: ./mvnw package && ./mvnw jacoco:report
+    - name: Send coverage report
+      run: bash <(curl -s https://codecov.io/bash) -t ${{ secrets.CODECOV_TOKEN }}
     - name: Setup version and latest tags for docker images
       run: version=$(./mvnw build-helper:parse-version help:evaluate -Dexpression=project.version -q -DforceStdout)
         && git switch -c ${GITHUB_REF##*/}

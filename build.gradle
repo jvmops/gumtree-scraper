@@ -83,3 +83,7 @@ test {
 	useJUnitPlatform()
 //	TODO: make jacoco execute with profile?
 }
+
+bootJar {
+	archiveFileName = "gumtree-scrapper.jar"
+}

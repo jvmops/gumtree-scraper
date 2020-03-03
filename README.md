@@ -11,7 +11,13 @@ Polish private rental apartment market is established around gumtree. Ads are di
 This app solves that problem. It scrap ads, watch for duplicated offers and gather those data. Daily report with interesting findings is distributed to the concerned parties via a gmail account.
 
 ## Running:
-Quickstart this project by visiting [gumtree-scrapper-compose](https://github.com/jvmops/gumtree-scrapper-compose). There is a `docker-compose.yml` file prepared. 
+
+```
+docker-compose up
+```
+This should run the app image from a [docker hub](https://hub.docker.com/r/jvmops/gumtree-scrapper). Mongo config is in the `./docker/mongo` directory.
+
+Quickstart this project by visiting . There is a `docker-compose.yml` file prepared. 
 
 ## Building from source:
 To build from source you need:
