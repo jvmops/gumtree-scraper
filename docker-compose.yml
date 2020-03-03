@@ -32,7 +32,7 @@ services:
       SPRING_DATA_MONGODB_PASSWORD: "${ADMIN_PASSWORD}"
       # TODO: make this email dependency go away from gumtree-web (provide rest endpoint at report?)
       SPRING_MAIL_USERNAME: "${GMAIL_USERNAME}"
-      SPRING_MAIL_PASSWORD: "${GMAIL_PASSWORD}"
+      SPRING_MAIL_PASSWORD: "${GMAIL_TOKEN}"
 
   gumtree-scrapper:
     container_name: gumtree-scrapper
@@ -58,7 +58,7 @@ services:
       SPRING_PROFILES_ACTIVE: report
       SPRING_MAIN_WEB-APPLICATION-TYPE: NONE
       SPRING_MAIL_USERNAME: "${GMAIL_USERNAME}"
-      SPRING_MAIL_PASSWORD: "${GMAIL_PASSWORD}"
+      SPRING_MAIL_PASSWORD: "${GMAIL_TOKEN}"
       SPRING_DATA_MONGODB_HOST: gumtree-mongo
       SPRING_DATA_MONGODB_AUTHENTICATION-DATABASE: gumtree
       SPRING_DATA_MONGODB_USERNAME: gumtree
