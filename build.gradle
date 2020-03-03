@@ -18,7 +18,6 @@ repositories {
 ext {
 	jsoupVersion = '1.12.1'
 	testcontainersVersion = '1.12.5'
-	runJacoco = project.properties['run.jacoco'] ?: "false"
 }
 
 dependencies {
@@ -41,34 +40,45 @@ dependencies {
 	}
 }
 
-task jacoco {
-	onlyIf {
-		project.ext.runJacoco == "true"
-	}
-	jacocoTestReport {
-		reports {
-			xml.enabled false
-			csv.enabled false
-			html.destination file("${buildDir}/jacocoHtml")
-		}
-	}
+bootJar {
+	archiveFileName = "gumtree-scrapper.jar"
+}
 
-	jacocoTestCoverageVerification {
-		violationRules {
-			rule {
-				limit {
-					minimum = 0.9
-				}
+/**
+ * Test configuration
+ */
+
+// https://docs.gradle.org/current/userguide/jacoco_plugin.html
+jacoco {
+	toolVersion = "0.8.5"
+	reportsDir = file("$buildDir/customJacocoReportDir")
+}
+
+jacocoTestReport {
+	reports {
+		xml.enabled false
+		csv.enabled false
+		html.destination file("${buildDir}/jacocoHtml")
+	}
+}
+
+jacocoTestCoverageVerification {
+	violationRules {
+		rule {
+			limit {
+				minimum = 0.6
 			}
 		}
 	}
-
-//	check.dependsOn jacocoTestCoverageVerification
-//	jacocoTestReport.mustRunAfter jacocoTestCoverageVerification
 }
 
+check.dependsOn jacocoTestReport
+check.dependsOn jacocoTestCoverageVerification
+
+// https://docs.gradle.org/current/dsl/org.gradle.api.tasks.testing.Test.html
 test {
-	testLogging.showStandardStreams = true // extensive docker and spring logging
+	testLogging.showStandardStreams = false // extensive docker and spring logging
+
 	afterSuite { desc, result ->
 		if (!desc.parent)
 			println("${result.resultType} " +
@@ -77,13 +87,11 @@ test {
 					"${result.failedTestCount} failures, " +
 					"${result.skippedTestCount} skipped)")
 	}
+
+	// https://docs.gradle.org/current/dsl/org.gradle.api.tasks.testing.logging.TestLoggingContainer.html
 	testLogging {
 		events "passed", "skipped", "failed"
 	}
-	useJUnitPlatform()
-//	TODO: make jacoco execute with profile?
-}
 
-bootJar {
-	archiveFileName = "gumtree-scrapper.jar"
+	useJUnitPlatform()
 }
