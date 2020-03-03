@@ -5,7 +5,7 @@ on:
     branches:
       - master
 jobs:
-  build:
+  build-gradle:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
@@ -13,31 +13,42 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: 13
+    - name: Build from sources
+      run: ./gradlew build
+    - name: Send coverage report
+      run: bash <(curl -s https://codecov.io/bash) -t ${{ secrets.CODECOV_TOKEN }}
+    - name: Create artifact from *.jar
+      uses: actions/upload-artifact@v1
+      with:
+        name: app
+        path: build/libs/gumtree-scrapper.jar
+  build-docker:
+    runs-on: ubuntu-latest
+    needs: build-gradle
+    steps:
+    - uses: actions/checkout@v1
+    - name: Fetching the .jar in the artifact from build-gradle job
+      uses: actions/download-artifact@v1
+      with:
+        name: app
+    - run: ls -la ./
     - name: Setup git ssh access for tag management
       uses: webfactory/ssh-agent@v0.1.1
       with:
         ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-    - name: Build with Maven
-      run: ./mvnw package && ./mvnw jacoco:report
-    - name: Send coverage report
-      run: bash <(curl -s https://codecov.io/bash) -t ${{ secrets.CODECOV_TOKEN }}
-    - name: Setup version and latest tags for docker images
-      run: version=$(./mvnw build-helper:parse-version help:evaluate -Dexpression=project.version -q -DforceStdout)
-        && git switch -c ${GITHUB_REF##*/}
+    - name: Setup latest tag for docker hub image
+      run: git switch -c ${GITHUB_REF##*/}
+        && echo $(ls -la ./)
         && origin_url="git@github.com:jvmops/gumtree-scrapper.git"
         && git remote set-url origin "$origin_url"
         && echo "git-bot > origin_url set to $origin_url"
         && git tag -d latest || true
-        && git tag -d $version || true
         && git push --delete origin latest || true
-        && git push --delete origin $version || true
         && git tag latest
-        && git tag $version
-        && echo "git-bot > branches re-tagged"
+        && echo "git-bot > branch re-tagged"
         && git push origin latest
-        && git push origin "$version"
-        && echo "git-bot > latest and $version tags pushed to origin"
-    - name: Build and publish docker image
+        && echo "git-bot > latest tag pushed to origin"
+    - name: Publish docker image
       uses: elgohr/Publish-Docker-Github-Action@master
       with:
         name: jvmops/gumtree-scrapper
