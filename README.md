@@ -1,6 +1,6 @@
 <h1 align="center">
   gumtree-scrapper<br>
-  <a href="https://github.com/jvmops/gumtree-scrapper/actions"><img align="center" src="https://github.com/jvmops/gumtree-scrapper/workflows/build/badge.svg"></a> 
+  <a href="https://github.com/jvmops/gumtree-scrapper/actions"><img align="center" src="https://github.com/jvmops/gumtree-scrapper/workflows/master/badge.svg"></a> 
   <a href="https://codecov.io/gh/jvmops/gumtree-scrapper"><img align="center" src="https://codecov.io/gh/jvmops/gumtree-scrapper/branch/master/graph/badge.svg"></a> 
   <a href="https://github.com/jvmops/gumtree-scrapper/blob/master/LICENSE"><img align="center" src="https://img.shields.io/github/license/jvmops/gumtree-scrapper.svg"></a>
   <br><br>
@@ -10,25 +10,20 @@ Polish private rental apartment market is established around gumtree. Ads are di
 
 This app solves that problem. It scrap ads, watch for duplicated offers and gather those data. Daily report with interesting findings is distributed to the concerned parties via a gmail account.
 
-## Running:
-
-```
-docker-compose up
-```
-This should run the app image from a [docker hub](https://hub.docker.com/r/jvmops/gumtree-scrapper). Mongo config is in the `./docker/mongo` directory.
-
-Quickstart this project by visiting . There is a `docker-compose.yml` file prepared. 
-
-## Building from source:
-To build from source you need:
+## Running from a source:
+To build and run from source you need:
 - JDK 13
-- Docker (integration tests dependency)
+- docker
+- docker-compose
+
 ```
-git clone https://github.com/jvmops/gumtree-scrapper.git \
-  && cd gumtree-scrapper \
-  && ./mvnw package \
-  && docker build -t jvmops/gumtree-scrapper:latest .
+git clone https://github.com/jvmops/gumtree-scrapper.git
+cd gumtree-scrapper
+./gradlew build
+docker-compose up -d
 ```
 
-## Roadmap
-[github issues](https://github.com/jvmops/gumtree-scrapper/projects)
+Website should be available at: http://localhost:8080/cities
+
+## Running from an image
+Docker image is available at [docker hub](https://hub.docker.com/r/jvmops/gumtree-scrapper)
