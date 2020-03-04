@@ -55,39 +55,17 @@ jobs:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
         tag_names: true
-#  deploy-prod:
-#    runs-on: ubuntu-latest
-##    needs: build-docker
-#    steps:
-#      - name: Prepare environment for prod deployment
-#        uses: appleboy/ssh-action@master
-#        with:
-#          host: ${{ secrets.PROD_HOST }}
-#          username: ${{ secrets.PROD_USERNAME }}
-#          key: ${{ secrets.PROD_KEY }}
-#          script: |
-#            cd ~/projects/
-#            rm gumtree-scrapper-compose -r
-#            git clone git@github.com:jvmops/gumtree-scrapper-compose.git
-#            cp env/gumtree-scrapper/.env gumtree-scrapper-compose/
-#            docker pull jvmops/gumtree-scrapper
-#      - name: Redeploying gumtree-web
-#        uses: appleboy/ssh-action@master
-#        with:
-#          host: ${{ secrets.PROD_HOST }}
-#          username: ${{ secrets.PROD_USERNAME }}
-#          key: ${{ secrets.PROD_KEY }}
-#          script: |
-#            cd ~/projects/gumtree-scrapper
-#            docker_ps_output_before=$(docker ps --filter "name=gumtree-web")
-#            images_output_before=$(docker images --filter=reference='jvmops/gumtree-scrapper')
-#
-#            docker-compose up -d --force-recreate gumtree-web
-#
-#            printf '\n%s\n' "##### Before"
-#            printf '\n%s' "$docker_ps_output_before"
-#            printf '\n%s' "$images_output_before"
-#            printf '\n\n%s\n\n' "##### After"
-#            docker ps --filter "name=gumtree-web"
-#            docker images --filter=reference='jvmops/gumtree-scrapper'
-#            printf '\n%s\n' "$(docker logs gumtree-mongo --tail 50)"
+  deploy-prod:
+    runs-on: ubuntu-latest
+    needs: build-docker
+    steps:
+      - name: Redeploying gumtree-scrapper
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.PROD_HOST }}
+          username: ${{ secrets.PROD_USERNAME }}
+          key: ${{ secrets.PROD_KEY }}
+          script: |
+            cd ~/projects/gumtree-scrapper-compose
+            docker pull jvmops/gumtree-scrapper
+            scripts/redeploy_app.bash
