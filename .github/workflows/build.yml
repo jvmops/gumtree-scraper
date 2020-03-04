@@ -17,8 +17,7 @@ jobs:
       run: ./gradlew build
     - name: Send coverage report
       run: bash <(curl -s https://codecov.io/bash) -t ${{ secrets.CODECOV_TOKEN }}
-    - name: Create artifact from *.jar
-      uses: actions/upload-artifact@v1
+    - uses: actions/upload-artifact@v1
       with:
         name: app
         path: build/libs/gumtree-scrapper.jar
@@ -27,16 +26,14 @@ jobs:
     needs: build-gradle
     steps:
     - uses: actions/checkout@v1
-    - name: Fetching the .jar in the artifact from build-gradle job
-      uses: actions/download-artifact@v1
+    - uses: actions/download-artifact@v1
       with:
         name: app
-    - run: ls -la ./
     - name: Setup git ssh access for tag management
       uses: webfactory/ssh-agent@v0.1.1
       with:
         ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-    - name: Setup latest tag for docker hub image
+    - name: Setup git latest tag for image publishing purposes
       run: git switch -c ${GITHUB_REF##*/}
         && echo $(ls -la ./)
         && origin_url="git@github.com:jvmops/gumtree-scrapper.git"
