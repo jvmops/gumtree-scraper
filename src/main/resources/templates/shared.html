@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<body xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Shared</title>
+</head>
+<body>
+    <!-- navbar -->
+    <th:block th:fragment="navbar">
+        <div class="site-mobile-menu">
+            <div class="site-mobile-menu-header">
+                <div class="site-mobile-menu-close mt-3">
+                    <span class="icon-close2 js-menu-toggle"></span>
+                </div>
+            </div>
+            <div class="site-mobile-menu-body">
+            </div>
+        </div>
+
+        <header class="site-navbar py-3" role="banner">
+            <div class="container-fluid">
+                <div class="row align-items-center">
+                    <div class="col-11 col-xl-2">
+                        <h1 class="mb-0">
+                            <a href="https://jvmops.com" class="text-white h2 mb-0">jvm<span class="text-primary">ops</span></a>
+                        </h1>
+                    </div>
+                    <div class="col-12 col-md-10 d-none d-xl-block">
+                        <nav class="site-navigation position-relative text-right" role="navigation">
+                            <ul class="site-menu js-clone-nav mx-auto d-none d-lg-block">
+                                <li th:classappend="${#request.requestURI.equals('/subscriptions') ? 'active':''}">
+                                    <a th:href="@{/cities}" href="subscriptions.html">Subscriptions</a>
+                                </li>
+                                <li th:classappend="${#request.requestURI.equals('/login') ? 'active':''}">
+                                    <a th:href="@{login}" href="apps.html">Login</a>
+                                </li>
+                                <li th:classappend="${#request.requestURI.equals('/notifications') ? 'active':''}" class="cta">
+                                    <a th:href="@{reports}" href="notifications.html">Notifications</a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                    <div class="d-inline-block d-xl-none ml-md-0 mr-auto py-3" style="position: relative; top: 3px;"><a href="#" class="site-menu-toggle js-menu-toggle text-white"><span class="icon-menu h3"></span></a></div>
+                </div>
+            </div>
+            </div>
+        </header>
+    </th:block>
+
+    <th:block th:fragment="footer">
+        <footer class="site-footer">
+            <div class="container">
+                <div class="row mb-5">
+                    <div class="col-md-4">
+                        <h2 class="footer-heading text-uppercase mb-4">About</h2>
+                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit aliquid quibusdam fugit architecto.</p>
+                    </div>
+                    <div class="col-md-3 ml-auto">
+                        <h2 class="footer-heading text-uppercase mb-4">Quick Links</h2>
+                        <ul class="list-unstyled">
+                            <li><a th:href="@{notifications}">Notifications</a></li>
+                            <li><a th:href="@{login}">Login</a></li>
+                            <li><a th:href="@{subscriptions}">Subscriptions</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-md-4">
+                        <h2 class="footer-heading text-uppercase mb-4">Follow me at</h2>
+                        <p>
+                            <a href="#" class="p-2 pl-0"><span class="icon-facebook"></span></a>
+                            <a href="#" class="p-2"><span class="icon-twitter"></span></a>
+                            <a href="#" class="p-2"><span class="icon-youtube"></span></a>
+                            <a href="#" class="p-2"><span class="icon-instagram"></span></a>
+                        </p>
+                    </div>
+                </div>
+                <div class="row">
+
+                    <div class="col-md-12 text-center">
+                        <div class="border-top pt-5">
+                            <p>
+                                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                                Copyright &copy; <script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="icon-heart text-primary" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank" >Colorlib</a>
+                                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </th:block>
+
+    <th:block th:fragment="stylesheets">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Mono">
+        <link rel="stylesheet" href="static/fonts/icomoon/style.css">
+        <link rel="stylesheet" href="static/css/bootstrap.min.css">
+        <link rel="stylesheet" href="static/css/magnific-popup.css">
+        <link rel="stylesheet" href="static/css/jquery-ui.css">
+        <link rel="stylesheet" href="static/css/owl.carousel.min.css">
+        <link rel="stylesheet" href="static/css/owl.theme.default.min.css">
+        <link rel="stylesheet" href="static/css/bootstrap-datepicker.css">
+        <link rel="stylesheet" href="static/fonts/flaticon/font/flaticon.css">
+        <link rel="stylesheet" href="static/css/aos.css">
+        <link rel="stylesheet" href="static/css/style.css">
+    </th:block>
+
+    <th:block th:fragment="scripts">
+        <script src="static/js/jquery-3.3.1.min.js"></script>
+        <script src="static/js/jquery-migrate-3.0.1.min.js"></script>
+        <script src="static/js/jquery-ui.js"></script>
+        <script src="static/js/popper.min.js"></script>
+        <script src="static/js/bootstrap.min.js"></script>
+        <script src="static/js/owl.carousel.min.js"></script>
+        <script src="static/js/jquery.stellar.min.js"></script>
+        <script src="static/js/jquery.countdown.min.js"></script>
+        <script src="static/js/jquery.magnific-popup.min.js"></script>
+        <script src="static/js/bootstrap-datepicker.min.js"></script>
+        <script src="static/js/aos.js"></script>
+        <script src="static/js/main.js"></script>
+    </th:block>
+
+</body>

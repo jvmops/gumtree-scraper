@@ -11,6 +11,13 @@ version = '1.0.1'
 sourceCompatibility = JavaVersion.VERSION_13
 libsDirName = 'app'
 
+configurations {
+	developmentOnly
+	runtimeClasspath {
+		extendsFrom developmentOnly
+	}
+}
+
 repositories {
 	mavenCentral()
 	maven { url 'https://repo.spring.io/milestone' }
@@ -35,6 +42,7 @@ dependencies {
 	testCompileOnly 'org.projectlombok:lombok'
 	testAnnotationProcessor 'org.projectlombok:lombok'
 
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	testImplementation "org.testcontainers:testcontainers:$testcontainersVersion"
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
