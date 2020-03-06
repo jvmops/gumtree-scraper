@@ -20,7 +20,7 @@ jobs:
     - uses: actions/upload-artifact@v1
       with:
         name: app
-        path: build/libs/gumtree-scrapper.jar
+        path: build/app/gumtree-scrapper.jar
   build-docker:
     runs-on: ubuntu-latest
     needs: build-gradle
