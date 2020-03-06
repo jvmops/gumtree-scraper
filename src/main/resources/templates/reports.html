@@ -11,7 +11,7 @@
 
         <div class="site-section site-hero">
             <div class="container">
-                <div class="row">
+                <div class="row align-items-center">
                     <div class="col-md-12" data-aos="fade-up">
                         <span class="d-block mb-3 caption" data-aos="fade-up" data-aos-delay="100">To be notified or not?</span>
                         <h1 class="d-block mb-4" data-aos="fade-up" data-aos-delay="200">You decide</h1>
@@ -21,12 +21,11 @@
         </div>
 
         <div class="site-section">
+
             <div class="container">
                 <div class="row">
                     <div class="col-md-6" data-aos="fade-up">
-
                         <form method="post" th:action="@{reports}" th:object="${emailMapping}">
-
                             <div class="row form-group">
                                 <div class="col-md-6 mb-3 mb-md-0">
                                     <input id="city" type="text" class="form-control" placeholder="city"
@@ -43,13 +42,11 @@
                                            th:field="*{email}">
                                 </div>
                             </div>
-
                             <div class="row form-group">
                                 <div class="col-md-12">
                                     <input type="submit" value="Notify me" class="btn btn-primary py-2 px-4 text-white">
                                 </div>
                             </div>
-
                         </form>
                         <br/>
                         <span>By submitting this form you are sending yourself an email with the latest crawler findings.
@@ -57,10 +54,8 @@
                     </div>
                 </div>
             </div>
+
         </div>
-
-
-
 
 
         <th:block th:replace="shared :: footer"/>

@@ -1,92 +1,97 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-    <head>
-        <title>Apartments :: Subsciptions</title>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-        <th:block th:replace="shared :: stylesheets"/>
-    </head>
-    <body>
-        <div class="site-wrap">
-            <th:block th:replace="shared :: navbar"/>
+<head>
+    <title>Apartments :: Subsciptions</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <th:block th:replace="shared :: stylesheets"/>
+</head>
+<body>
+    <div class="site-wrap">
+        <th:block th:replace="shared :: navbar"/>
 
-            <div class="site-section site-hero">
+        <div class="site-section site-hero">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-md-10" data-aos="fade-up">
+                        <span class="d-block mb-3 caption" data-aos="fade-up" data-aos-delay="100">New subscribers?</span>
+                        <h1 class="d-block mb-4" data-aos="fade-up" data-aos-delay="200">Terrific!</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-                <div class="container">
-                    <div class="row align-items-center">
-                        <div class="col-md-10">
-                            <span class="d-block mb-3 caption" data-aos="fade-up" data-aos-delay="100">New subscribers?</span>
-                            <h1 class="d-block mb-4" data-aos="fade-up" data-aos-delay="200">Terrific!</h1>
-                        </div>
+        <div class="site-section">
+
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6" data-aos="fade-up">
+                        <form method="post" th:action="@{cities}" th:object="${cityEmail}">
+                            <div class="row form-group">
+                                <div class="col-md-6 mb-3 mb-md-0">
+                                    <input id="city" type="text" class="form-control" placeholder="city"
+                                           aria-describedby="sizing-addon2"
+                                           onfocus="this.removeAttribute('readonly');"
+                                           readonly="readonly"
+                                           th:field="*{city}">
+                                </div>
+                                <div class="col-md-6">
+                                    <input id="email" type="text" class="form-control" placeholder="email"
+                                           aria-describedby="sizing-addon2"
+                                           onfocus="this.removeAttribute('readonly');"
+                                           readonly="readonly"
+                                           th:field="*{email}">
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col-md-12">
+                                    <input type="submit" value="Subscribe" class="btn btn-primary py-2 px-4 text-white">
+                                </div>
+                            </div>
+                        </form>
+                        <br/>
+                        <span>This subscription will deliver you daily the latest crawler findings.</span>
                     </div>
                 </div>
 
             </div>
 
-            <div class="site-section">
+        </div>
 
-                <div class="container">
-                    <form class="py-4" method="post" th:action="@{cities}" th:object="${cityEmail}">
-                        <div class="btn-toolbar" role="toolbar" aria-label="add city">
-                            <div class="input-group px-2">
-                                <input type="text" class="form-control" placeholder="city"
-                                       aria-describedby="sizing-addon2"
-                                       onfocus="this.removeAttribute('readonly');"
-                                       readonly="readonly"
-                                       th:field="*{city}"/>
-                            </div>
-                            <div class="input-group px-2">
-                                <input type="text" class="form-control" placeholder="email"
-                                       aria-describedby="sizing-addon2"
-                                       onfocus="this.removeAttribute('readonly');"
-                                       readonly="readonly"
-                                       th:field="*{email}"/>
-                            </div>
-                            <div class="btn-group px-2" role="group" aria-label="First group">
-                                <button type="submit" class="btn btn-secondary">
-                                    <span>Subscribe</span>
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
+        <div class="site-section">
 
+            <div class="container">
+                <table id="subscriptions" class="table table-light table-hover">
+                    <thead>
+                    <tr>
+                        <th scope="col" style="width:20%">City</th>
+                        <th scope="col" style="width:80%">Subscribers</th>
+                    </tr>
+                    </thead>
+                    <tbody th:each="city : ${cities}">
+                    <tr>
+                        <td th:text="${city.name}">katowice</td>
+                        <!--                <td>-->
+                        <!--                    <form method="post"-->
+                        <!--                          th:action="@{/accounts/{accountId}/activations(accountId=${account.id})}">-->
+                        <!--                        <input th:id="${'account-' + account.id}"-->
+                        <!--                               type="checkbox"-->
+                        <!--                               th:checked="${account.active}"-->
+                        <!--                               onchange="this.form.submit()"/>-->
+                        <!--                        <label th:for="${'account-' + account.id}" class="ml-4"></label>-->
+                        <!--                    </form>-->
+                        <!--                </td>-->
+                        <td th:text="${city.emails}">[some@email.com, other@email.com]</td>
+                    </tr>
+                    </tbody>
+                </table>
             </div>
-
-            <div class="site-section">
-
-                <div class="container">
-                    <table id="subscriptions" class="table table-light table-hover">
-                        <thead>
-                        <tr>
-                            <th scope="col" style="width:20%">City</th>
-                            <th scope="col" style="width:80%">Subscribers</th>
-                        </tr>
-                        </thead>
-                        <tbody th:each="city : ${cities}">
-                        <tr>
-                            <td th:text="${city.name}">katowice</td>
-                            <!--                <td>-->
-                            <!--                    <form method="post"-->
-                            <!--                          th:action="@{/accounts/{accountId}/activations(accountId=${account.id})}">-->
-                            <!--                        <input th:id="${'account-' + account.id}"-->
-                            <!--                               type="checkbox"-->
-                            <!--                               th:checked="${account.active}"-->
-                            <!--                               onchange="this.form.submit()"/>-->
-                            <!--                        <label th:for="${'account-' + account.id}" class="ml-4"></label>-->
-                            <!--                    </form>-->
-                            <!--                </td>-->
-                            <td th:text="${city.emails}">[some@email.com, other@email.com]</td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-            </div>
-
-            <th:block th:replace="shared :: footer"/>
 
         </div>
 
-        <th:block th:replace="shared :: scripts"/>
-    </body>
+        <th:block th:replace="shared :: footer"/>
+
+    </div>
+
+    <th:block th:replace="shared :: scripts"/>
+</body>
 </html>
