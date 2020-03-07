@@ -19,15 +19,15 @@ public class ReportController {
     private ReportService reportService;
 
     @GetMapping
-    public String sendEmailView(Model model) {
+    public String notification(Model model) {
         model.addAttribute("emailMapping", new CityEmailDto());
         return "reports";
     }
 
     @PostMapping
-    public String sentReport(@Valid CityEmailDto emailMapping) {
+    public String sentReport(@Valid CityEmailDto cityEmail) {
         reportService.createReportAndNotifySingleEmail(
-                emailMapping.getCity(), emailMapping.getEmail());
+                cityEmail.getCity(), cityEmail.getEmail());
         return "redirect:/";
     }
 }
