@@ -31,7 +31,7 @@ docker-compose up -d
 
 Website should be available at: http://localhost:8080/cities
 
-Running from a docker registry
+## Running from a docker registry
 Docker image is available at [docker hub](https://hub.docker.com/r/jvmops/gumtree-scrapper)
 ```
 docker pull jvmops/gumtree-scrapper
