@@ -1,6 +1,5 @@
 package com.jvmops.gumtree.security;
 
-import com.jvmops.gumtree.user.JvmopsUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -14,18 +13,11 @@ import org.thymeleaf.extras.springsecurity4.dialect.SpringSecurityDialect;
 import javax.annotation.PostConstruct;
 
 @Configuration
+@Profile("web")
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     TemplateEngine templateEngine;
-
-    @Autowired
-    private JvmopsUserRepository jvmopsUserRepository;
-
-//    @Override
-//    public UserDetailsService userDetailsServiceBean() throws Exception {
-//        return new JvmopsUserDetailsService(jvmopsUserRepository);
-//    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
