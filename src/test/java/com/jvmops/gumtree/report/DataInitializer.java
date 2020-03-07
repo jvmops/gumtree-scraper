@@ -1,7 +1,7 @@
 package com.jvmops.gumtree.report;
 
 import com.jvmops.gumtree.MongoTest;
-import com.jvmops.gumtree.config.Time;
+import com.jvmops.gumtree.Time;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;

@@ -1,6 +1,5 @@
 package com.jvmops.gumtree;
 
-import com.jvmops.gumtree.config.Time;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;

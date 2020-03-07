@@ -1,7 +1,7 @@
 package com.jvmops.gumtree.report;
 
 import com.jvmops.gumtree.city.City;
-import com.jvmops.gumtree.config.Time;
+import com.jvmops.gumtree.Time;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Lazy;

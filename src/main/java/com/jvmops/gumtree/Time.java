@@ -1,4 +1,4 @@
-package com.jvmops.gumtree.config;
+package com.jvmops.gumtree;
 
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.stereotype.Component;

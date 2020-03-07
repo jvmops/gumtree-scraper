@@ -1,4 +1,4 @@
-package com.jvmops.gumtree.config;
+package com.jvmops.gumtree;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;

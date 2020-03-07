@@ -1,7 +1,7 @@
 package com.jvmops.gumtree.scrapper;
 
 import com.jvmops.gumtree.MongoTest;
-import com.jvmops.gumtree.config.Time;
+import com.jvmops.gumtree.Time;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +15,7 @@ abstract class DataInitializer extends MongoTest {
     @Autowired
     protected ScrappedAdRepository scrappedAdRepository;
     @Autowired
-    protected Time time; // constant - check CustomTime class
+    protected Time time;
 
     @BeforeEach
     private void insertData() {

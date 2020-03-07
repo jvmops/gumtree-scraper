@@ -1,4 +1,4 @@
-package com.jvmops.gumtree.security;
+package com.jvmops.gumtree;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -35,12 +35,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .logoutSuccessUrl("/");
     }
 
-    // TODO: very very ugly hack - try think of something better
-    @PostConstruct
-    void addDialect() {
-        templateEngine.addDialect(new SpringSecurityDialect());
-    }
-
     @Profile("web")
     @Configuration
     class SecurityWebConfig implements WebMvcConfigurer {
@@ -48,5 +42,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         public void addViewControllers(ViewControllerRegistry registry) {
             registry.addViewController("/login").setViewName("login");
         }
+    }
+
+    // TODO: very very ugly hack - try think of something better
+    // this is for the sec tag in html (xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4")
+    @PostConstruct
+    void addDialect() {
+        templateEngine.addDialect(new SpringSecurityDialect());
     }
 }
