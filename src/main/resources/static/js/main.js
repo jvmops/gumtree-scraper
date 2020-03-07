@@ -240,11 +240,11 @@ jQuery(document).ready(function($) {
 	siteDatePicker();
 
     function scrollToAnchor(aid){
-        var aTag = $("#this_is_more");
+        var aTag = $("#this_is_all");
         $('html,body').animate({scrollTop: aTag.offset().top},'slow');
     }
 
-    $("#read_more").click(function() {
-       scrollToAnchor('this_is_more');
+    $("#see_them_all").click(function() {
+       scrollToAnchor('this_is_all');
     });
 });
