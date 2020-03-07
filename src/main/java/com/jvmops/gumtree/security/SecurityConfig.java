@@ -37,7 +37,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .anyRequest().authenticated()
                 .and().formLogin()
                     .loginPage("/login")
-                    .permitAll();
+                .defaultSuccessUrl("/cities")
+                    .permitAll()
+                .and().logout()
+                    .logoutSuccessUrl("/");
     }
 
     // TODO: very very ugly hack - try think of something better
