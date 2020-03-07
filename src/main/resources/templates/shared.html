@@ -30,9 +30,6 @@
                                 <li th:classappend="${#request.requestURI.equals('/subscriptions') ? 'active':''}">
                                     <a th:href="@{/cities}" href="subscriptions.html">Subscriptions</a>
                                 </li>
-                                <li th:classappend="${#request.requestURI.equals('/login') ? 'active':''}">
-                                    <a th:href="@{login}" href="apps.html">Login</a>
-                                </li>
                                 <li th:classappend="${#request.requestURI.equals('/notifications') ? 'active':''}" class="cta">
                                     <a th:href="@{reports}" href="notifications.html">Notifications</a>
                                 </li>
@@ -60,6 +57,7 @@
                         <ul class="list-unstyled">
                             <li><a th:href="@{notifications}">Notifications</a></li>
                             <li><a th:href="@{login}">Login</a></li>
+                            <li><a th:href="@{subscriptions}">Homepage</a></li>
                             <li><a th:href="@{subscriptions}">Subscriptions</a></li>
                         </ul>
                     </div>
