@@ -28,10 +28,10 @@
                     <div class="col-12 col-md-10 d-none d-xl-block">
                         <nav class="site-navigation position-relative text-right" role="navigation">
                             <ul class="site-menu js-clone-nav mx-auto d-none d-lg-block">
-                                <li sec:authorize="hasRole('ROLE_ADMIN')">
+                                <li sec:authorize="isAuthenticated()">
                                     <a th:href="@{/logout}" href="logout">Log out</a>
                                 </li>
-                                <li sec:authorize="hasRole('ROLE_ADMIN')" th:classappend="${#request.requestURI.equals('/cities') ? 'active':''}">
+                                <li sec:authorize="isAuthenticated()" th:classappend="${#request.requestURI.equals('/cities') ? 'active':''}">
                                     <a th:href="@{/cities}" href="subscriptions.html">Subscriptions</a>
                                 </li>
                                 <li th:classappend="${#request.requestURI.equals('/notifications') ? 'active':''}" class="cta">
@@ -62,7 +62,7 @@
                             <li><a th:href="@{/}">Notifications</a></li>
                             <li><a th:href="@{login}">Login</a></li>
                             <li><a th:href="@{https://jvmops.com}">Homepage</a></li>
-                            <li><a th:href="@{subscriptions}">Subscriptions</a></li>
+                            <li sec:authorize="isAuthenticated()"><a th:href="@{cities}">Subscriptions</a></li>
                         </ul>
                     </div>
                     <div class="col-md-4">
