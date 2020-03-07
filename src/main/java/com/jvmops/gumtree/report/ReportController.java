@@ -13,7 +13,7 @@ import javax.validation.Valid;
 
 @Profile("web")
 @Controller
-@RequestMapping("/reports")
+@RequestMapping("/")
 @AllArgsConstructor
 public class ReportController {
     private ReportService reportService;
@@ -28,6 +28,6 @@ public class ReportController {
     public String sentReport(@Valid CityEmailDto emailMapping) {
         reportService.createReportAndNotifySingleEmail(
                 emailMapping.getCity(), emailMapping.getEmail());
-        return "redirect:/reports";
+        return "redirect:/";
     }
 }

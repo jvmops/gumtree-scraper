@@ -35,6 +35,8 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-mail'
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity4:3.0.4.RELEASE'
 	implementation "org.jsoup:jsoup:$jsoupVersion"
 
 	compileOnly 'org.projectlombok:lombok'
@@ -47,6 +49,7 @@ dependencies {
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
 	}
+	testImplementation 'org.springframework.security:spring-security-test'
 }
 
 bootJar {
