@@ -61,6 +61,6 @@ class GmailClient implements NotificationSender {
 
     private String processHtmlTemplate(ApartmentReport apartmentReport) {
         Context context = new Context(Locale.ENGLISH);
-        return templateEngine.process("mail/report.html", context);
+        return templateEngine.process("email/report.html", context);
     }
 }
