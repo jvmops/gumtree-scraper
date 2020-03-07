@@ -6,9 +6,12 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.Context;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
+import java.util.Locale;
 import java.util.Set;
 
 import static org.springframework.util.CollectionUtils.isEmpty;
@@ -21,6 +24,7 @@ class GmailClient implements NotificationSender {
     private static final String TITLE_PATTERN = "%s apartments report";
 
     private final JavaMailSender emailSender;
+    private final TemplateEngine templateEngine;
 
     @Override
     public void send(ApartmentReport apartmentReport) {
@@ -42,14 +46,21 @@ class GmailClient implements NotificationSender {
     }
 
     void sendEmail(ApartmentReport apartmentReport, Set<String> emails) throws MessagingException {
+        String html = processHtmlTemplate(apartmentReport);
+
         MimeMessage message = emailSender.createMimeMessage();
 
         MimeMessageHelper helper = new MimeMessageHelper(message, "UTF-8");
 
         helper.setBcc(emails.toArray(new String[0]));
         helper.setSubject(String.format(TITLE_PATTERN, apartmentReport.getCity()));
-        helper.setText(apartmentReport.getReport());
+        helper.setText(html);
 
         emailSender.send(message);
+    }
+
+    private String processHtmlTemplate(ApartmentReport apartmentReport) {
+        Context context = new Context(Locale.ENGLISH);
+        return templateEngine.process("mail/report.html", context);
     }
 }
