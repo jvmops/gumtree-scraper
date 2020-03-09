@@ -2,6 +2,7 @@ package com.jvmops.gumtree.scrapper;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -76,13 +77,13 @@ class JSoupScrapperTest {
 }
 
 @Getter
-@AllArgsConstructor
+@RequiredArgsConstructor
 enum HtmlFile {
     AD_LISTING(GUMTREE_URL + "/ad-listing", toString(new ClassPathResource("html/ad_listing.html"))),
     AD_DETAILS(GUMTREE_URL + "/ad-details", toString(new ClassPathResource("html/ad_details.html")));
 
-    private String url;
-    private String html;
+    private final String url;
+    private final String html;
 
     private static String toString(Resource resource) {
         try (InputStream is = resource.getInputStream()) {

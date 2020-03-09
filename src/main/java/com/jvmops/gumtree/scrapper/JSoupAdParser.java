@@ -32,6 +32,7 @@ class JSoupAdParser {
                 .url(listedAd.getUrl())
                 .title(listedAd.getTitle())
                 .description(description)
+                // TODO: mb check if there is a price somewhere in the description?
                 .price(listedAd.getPrice())
                 .availableSince(adAttributes.getAvailableSince())
                 .landlord(adAttributes.getLandlord())

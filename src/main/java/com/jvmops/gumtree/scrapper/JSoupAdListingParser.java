@@ -7,6 +7,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -16,7 +17,7 @@ import static com.jvmops.gumtree.scrapper.ScrapJob.GUMTREE_URL;
 @Component
 @Slf4j
 @AllArgsConstructor
-class JSoupAdListingParser {
+class JSoupAdListingParser implements PriceParser {
     private HtmlProvider htmlProvider;
 
     List<ListedAd> scrap(String adListingUrl) {
@@ -36,15 +37,13 @@ class JSoupAdListingParser {
     private ListedAd parseListedAd(Element adFromList) {
         Element title = adFromList.select("div.title").first();
         String url = title.select("a[href]").attr("href");
-        String price = adFromList.selectFirst("span.ad-price").text()
-                .replace("zł", "")
-                .trim()
-                .replace(" ", "");
+        String priceSpanValue = adFromList.selectFirst("span.price-text").text();
+        Integer price = parse(priceSpanValue);
 
         return ListedAd.builder()
                 .url(GUMTREE_URL + url)
                 .title(title.text().trim())
-                .price(Integer.valueOf(price))
+                .price(price)
                 .build();
     }
 }
