@@ -53,7 +53,7 @@ class GmailClient implements NotificationSender {
         MimeMessageHelper helper = new MimeMessageHelper(message, "UTF-8");
 
         helper.setBcc(emails.toArray(new String[0]));
-        helper.setSubject(String.format(TITLE_PATTERN, apartmentReport.getCity()));
+        helper.setSubject(String.format(TITLE_PATTERN, apartmentReport.getCity().getName()));
         helper.setText(html);
 
         emailSender.send(message);
@@ -61,6 +61,6 @@ class GmailClient implements NotificationSender {
 
     private String processHtmlTemplate(ApartmentReport apartmentReport) {
         Context context = new Context(Locale.ENGLISH);
-        return templateEngine.process("email/report.html", context);
+        return templateEngine.process("email/responsive.html", context);
     }
 }
