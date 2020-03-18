@@ -34,6 +34,9 @@
                                 <li sec:authorize="isAuthenticated()" th:classappend="${#request.requestURI.equals('/cities') ? 'active':''}">
                                     <a th:href="@{/cities}" href="subscriptions.html">Subscriptions</a>
                                 </li>
+                                <li>
+                                    <a th:href="@{https://github.com/jvmops/gumtree-scrapper}" href="https://github.com/jvmops/gumtree-scrapper">Github</a>
+                                </li>
                                 <li th:classappend="${#request.requestURI.equals('/notifications') ? 'active':''}" class="cta">
                                     <a th:href="@{/}" href="notifications.html">Notifications</a>
                                 </li>
@@ -51,12 +54,12 @@
         <footer class="site-footer">
             <div class="container">
                 <div class="row mb-5">
-                    <div class="col-md-4">
+                    <div class="col-md-4 mb-5">
                         <h2 class="footer-heading text-uppercase mb-4">Apartments app</h2>
                         This is a web crawler that is scrapping popular polish real estate portal. Scrapped ads are filtered from duplicates
                         and organized. Report with interesting findings is distributed to the concerned parties via a daily email.
                     </div>
-                    <div class="col-md-3 ml-auto">
+                    <div class="col-md-3 ml-auto mb-5">
                         <h2 class="footer-heading text-uppercase mb-4">Quick Links</h2>
                         <ul class="list-unstyled">
                             <li><a th:href="@{/}">Notifications</a></li>
@@ -65,7 +68,7 @@
                             <li sec:authorize="isAuthenticated()"><a th:href="@{cities}">Subscriptions</a></li>
                         </ul>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-4 mb-5">
                         <h2 class="footer-heading text-uppercase mb-4">Follow me at</h2>
                         <p>
                             <a href="#" class="p-2 pl-0"><span class="icon-facebook"></span></a>
