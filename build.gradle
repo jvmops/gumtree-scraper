@@ -8,7 +8,7 @@ plugins {
 
 group = 'com.jvmops'
 version = '1.0.1'
-sourceCompatibility = JavaVersion.VERSION_13
+sourceCompatibility = JavaVersion.VERSION_14
 libsDirName = 'app'
 
 configurations {

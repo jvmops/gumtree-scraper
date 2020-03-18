@@ -10,7 +10,7 @@ jobs:
     steps:
     - name: git checkout
       uses: actions/checkout@v1
-    - name: JDK 13 setup
+    - name: JDK 14 setup
       uses: actions/setup-java@v1
       with:
-        java-version: 13
+        java-version: 14-ea

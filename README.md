@@ -12,7 +12,7 @@ This app solves that problem. It scrap ads, watch for duplicated offers and gath
 
 ## Building from sources:
 To build and run this app you need:
-- JDK 13
+- JDK 14
 - docker
 - docker-compose
 

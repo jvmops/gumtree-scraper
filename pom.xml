@@ -15,7 +15,7 @@
 	<description>Searching for an apartment made effortless</description>
 
 	<properties>
-		<java.version>13</java.version>
+		<java.version>14</java.version>
 		<jsoup.version>1.12.1</jsoup.version>
 		<testcontainers.version>1.12.5</testcontainers.version>
 		<sonar-maven-plugin.version>3.7.0.1746</sonar-maven-plugin.version>
