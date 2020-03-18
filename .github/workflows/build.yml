@@ -29,6 +29,7 @@ jobs:
     - uses: actions/download-artifact@v1
       with:
         name: app
+        path: build/app/
     - name: Setup git ssh access for tag management
       uses: webfactory/ssh-agent@v0.1.1
       with:
