@@ -99,7 +99,7 @@ h1, h2, h3, h4, h5,
   padding: 2.5em 0; }
   @media (min-width: 768px) {
     .site-section {
-      padding: 10em 0; } }
+      padding: 5em 0; } }
   .site-section.site-section-sm {
     padding: 4em 0; }
 
@@ -604,10 +604,10 @@ h1, h2, h3, h4, h5,
   max-width: 1400px; }
 
 .site-hero {
-  margin-bottom: 1rem; }
+  padding-top: 6rem; }
   .site-hero, .site-hero .row {
-    min-height: 300px;
-    height: calc(30vh - 95px); }
+    min-height: 150px;
+    height: calc(5vh - 95px); }
   .site-hero.inner, .site-hero.inner .row {
     min-height: 400px;
     height: calc(50vh - 95px); }
@@ -625,6 +625,8 @@ h1, h2, h3, h4, h5,
   .site-hero .caption {
     color: #fff; }
     @media (min-width: 768px) {
+      .site-hero {
+        padding-top: 10em; }
       .site-hero .caption {
         font-size: 1.7rem; } }
 

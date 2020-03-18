@@ -15,8 +15,7 @@
             <div class="container">
                 <div class="row align-items-center">
                     <div class="col-md-12" data-aos="fade-up">
-                        <span class="d-block mb-3 caption" data-aos="fade-up" data-aos-delay="100">Down for a report?</span>
-                        <h1 class="d-block mb-4" data-aos="fade-up" data-aos-delay="200">You decide</h1>
+                        <span class="d-block mb-5 caption" data-aos="fade-up" data-aos-delay="100">Down for a report?</span>
                     </div>
                 </div>
             </div>
@@ -26,7 +25,7 @@
 
             <div class="container">
                 <div class="row">
-                    <div class="col-md-6" data-aos="fade-up">
+                    <div class="col-md-8" data-aos="fade-up">
                         <form method="post" th:action="@{reports}" th:object="${emailMapping}">
                             <div class="row form-group">
                                 <div class="dropdown">
@@ -46,7 +45,7 @@
 <!--                                        </div>-->
 <!--                                    </div>-->
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-auto">
                                     <input id="email" type="text" class="form-control" placeholder="email"
                                            aria-describedby="sizing-addon2"
                                            onfocus="this.removeAttribute('readonly');"
@@ -60,9 +59,10 @@
                                 </div>
                             </div>
                         </form>
-                        <br/>
-                        <span>By submitting this form you are sending yourself a single email with the latest crawler findings.
-                            Those findings are the most recent and relevant apartment ads posted on a popular polish website.</span>
+                        <div class="mt-5 mb-5">
+                            <span>By submitting this form you are sending yourself a single email with the latest crawler findings.
+                                Those findings are the most recent and relevant apartment ads posted on a popular polish website.</span>
+                        </div>
                     </div>
                 </div>
             </div>
