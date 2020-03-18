@@ -63,7 +63,8 @@
                         <h2 class="footer-heading text-uppercase mb-4">Quick Links</h2>
                         <ul class="list-unstyled">
                             <li><a th:href="@{/}">Notifications</a></li>
-                            <li><a th:href="@{login}">Login</a></li>
+                            <li class="mb-4"><a th:href="@{login}">Login</a></li>
+                            <li><a th:href="@{https://github.com/jvmops/gumtree-scrapper}">Github</a></li>
                             <li><a th:href="@{https://jvmops.com}">Homepage</a></li>
                             <li sec:authorize="isAuthenticated()"><a th:href="@{cities}">Subscriptions</a></li>
                         </ul>
