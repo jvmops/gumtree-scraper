@@ -49,18 +49,20 @@ class GmailClient implements NotificationSender {
         String html = processHtmlTemplate(apartmentReport);
 
         MimeMessage message = emailSender.createMimeMessage();
+        message.setContent(html, "text/html; charset=utf-8");
 
         MimeMessageHelper helper = new MimeMessageHelper(message, "UTF-8");
 
         helper.setBcc(emails.toArray(new String[0]));
         helper.setSubject(String.format(TITLE_PATTERN, apartmentReport.getCity().getName()));
-        helper.setText(html);
 
         emailSender.send(message);
     }
 
     private String processHtmlTemplate(ApartmentReport apartmentReport) {
         Context context = new Context(Locale.ENGLISH);
-        return templateEngine.process("email/responsive.html", context);
+        context.setVariable("city", apartmentReport.getCity().getName());
+        context.setVariable("report", apartmentReport);
+        return templateEngine.process("email/report.html", context);
     }
 }

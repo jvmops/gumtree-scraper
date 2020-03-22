@@ -27,7 +27,7 @@ public class ReportService {
     @SuppressWarnings("squid:S3864")
     public void createReportAndNotifyForEachCity() {
         cityService.cities().stream()
-                .peek(city -> log.info("Creating {} apartment report", city))
+                .peek(city -> log.info("Creating {} apartment report", city.getName()))
                 .map(apartmentReportFactory::create)
                 .peek(report -> log.info("Sending {} apartment report to {}", report.getCity().getName(), report.getCity().getNotifications()))
                 .forEach(notificationSender::send);

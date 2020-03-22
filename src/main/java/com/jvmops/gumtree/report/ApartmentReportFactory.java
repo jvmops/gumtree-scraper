@@ -26,8 +26,8 @@ class ApartmentReportFactory {
         List<Ad> newestAds = newestAds(city.getName());
         List<Ad> gasApartments = gasApartments(city.getName());
         List<Ad> cheapestApartments = cheapestApartments(city.getName());
-        log.info("Creating {} ApartmentReport :: newestAds.size() == {} :: gasApartments.size() == {} :: cheapestApartments.size() == {}",
-                city, newestAds.size(), gasApartments.size(), cheapestApartments.size());
+        log.info("ApartmentReport :: newestAds.size() == {} :: gasApartments.size() == {} :: cheapestApartments.size() == {}",
+                newestAds.size(), gasApartments.size(), cheapestApartments.size());
         var apartmentReport = new ApartmentReport(city, newestAds, gasApartments, cheapestApartments);
         log.debug(apartmentReport.toString());
         return apartmentReport;
