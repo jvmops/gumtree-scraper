@@ -1,9 +1,9 @@
 plugins {
-	id 'org.springframework.boot' version '2.2.5.RELEASE'
+	id 'org.springframework.boot' version '2.2.6.RELEASE'
 	id 'io.spring.dependency-management' version '1.0.9.RELEASE'
 	id 'java'
 	id 'jacoco'
-	id "io.freefair.lombok" version "5.0.0-rc4"
+	id "io.freefair.lombok" version "5.0.0-rc6"
 }
 
 group = 'com.jvmops'
@@ -20,12 +20,11 @@ configurations {
 
 repositories {
 	mavenCentral()
-	maven { url 'https://repo.spring.io/milestone' }
 }
 
 ext {
 	jsoupVersion = '1.12.1'
-	testcontainersVersion = '1.12.5'
+	testcontainersVersion = '1.13.0'
 }
 
 dependencies {
@@ -37,6 +36,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity4:3.0.4.RELEASE'
+//	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5:3.0.4.RELEASE'
 	implementation "org.jsoup:jsoup:$jsoupVersion"
 
 	compileOnly 'org.projectlombok:lombok'
