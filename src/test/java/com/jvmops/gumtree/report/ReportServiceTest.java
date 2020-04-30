@@ -1,7 +1,6 @@
 package com.jvmops.gumtree.report;
 
 import com.jvmops.gumtree.Main;
-import com.jvmops.gumtree.MongoTest;
 import com.jvmops.gumtree.city.City;
 import com.jvmops.gumtree.city.CityService;
 import org.junit.jupiter.api.BeforeEach;
@@ -10,13 +9,10 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ContextConfiguration;
 
 import java.util.Set;
 
 @SpringBootTest(classes = Main.class)
-@ContextConfiguration(
-        initializers = MongoTest.Initializer.class)
 class ReportServiceTest extends DataInitializer {
     @Autowired
     private ApartmentReportFactory apartmentReportFactory;

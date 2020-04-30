@@ -1,19 +1,15 @@
 package com.jvmops.gumtree.report;
 
 import com.jvmops.gumtree.Main;
-import com.jvmops.gumtree.MongoTest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.EnabledIf;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @EnabledIf(expression = "#{systemProperties['spring.mail.password'] != null}")
 @SpringBootTest(classes = Main.class)
-@ContextConfiguration(
-        initializers = MongoTest.Initializer.class)
 @Slf4j
 class MailSendingTest extends DataInitializer {
     @Autowired

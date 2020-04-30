@@ -1,18 +1,14 @@
 package com.jvmops.gumtree.report;
 
 import com.jvmops.gumtree.Main;
-import com.jvmops.gumtree.MongoTest;
 import com.jvmops.gumtree.city.City;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ContextConfiguration;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest(classes = Main.class)
-@ContextConfiguration(
-        initializers = MongoTest.Initializer.class)
 class ApartmentReportFactoryTest extends DataInitializer {
 
     @Autowired

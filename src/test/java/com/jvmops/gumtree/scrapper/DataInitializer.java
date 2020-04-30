@@ -1,6 +1,5 @@
 package com.jvmops.gumtree.scrapper;
 
-import com.jvmops.gumtree.MongoTest;
 import com.jvmops.gumtree.Time;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
@@ -10,7 +9,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Slf4j
-abstract class DataInitializer extends MongoTest {
+abstract class DataInitializer {
 
     @Autowired
     protected ScrappedAdRepository scrappedAdRepository;
@@ -19,7 +18,7 @@ abstract class DataInitializer extends MongoTest {
 
     @BeforeEach
     private void insertData() {
-        deleteAll();
+        scrappedAdRepository.deleteAll();
         createTestAds().forEach(scrappedAdRepository::save);
     }
 

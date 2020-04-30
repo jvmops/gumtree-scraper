@@ -1,6 +1,5 @@
 package com.jvmops.gumtree.scrapper;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Assertions;

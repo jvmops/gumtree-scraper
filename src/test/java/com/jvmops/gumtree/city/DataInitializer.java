@@ -1,6 +1,5 @@
 package com.jvmops.gumtree.city;
 
-import com.jvmops.gumtree.MongoTest;
 import com.jvmops.gumtree.Time;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
@@ -11,7 +10,7 @@ import java.util.List;
 import java.util.Set;
 
 @Slf4j
-abstract class DataInitializer extends MongoTest {
+abstract class DataInitializer {
 
     @Autowired
     private CityRepository cityRepository;

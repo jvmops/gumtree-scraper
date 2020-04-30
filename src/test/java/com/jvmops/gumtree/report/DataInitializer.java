@@ -1,37 +1,27 @@
 package com.jvmops.gumtree.report;
 
-import com.jvmops.gumtree.MongoTest;
+import com.jvmops.gumtree.MongoTestClient;
 import com.jvmops.gumtree.Time;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 import java.util.UUID;
 
 @Slf4j
-abstract class DataInitializer extends MongoTest {
-
-    @Autowired
-    private AdRepository adRepository;
-    @Autowired
-    protected Time time;
+abstract class DataInitializer {
 
     @BeforeAll
-    public static void clearData() {
-        deleteAll();
+    public static void clearData(
+            @Autowired MongoTestClient mongoTestClient,
+            @Autowired AdRepository adRepository,
+            @Autowired Time time) {
+        mongoTestClient.deleteAll();
+        createFewAds(time).forEach(adRepository::save);
     }
 
-    @BeforeEach
-    private void insertDataIfNecessary() {
-        if (adRepository.count() == 0) {
-            log.info("Inserting multiple ads for report tests");
-            createFewAds().forEach(adRepository::save);
-        }
-    }
-
-    private List<Ad> createFewAds() {
+    private static List<Ad> createFewAds(Time time) {
         Ad newAd = Ad.builder()
                 .city("katowice")
                 .title(UUID.randomUUID().toString())
