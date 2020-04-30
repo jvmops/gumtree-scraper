@@ -18,7 +18,7 @@ services:
       args:
         - buildno
         - gitcommithash
-    image: jvmops/gumtree-scrapper:latest
+    image: jvmops/gumtree-scrapper
     restart: always
     depends_on:
       - gumtree-mongo

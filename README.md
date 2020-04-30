@@ -24,7 +24,7 @@ docker build -t jvmops/gumtree-scrapper .
 ```
 
 ## Running 
-Just spin it up
+Just spin it up (image is provided if you don't want to build from sources)
 ```
 docker-compose up -d
 ```
