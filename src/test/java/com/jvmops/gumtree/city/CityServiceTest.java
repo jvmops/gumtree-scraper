@@ -1,19 +1,40 @@
 package com.jvmops.gumtree.city;
 
 import com.jvmops.gumtree.Main;
+import com.jvmops.gumtree.Time;
+import org.bson.types.ObjectId;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DuplicateKeyException;
 
+import java.util.List;
 import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest(classes = Main.class)
-public class CityServiceTest extends DataInitializer {
+public class CityServiceTest {
     @Autowired
     private CityService cityService;
+
+    @Autowired
+    private CityRepository cityRepository;
+    @Autowired
+    private Time time;
+
+    @BeforeEach
+    private void saveCities() {
+        cityRepository.saveAll(createCities());
+    }
+
+    @AfterEach
+    private void deleteCities() {
+        cityRepository.deleteAll();
+    }
 
     @Test
     public void city_name_is_unique() {
@@ -32,19 +53,19 @@ public class CityServiceTest extends DataInitializer {
     }
 
     @Test
-    public void email_can_be_unsubscribed_from_notifications_globally() {
+    public void you_can_subscribe_to_notifications_with_email() {
+        cityService.subscribeToNotifications("Wroclaw", "other@gmail.com");
+        City wroclaw = cityService.findCityByName("Wroclaw");
+        assertEquals(2, wroclaw.getNotifications().size());
+    }
+
+    @Test
+    public void email_can_be_unsubscribed_from_all_notification_lists() {
         cityService.stopNotifications("jvmops@gmail.com");
         City katowice = cityService.findCityByName("Katowice");
         City wroclaw = cityService.findCityByName("Wroclaw");
         assertEquals(1, katowice.getNotifications().size());
         assertEquals(0, wroclaw.getNotifications().size());
-    }
-
-    @Test
-    public void email_can_subscribed_to_notifications() {
-        cityService.subscribeToNotifications("Wroclaw", "other@gmail.com");
-        City wroclaw = cityService.findCityByName("Wroclaw");
-        assertEquals(2, wroclaw.getNotifications().size());
     }
 
     @Test
@@ -54,15 +75,19 @@ public class CityServiceTest extends DataInitializer {
         assertEquals(0, wroclaw.getNotifications().size());
     }
 
-    @Test
-    void config_will_provide_two_cities_to_scrap() {
-        var cities = cityService.cities();
-        assertEquals(2, cities.size());
-    }
-
-    @Test
-    void there_are_two_emails_configured_for_katowice() {
-        Set<String> emails = cityService.emails("Katowice");
-        assertEquals(2, emails.size());
+    private List<City> createCities() {
+        City katowice = City.builder()
+                .id(ObjectId.get())
+                .name("Katowice")
+                .notifications(Set.of("jvmops@gmail.com", "jvmops+test@gmail.com"))
+                .creationTime(time.now())
+                .build();
+        City wroclaw = City.builder()
+                .id(ObjectId.get())
+                .name("Wroclaw")
+                .notifications(Set.of("jvmops@gmail.com"))
+                .creationTime(time.now())
+                .build();
+        return List.of(katowice, wroclaw);
     }
 }
