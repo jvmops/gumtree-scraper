@@ -22,11 +22,11 @@ public class ScrapJob {
 
     private AdScrapper adScrapper;
     private AdEvaluator adEvaluator;
-    private CityService config;
+    private CityService cityService;
 
     @PostConstruct
     void scrapAds() {
-        config.cities().stream()
+        cityService.cities().stream()
                 .map(City::getName)
                 .map(this::scrapAds)
                 .forEach(adEvaluator::processAds);
