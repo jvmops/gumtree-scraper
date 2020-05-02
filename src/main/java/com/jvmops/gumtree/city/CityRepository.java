@@ -7,7 +7,7 @@ import java.util.Optional;
 import java.util.Set;
 
 @Repository
-interface CityRepository extends CrudRepository<City, Long> {
+public interface CityRepository extends CrudRepository<City, Long> {
     Optional<City> findByName(String city);
     Set<City> findAllByNotificationsContaining(String email);
 }

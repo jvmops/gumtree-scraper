@@ -26,13 +26,13 @@ abstract class DataInitializer {
     private List<City> mapEmailsToCities() {
         City katowice = City.builder()
                 .id(ObjectId.get())
-                .name("katowice")
+                .name("Katowice")
                 .notifications(Set.of("jvmops@gmail.com", "jvmops+test@gmail.com"))
                 .creationTime(time.now())
                 .build();
         City wroclaw = City.builder()
                 .id(ObjectId.get())
-                .name("wroclaw")
+                .name("Wroclaw")
                 .notifications(Set.of("jvmops@gmail.com"))
                 .creationTime(time.now())
                 .build();

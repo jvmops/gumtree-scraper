@@ -31,7 +31,7 @@ class ReportServiceTest extends DataInitializer {
     @Test
     void katowice_apartment_report_will_be_send_to_the_concerned_parties() {
         Mockito.when(cityService.cities())
-                .thenReturn(Set.of(new City("katowice")));
+                .thenReturn(Set.of(new City("Katowice")));
 
         reportService.createReportAndNotifyForEachCity();
 
@@ -41,9 +41,9 @@ class ReportServiceTest extends DataInitializer {
     @Test
     void report_can_be_send_on_demand() {
         Mockito.when(cityService.cities())
-                .thenReturn(Set.of(new City("katowice")));
+                .thenReturn(Set.of(new City("Katowice")));
 
-        reportService.createReportAndNotifySingleEmail("katowice", "test@gmail.com");
+        reportService.createReportAndNotifySingleEmail("Katowice", "test@gmail.com");
 
         Mockito.verify(notificationSender).send(
                 Mockito.any(),

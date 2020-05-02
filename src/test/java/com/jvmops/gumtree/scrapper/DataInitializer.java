@@ -34,7 +34,7 @@ abstract class DataInitializer {
     private List<Ad> createTestAds() {
         LocalDateTime lastSeen = time.now().minusWeeks(4);
         Ad thisWillBeModifiedInTest = Ad.builder()
-                .city("katowice")
+                .city("Katowice")
                 .title("Modify this ad")
                 .description("This ad can be modified during tests")
                 .price(1800)
@@ -45,7 +45,7 @@ abstract class DataInitializer {
                 .build();
 
         Ad recentlyPostedApartmentInWroclaw = Ad.builder()
-                .city("wroclaw")
+                .city("Wroclaw")
                 .title("Takie sobie mieszkanie")
                 .description("Ma miejsce parkingowe ale w srodku bieda")
                 .price(2200)

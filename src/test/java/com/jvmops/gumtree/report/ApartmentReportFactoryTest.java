@@ -16,7 +16,7 @@ class ApartmentReportFactoryTest extends DataInitializer {
 
     @Test
     void there_are_no_persisted_ads_from_wroclaw() {
-        var apartmentReport = apartmentReportFactory.create(new City("wroclaw"));
+        var apartmentReport = apartmentReportFactory.create(new City("Wroclaw"));
         assertEquals(0, apartmentReport.getNewApartments().size());
         assertEquals(0, apartmentReport.getGasApartments().size());
         assertEquals(0, apartmentReport.getCheapestApartments().size());
@@ -24,25 +24,25 @@ class ApartmentReportFactoryTest extends DataInitializer {
 
     @Test
     void there_will_be_two_newest_ads() {
-        var apartmentReport = apartmentReportFactory.create(new City("katowice"));
+        var apartmentReport = apartmentReportFactory.create(new City("Katowice"));
         assertEquals(2, apartmentReport.getNewApartments().size());
     }
 
     @Test
     void there_will_be_one_gas_ad() {
-        var apartmentReport = apartmentReportFactory.create(new City("katowice"));
+        var apartmentReport = apartmentReportFactory.create(new City("Katowice"));
         assertEquals(1, apartmentReport.getGasApartments().size());
     }
 
     @Test
     void there_will_be_two_cheapest_ads() {
-        var apartmentReport = apartmentReportFactory.create(new City("katowice"));
+        var apartmentReport = apartmentReportFactory.create(new City("Katowice"));
         assertEquals(2, apartmentReport.getCheapestApartments().size());
     }
 
     @Test
     void test_report_will_have_15_lines() {
-        var apartmentReport = apartmentReportFactory.create(new City("katowice"));
+        var apartmentReport = apartmentReportFactory.create(new City("Katowice"));
         assertEquals(15L, apartmentReport.getReport().lines().count());
     }
 }

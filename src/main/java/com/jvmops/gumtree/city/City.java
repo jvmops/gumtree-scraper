@@ -12,6 +12,7 @@ import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Set;
 
 @Document
@@ -24,7 +25,8 @@ public class City {
     private ObjectId id;
     @Indexed(unique = true)
     private String name;
-    private Set<String> notifications;
+    @Builder.Default
+    private Set<String> notifications = new HashSet<>();
     @CreatedDate
     private LocalDateTime creationTime;
     @LastModifiedDate

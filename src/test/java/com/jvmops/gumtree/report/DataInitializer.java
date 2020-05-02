@@ -23,7 +23,7 @@ abstract class DataInitializer {
 
     private static List<Ad> createFewAds(Time time) {
         Ad newAd = Ad.builder()
-                .city("katowice")
+                .city("Katowice")
                 .title(UUID.randomUUID().toString())
                 .description("Just added ad")
                 .price(2400)
@@ -32,7 +32,7 @@ abstract class DataInitializer {
                 .updates(List.of(time.now().toLocalDate()))
                 .build();
         Ad gasApartment = Ad.builder()
-                .city("katowice")
+                .city("Katowice")
                 .title(UUID.randomUUID().toString())
                 .description("Apartment with kuchnia gazowa (gas) in the kitchen")
                 .price(2200)
@@ -41,7 +41,7 @@ abstract class DataInitializer {
                 .updates(List.of(time.now().toLocalDate()))
                 .build();
         Ad oldAd = Ad.builder()
-                .city("katowice")
+                .city("Katowice")
                 .title(UUID.randomUUID().toString())
                 .description("Some two week old ad")
                 .price(700)

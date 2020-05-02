@@ -19,7 +19,7 @@ public class CityServiceTest extends DataInitializer {
     public void city_name_is_unique() {
         assertThrows(
                 DuplicateKeyException.class,
-                () -> cityService.addCity("wroclaw")
+                () -> cityService.addCity("Wroclaw")
         );
     }
 
@@ -34,16 +34,16 @@ public class CityServiceTest extends DataInitializer {
     @Test
     public void email_can_be_unsubscribed_from_notifications_globally() {
         cityService.stopNotifications("jvmops@gmail.com");
-        City katowice = cityService.findCityByName("katowice");
-        City wroclaw = cityService.findCityByName("wroclaw");
+        City katowice = cityService.findCityByName("Katowice");
+        City wroclaw = cityService.findCityByName("Wroclaw");
         assertEquals(1, katowice.getNotifications().size());
         assertEquals(0, wroclaw.getNotifications().size());
     }
 
     @Test
     public void email_can_subscribed_to_notifications() {
-        cityService.subscribeToNotifications("wroclaw", "other@gmail.com");
-        City wroclaw = cityService.findCityByName("wroclaw");
+        cityService.subscribeToNotifications("Wroclaw", "other@gmail.com");
+        City wroclaw = cityService.findCityByName("Wroclaw");
         assertEquals(2, wroclaw.getNotifications().size());
     }
 
@@ -62,7 +62,7 @@ public class CityServiceTest extends DataInitializer {
 
     @Test
     void there_are_two_emails_configured_for_katowice() {
-        Set<String> emails = cityService.emails("katowice");
+        Set<String> emails = cityService.emails("Katowice");
         assertEquals(2, emails.size());
     }
 }

@@ -21,7 +21,7 @@ public class ScrappedAdRepositoryTest extends DataInitializer {
     void saving_ad_with_the_same_city_and_title_will_voilate_unique_index() {
         assertThrows(
                 DuplicateKeyException.class,
-                () -> scrappedAdRepository.save(scrappedAd("wroclaw", "Takie sobie mieszkanie"))
+                () -> scrappedAdRepository.save(scrappedAd("Wroclaw", "Takie sobie mieszkanie"))
         );
     }
 }

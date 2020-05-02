@@ -25,7 +25,7 @@ public class ScrapJob {
     private CityService config;
 
     @PostConstruct
-    private void scrapAds() {
+    void scrapAds() {
         config.cities().stream()
                 .map(City::getName)
                 .map(this::scrapAds)

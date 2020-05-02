@@ -27,18 +27,18 @@ class AdEvaluatorTest extends DataInitializer {
 
     @Test
     public void non_existing_ad_will_be_saved() {
-        // in the db there is only one ad from katowice
-        Ad scrappedAd = scrappedAd("wroclaw", "Just added apartment");
+        // in the db there is only one ad from Katowice
+        Ad scrappedAd = scrappedAd("Wroclaw", "Just added apartment");
         adEvaluator.processAds(List.of(scrappedAd));
 
         Ad fromDb = adEvaluator.findInRepository(scrappedAd)
                 .orElse(scrappedAd);
-        assertEquals("wroclaw", fromDb.getCity());
+        assertEquals("Wroclaw", fromDb.getCity());
     }
 
     @Test
     public void the_same_ad_will_be_ignored() {
-        Ad scrappedAd = scrappedAd("wroclaw", "Takie sobie mieszkanie");
+        Ad scrappedAd = scrappedAd("Wroclaw", "Takie sobie mieszkanie");
         adEvaluator.processAds(List.of(scrappedAd));
 
         Ad fromDb = adEvaluator.findInRepository(scrappedAd)
@@ -49,7 +49,7 @@ class AdEvaluatorTest extends DataInitializer {
 
     @Test
     public void creation_date_of_refreshed_ad_will_be_updated() {
-        Ad scrappedAd = scrappedAd("katowice", "Modify this ad");
+        Ad scrappedAd = scrappedAd("Katowice", "Modify this ad");
         adEvaluator.processAds(List.of(scrappedAd));
 
         Ad fromDb = adEvaluator.findInRepository(scrappedAd)

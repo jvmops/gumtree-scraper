@@ -16,7 +16,7 @@ import java.util.Set;
 class DefaultCityForScrapping {
     private static final City KATOWICE = City.builder()
             .id(ObjectId.get())
-            .name("katowice")
+            .name("Katowice")
             .notifications(Set.of("jvmops+default@gmail.com"))
             .build();
 
