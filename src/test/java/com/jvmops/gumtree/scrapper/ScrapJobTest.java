@@ -1,19 +1,19 @@
 package com.jvmops.gumtree.scrapper;
 
-import com.jvmops.gumtree.Main;
 import com.jvmops.gumtree.city.City;
 import com.jvmops.gumtree.city.CityService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Set;
 
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
-@SpringBootTest(classes = Main.class)
+@ExtendWith(MockitoExtension.class)
 public class ScrapJobTest {
 
     @Mock
@@ -40,8 +40,8 @@ public class ScrapJobTest {
 
     @Test
     public void ad_evaluator_will_be_called_for_each_scrapped_city() {
-        when(scrapper.scrapAds("Katowice")).thenReturn(Set.of(Ad.builder().build(), Ad.builder().build()));
-        when(scrapper.scrapAds("Wroclaw")).thenReturn(Set.of(Ad.builder().build()));
+        when(scrapper.scrapAds("Katowice")).thenReturn(Set.of(Ad.builder().gumtreeId("1").build(), Ad.builder().gumtreeId("2").build()));
+        when(scrapper.scrapAds("Wroclaw")).thenReturn(Set.of(Ad.builder().gumtreeId("3").build()));
 
         scrapJob.scrapAds();
 

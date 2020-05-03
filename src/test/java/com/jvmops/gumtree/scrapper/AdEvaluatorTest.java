@@ -1,6 +1,7 @@
 package com.jvmops.gumtree.scrapper;
 
 import com.jvmops.gumtree.Main;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -13,6 +14,11 @@ class AdEvaluatorTest extends DataInitializer {
 
     @Autowired
     private AdEvaluator adEvaluator;
+
+    @BeforeEach
+    public void setup() {
+        reloadApartments();
+    }
 
     @Test
     public void if_city_is_null_or_empty_exception_will_be_thrown() {
@@ -32,17 +38,6 @@ class AdEvaluatorTest extends DataInitializer {
         Ad fromDb = adEvaluator.findInRepository(scrappedAd)
                 .orElse(scrappedAd);
         assertEquals("Wroclaw", fromDb.getCity());
-    }
-
-    @Test
-    public void the_same_ad_will_be_ignored() {
-        Ad scrappedAd = scrappedAd("Wroclaw", "Takie sobie mieszkanie");
-        adEvaluator.processAd(scrappedAd);
-
-        Ad fromDb = adEvaluator.findInRepository(scrappedAd)
-                .orElseThrow(() -> new IllegalStateException("Scrapped ad not found in the repository"));
-        assertEquals(time.now().toLocalDate(), fromDb.getGumtreeCreationDate(), "Date has not been updated");
-        assertEquals(1, fromDb.getUpdates().size());
     }
 
     @Test

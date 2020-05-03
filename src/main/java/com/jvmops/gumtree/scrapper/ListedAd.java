@@ -1,17 +1,17 @@
 package com.jvmops.gumtree.scrapper;
 
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
-import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document
+@Document(collection = "ad")
 @Getter
 @Setter
+@EqualsAndHashCode(of = "gumtreeId")
 @Builder
 class ListedAd {
-//    private ObjectId id;
     private String city;
     private String gumtreeId;
     private String url;

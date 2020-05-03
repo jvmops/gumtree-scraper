@@ -21,6 +21,7 @@ class AdEvaluator {
         Ad ad = findInRepository(scrapped)
                 .map(saved -> updateModificationTime(saved, scrapped))
                 .orElse(scrapped);
+        // TODO: check if price changed
 
         logIfNew(ad);
         scrappedAdRepository.save(ad);
@@ -33,6 +34,7 @@ class AdEvaluator {
         return scrappedAdRepository.findByCityAndTitle(scrapped.getCity(), scrapped.getTitle());
     }
 
+    // TODO: update the list and do not change the gumtree creation time
     private Ad updateModificationTime(Ad saved, Ad scrapped) {
         if (scrappedIsNewer(saved, scrapped)) {
             log.info("Updating gumtree creation time for \"{}\" :: {}", saved.getTitle(), saved.getId());

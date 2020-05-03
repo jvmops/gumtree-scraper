@@ -1,6 +1,7 @@
 package com.jvmops.gumtree.scrapper;
 
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import org.bson.types.ObjectId;

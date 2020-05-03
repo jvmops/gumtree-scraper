@@ -2,9 +2,12 @@ package com.jvmops.gumtree.scrapper;
 
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.Set;
 
+@Repository
 interface ListedAdRepository extends MongoRepository<ListedAd, ObjectId> {
-    Set<ListedAd> findAllByGumtreeId(Set<String> gumtreeIds);
+    Set<ListedAd> findByGumtreeIdIn(Set<String> gumtreeIds);
+    boolean existsByGumtreeIdIn(Set<String> gumtreeIds);
 }

@@ -19,20 +19,32 @@ public class Scrapper {
     private final ListedAdRepository listedAdRepository;
 
     Set<Ad> scrapAds(String city) {
-        return getListing(city).stream()
+        Set<Ad> scrapped = filteredListing(city).stream()
                 .map(adDetailsScrapper::scrap)
                 .collect(Collectors.toSet());
+        return scrapped;
     }
 
-    private Set<ListedAd> getListing(String city) {
+    Set<ListedAd> filteredListing(String city) {
+        Set<ListedAd> listing = listing(city);
+        Set<String> gumtreeIds = listing.stream()
+                .map(ListedAd::getGumtreeId)
+                .collect(Collectors.toSet());
+        Set<ListedAd> duplicated = listedAdRepository.findByGumtreeIdIn(gumtreeIds);
+        listing.removeAll(duplicated);
+        return listing;
+    }
+
+    Set<ListedAd> listing(String city) {
         Set<ListedAd> listedAds = new HashSet<>(60);
         int pageNumber = FIRST_PAGE;
         boolean scrapNextPage = true;
-        while(scrapNextPage) {
+        while(pageNumber <= 10 && scrapNextPage) {
             List<ListedAd> page = adListingScrapper.scrap(city, pageNumber);
             listedAds.addAll(page);
             boolean alreadySavedExist = skipFirstFiveAndCheckIfAlreadySavedExist(page);
             scrapNextPage = !alreadySavedExist;
+            pageNumber++;
         }
         return listedAds;
     }
@@ -43,7 +55,6 @@ public class Scrapper {
                 .skip(5) // ad might be added during reading multiple pages
                 .map(ListedAd::getGumtreeId)
                 .collect(Collectors.toSet());
-        Set<ListedAd> existingAds = listedAdRepository.findAllByGumtreeId(gumtreeIds);
-        return existingAds.size() > 0;
+        return listedAdRepository.existsByGumtreeIdIn(gumtreeIds);
     }
 }
