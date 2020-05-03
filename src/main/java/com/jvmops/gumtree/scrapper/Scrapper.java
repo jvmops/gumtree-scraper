@@ -1,6 +1,7 @@
 package com.jvmops.gumtree.scrapper;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.util.HashSet;
@@ -10,6 +11,7 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 @Component
+@Slf4j
 @RequiredArgsConstructor
 public class Scrapper {
     private static final int FIRST_PAGE = 1;
@@ -32,6 +34,7 @@ public class Scrapper {
                 .collect(Collectors.toSet());
         Set<ListedAd> duplicated = listedAdRepository.findByGumtreeIdIn(gumtreeIds);
         listing.removeAll(duplicated);
+        log.info("{} ads left after removing duplicates that are existing in the db", listing.size());
         return listing;
     }
 
@@ -46,6 +49,7 @@ public class Scrapper {
             scrapNextPage = !alreadySavedExist;
             pageNumber++;
         }
+        log.info("{} ads scrapped from {} pages", listedAds.size(), pageNumber);
         return listedAds;
     }
 
