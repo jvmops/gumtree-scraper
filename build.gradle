@@ -62,6 +62,18 @@ dependencyManagement {
 	}
 }
 
+tasks.withType(JavaCompile) {
+	options.compilerArgs += "--enable-preview"
+}
+
+tasks.withType(Test) {
+	jvmArgs += "--enable-preview"
+}
+
+tasks.withType(JavaExec) {
+	jvmArgs += '--enable-preview'
+}
+
 bootJar {
 	archiveFileName = "gumtree-scrapper.jar"
 }

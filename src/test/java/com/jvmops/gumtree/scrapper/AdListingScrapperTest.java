@@ -23,7 +23,8 @@ public class AdListingScrapperTest {
 
     @BeforeEach
     void initializeDependencies() {
-        adListingScrapper = new JSoupAdListingScrapper(htmlProvider);
+        var adUrlBuilder = new AdUrlBuilder();
+        adListingScrapper = new JSoupAdListingScrapper(htmlProvider, adUrlBuilder);
     }
 
     @Test
@@ -101,7 +102,7 @@ public class AdListingScrapperTest {
     }
 
     private void setupHtmlMockFor(HtmlFile htmlFile) {
-        when(htmlProvider.get(Mockito.anyString()))
+        when(htmlProvider.adListing("Katowice", 1))
                 .thenReturn(htmlFile.getHtml());
     }
 }

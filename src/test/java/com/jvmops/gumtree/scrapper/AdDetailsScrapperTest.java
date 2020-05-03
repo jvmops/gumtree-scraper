@@ -91,7 +91,7 @@ public class AdDetailsScrapperTest {
     }
 
     private void setupHtmlMockFor(HtmlFile htmlFile) {
-        when(htmlProvider.get(Mockito.anyString()))
+        when(htmlProvider.adDetails(Mockito.any()))
                 .thenReturn(htmlFile.getHtml());
     }
 
