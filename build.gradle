@@ -4,6 +4,7 @@ plugins {
 	id 'java'
 	id 'jacoco'
 	id "io.freefair.lombok" version "5.0.0-rc6"
+	id 'org.barfuin.gradle.jacocolog' version '1.1.1'
 }
 
 group = 'com.jvmops'
@@ -82,17 +83,10 @@ bootJar {
  * Test configuration
  */
 
-// https://docs.gradle.org/current/userguide/jacoco_plugin.html
-jacoco {
-	toolVersion = "0.8.5"
-	reportsDir = file("$buildDir/customJacocoReportDir")
-}
-
 jacocoTestReport {
 	reports {
-		xml.enabled false
+		xml.destination file("${buildDir}/reports/jacoco/report.xml")
 		csv.enabled false
-		html.destination file("${buildDir}/jacocoHtml")
 	}
 }
 
