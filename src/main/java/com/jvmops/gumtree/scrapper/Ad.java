@@ -22,13 +22,15 @@ import java.util.List;
 @Builder
 class Ad {
     private ObjectId id;
+    private String gumtreeId;
     private String city;
     private String url;
+    private boolean featured;
     @Indexed
     private String title;
+    private Integer price;
     @TextIndexed
     private String description;
-    private Integer price;
     private LocalDate availableSince;
     private String landlord;
     private Integer size;

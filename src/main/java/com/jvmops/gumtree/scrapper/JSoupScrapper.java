@@ -7,20 +7,22 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Component
 @Slf4j
 @AllArgsConstructor
 class JSoupScrapper implements AdScrapper {
-    private JSoupAdListingParser adListingParser;
-    private JSoupAdParser adParser;
+    private JSoupAdListingScrapper adListingParser;
+    private JSoupAdDetailsScrapper adParser;
 
     @Override
-    public List<Ad> scrapAds(String url) {
-        return adListingParser.scrap(url).stream()
-                .map(adParser::scrap)
-                .collect(Collectors.toUnmodifiableList());
+    public List<ListedAd> scrapListing(String city, int pageNumber) {
+        return adListingParser.scrap(city, pageNumber);
+    }
+
+    @Override
+    public Ad scrapAd(ListedAd listedAd) {
+        return adParser.scrap(listedAd);
     }
 }
 

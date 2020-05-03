@@ -8,35 +8,60 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
-
-import static org.springframework.util.StringUtils.capitalize;
+import java.util.Set;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 @Profile("scrapper")
 @Component
 @Slf4j
 @AllArgsConstructor
 public class ScrapJob {
-    public static final String GUMTREE_URL = "https://www.gumtree.pl";
-    private static final String URL_TEMPLATE = "%s/s-mieszkania-i-domy-do-wynajecia/%s/zmywarka/v1c9008l3200114q0p1";
+    private static final int FIRST_PAGE = 1;
 
     private AdScrapper adScrapper;
     private AdEvaluator adEvaluator;
+    private ScrappedAdRepository scrappedAdRepository;
     private CityService cityService;
 
     @PostConstruct
     void scrapAds() {
         cityService.cities().stream()
                 .map(City::getName)
+                .map(this::getListing)
                 .map(this::scrapAds)
-                .forEach(adEvaluator::processAds);
+                .flatMap(Collection::stream)
+                .forEach(adEvaluator::processAd);
     }
 
-    private List<Ad> scrapAds(String city) {
-        String url = String.format(URL_TEMPLATE, GUMTREE_URL, city);
-        log.info("Scrapping ads from {}... {}", capitalize(city), url);
-        List<Ad> ads = adScrapper.scrapAds(url);
-        ads.forEach(ad -> ad.setCity(city));
-        return ads;
+    Set<ListedAd> getListing(String city) {
+        Set<ListedAd> listedAds = new HashSet<>(60);
+        int pageNumber = FIRST_PAGE;
+        boolean scrapNextPage = true;
+        while(scrapNextPage) {
+            List<ListedAd> page = adScrapper.scrapListing(city, pageNumber);
+            listedAds.addAll(page);
+            boolean alreadySavedExist = skipFirstFiveAndCheckIfAlreadySavedExist(page);
+            scrapNextPage = !alreadySavedExist;
+        }
+        return listedAds;
+    }
+
+    private boolean skipFirstFiveAndCheckIfAlreadySavedExist(List<ListedAd> ads) {
+        Set<String> gumtreeIds = ads.stream()
+                .filter(Predicate.not(ListedAd::isFeatured))
+                .skip(5) // ad might be added during reading multiple pages
+                .map(ListedAd::getGumtreeId)
+                .collect(Collectors.toSet());
+        return scrappedAdRepository.existsByGumtreeIds(gumtreeIds);
+    }
+
+    private Set<Ad> scrapAds(Set<ListedAd> listedAds) {
+        return listedAds.stream()
+                .map(adScrapper::scrapAd)
+                .collect(Collectors.toUnmodifiableSet());
     }
 }

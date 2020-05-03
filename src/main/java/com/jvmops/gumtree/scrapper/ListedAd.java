@@ -6,7 +6,10 @@ import lombok.Getter;
 @Getter
 @Builder
 class ListedAd {
+    private String city;
+    private String gumtreeId;
     private String url;
     private String title;
     private Integer price;
+    private boolean featured;
 }

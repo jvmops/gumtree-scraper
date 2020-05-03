@@ -1,95 +1,62 @@
 package com.jvmops.gumtree.scrapper;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
-import java.time.LocalDate;
-import java.util.List;
-import java.util.Scanner;
-
-import static com.jvmops.gumtree.scrapper.ScrapJob.GUMTREE_URL;
-import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class JSoupScrapperTest {
     @Mock
     private HtmlProvider htmlProvider;
-    private JSoupAdListingParser JSoupAdListingParser;
-    private JSoupAdParser JSoupAdParser;
-    private AdScrapper adScrapper;
+    private JSoupAdListingScrapper adListingParser;
+    private JSoupAdDetailsScrapper adParser;
+    private AdScrapper scrapper;
 
     @BeforeEach
     void initializeDependencies() {
-        JSoupAdListingParser = new JSoupAdListingParser(htmlProvider);
-        JSoupAdParser = new JSoupAdParser(htmlProvider);
-        adScrapper = new JSoupScrapper(JSoupAdListingParser, JSoupAdParser);
+        adListingParser = new JSoupAdListingScrapper(htmlProvider);
+        adParser = new JSoupAdDetailsScrapper(htmlProvider);
+        scrapper = new JSoupScrapper(adListingParser, adParser);
     }
+//
+//    @Test
+//    void page_two_does_not_contain_duplicates_at_the_end_of_the_list() {
+//        setupHtmlMockFor(HtmlFile.AD_LISTING_PAGE_1);
+//
+//        List<ListedAd> ads = scrapper.scrapListing(HtmlFile.AD_LISTING.getCity(), 1).stream()
+//                .filter(Predicate.not(ListedAd::isFeatured))
+//                .collect(Collectors.toList());
+//
+//        Assertions.assertEquals(10, ads.size());
+//    }
+//
+//    @Test
+//    void ad_details_can_be_scrapped_from_a_listed_ad_url() {
+//        setupHtmlMockFor(HtmlFile.AD_DETAILS);
+//
+//        ListedAd listedAd = ListedAd.builder()
+//                .url(HtmlFile.AD_DETAILS.getCity())
+//                .build();
+//        Ad ad = adParser.scrap(listedAd);
+//
+//        Assertions.assertEquals(LocalDate.parse("2019-11-10"), ad.getGumtreeCreationDate());
+//        Assertions.assertEquals(1, ad.getUpdates().size());
+//    }
+//
+//    @Test
+//    void domain_ad_objects_will_be_scrapped_from_an_ad_listing_url() {
+//        setupHtmlMockFor(HtmlFile.AD_LISTING);
+//        setupHtmlMockFor(HtmlFile.AD_DETAILS);
+//
+//        List<Ad> ads = scrapper.scrapAd(HtmlFile.AD_LISTING.getCity());
+//
+//        Assertions.assertEquals(20, ads.size());
+//    }
+//
+//    private void setupHtmlMockFor(HtmlFile htmlFile) {
+//        when(htmlProvider.get(htmlFile.getCity()))
+//                .thenReturn(htmlFile.getHtml());
+//    }
 
-    @Test
-    void ad_listing_html_file_contain_20_ads() {
-        setupHtmlMockFor(HtmlFile.AD_LISTING);
-
-        List<ListedAd> ads = JSoupAdListingParser.scrap(HtmlFile.AD_LISTING.getUrl());
-
-        Assertions.assertEquals(20, ads.size());
-    }
-
-    @Test
-    void ad_details_can_be_scrapped_from_a_listed_ad_url() {
-        setupHtmlMockFor(HtmlFile.AD_DETAILS);
-
-        ListedAd listedAd = ListedAd.builder()
-                .url(HtmlFile.AD_DETAILS.getUrl())
-                .build();
-        Ad ad = JSoupAdParser.scrap(listedAd);
-
-        Assertions.assertEquals(LocalDate.parse("2019-11-10"), ad.getGumtreeCreationDate());
-        Assertions.assertEquals(1, ad.getUpdates().size());
-    }
-
-    @Test
-    void domain_ad_objects_will_be_scrapped_from_an_ad_listing_url() {
-        setupHtmlMockFor(HtmlFile.AD_LISTING);
-        setupHtmlMockFor(HtmlFile.AD_DETAILS);
-
-        List<Ad> ads = adScrapper.scrapAds(HtmlFile.AD_LISTING.getUrl());
-
-        Assertions.assertEquals(20, ads.size());
-    }
-
-    private void setupHtmlMockFor(HtmlFile htmlFile) {
-        when(htmlProvider.get(htmlFile.getUrl()))
-                .thenReturn(htmlFile.getHtml());
-    }
-
-}
-
-@Getter
-@RequiredArgsConstructor
-enum HtmlFile {
-    AD_LISTING(GUMTREE_URL + "/ad-listing", toString(new ClassPathResource("html/ad_listing.html"))),
-    AD_DETAILS(GUMTREE_URL + "/ad-details", toString(new ClassPathResource("html/ad_details.html")));
-
-    private final String url;
-    private final String html;
-
-    private static String toString(Resource resource) {
-        try (InputStream is = resource.getInputStream()) {
-            return new Scanner(is, StandardCharsets.UTF_8.name())
-                    .useDelimiter("\\A").next();
-        } catch (IOException e) {
-            throw new IllegalArgumentException(e);
-        }
-    }
 }

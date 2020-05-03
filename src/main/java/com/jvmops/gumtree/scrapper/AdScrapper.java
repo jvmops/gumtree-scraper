@@ -3,5 +3,6 @@ package com.jvmops.gumtree.scrapper;
 import java.util.List;
 
 interface AdScrapper {
-    List<Ad> scrapAds(String url);
+    List<ListedAd> scrapListing(String city, int pageNumber);
+    Ad scrapAd(ListedAd listedAd);
 }

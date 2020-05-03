@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 @Component
 @Slf4j
 @AllArgsConstructor
-class JSoupAdParser {
+class JSoupAdDetailsScrapper {
     private HtmlProvider htmlProvider;
 
     Ad scrap(ListedAd listedAd) {
@@ -29,8 +29,11 @@ class JSoupAdParser {
         ScrappedAdAttributes adAttributes = scrapAttributes(adPage);
 
         return Ad.builder()
+                .city(listedAd.getCity())
+                .gumtreeId(listedAd.getGumtreeId())
                 .url(listedAd.getUrl())
                 .title(listedAd.getTitle())
+                .featured(listedAd.isFeatured())
                 .description(description)
                 // TODO: mb check if there is a price somewhere in the description?
                 .price(listedAd.getPrice())
