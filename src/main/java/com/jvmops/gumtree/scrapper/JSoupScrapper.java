@@ -25,14 +25,3 @@ class JSoupScrapper implements AdScrapper {
         return adParser.scrap(listedAd);
     }
 }
-
-@Component
-class HtmlProvider {
-    String get(String url) {
-        try {
-            return Jsoup.connect(url).get().html();
-        } catch (IOException e) {
-            throw new IllegalArgumentException(e);
-        }
-    }
-}
