@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -24,6 +25,16 @@ public class AdListingScrapperTest {
     void initializeDependencies() {
         var adUrlBuilder = new AdUrlBuilder();
         adListingScrapper = new JSoupAdListingScrapper(htmlProvider, adUrlBuilder);
+    }
+
+    @Test
+    void empty_listing_page_will_raise_an_exception() {
+        setupHtmlMockFor(HtmlFile.AD_LISTING_EMPTY_PAGE);
+
+        assertThrows(
+                JSoupAdListingScrapper.EmptyAdListingPage.class,
+                () -> adListingScrapper.scrap("Katowice", 1)
+        );
     }
 
     @Test

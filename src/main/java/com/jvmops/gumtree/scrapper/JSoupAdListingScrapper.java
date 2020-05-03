@@ -34,6 +34,10 @@ class JSoupAdListingScrapper implements PriceParser {
                 .map(ad -> parse(ad, city))
                 .collect(Collectors.toList());
 
+        if (regularAds.size() == 0) {
+            throw new EmptyAdListingPage(city, pageNumber);
+        }
+
         return Stream.of(regularAds, featuredAds)
                 .flatMap(Collection::stream)
                 .collect(Collectors.toUnmodifiableList());
@@ -70,5 +74,13 @@ class JSoupAdListingScrapper implements PriceParser {
                 .price(price)
                 .featured(featured)
                 .build();
+    }
+
+    static class EmptyAdListingPage extends RuntimeException {
+        private static final String msg = "Not a single ad found for %s on page %s";
+
+        public EmptyAdListingPage(String city, int pageNumber) {
+            super(String.format(msg, city, pageNumber));
+        }
     }
 }

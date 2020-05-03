@@ -12,6 +12,7 @@ import java.util.Scanner;
 @Getter
 @RequiredArgsConstructor
 enum HtmlFile {
+    AD_LISTING_EMPTY_PAGE("Katowice", toString(new ClassPathResource("html/ad_listing_empty.html"))),
     AD_LISTING_SINGLE_AD("Katowice", toString(new ClassPathResource("html/ad_listing_single_ad.html"))),
     AD_LISTING_PAGE_1("Katowice", toString(new ClassPathResource("html/ad_listing_1.html"))),
     AD_LISTING_PAGE_2("Katowice", toString(new ClassPathResource("html/ad_listing_2_duplicates_at_start.html"))),
