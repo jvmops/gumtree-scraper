@@ -17,11 +17,13 @@ public class AdDetailsScrapperTest {
 
     @Mock
     private HtmlProvider htmlProvider;
+    @Mock
+    private Slowdown slowdown;
     private JSoupAdDetailsScrapper adDetailsScrapper;
 
     @BeforeEach
     void initializeDependencies() {
-        adDetailsScrapper = new JSoupAdDetailsScrapper(htmlProvider);
+        adDetailsScrapper = new JSoupAdDetailsScrapper(htmlProvider, slowdown);
     }
 
     @Test

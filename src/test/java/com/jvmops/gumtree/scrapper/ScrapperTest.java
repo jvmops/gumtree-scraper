@@ -27,12 +27,14 @@ public class ScrapperTest extends DataInitializer {
 
     @Autowired
     private ListedAdRepository listedAdRepository;
+    @Autowired
+    private Slowdown slowdown;
 
     @BeforeEach
     public void setup() {
         var adUrlBuilder = new AdUrlBuilder();
         JSoupAdListingScrapper adListingScrapper = new JSoupAdListingScrapper(htmlProvider, adUrlBuilder);
-        JSoupAdDetailsScrapper adDetailsScrapper = new JSoupAdDetailsScrapper(htmlProvider);
+        JSoupAdDetailsScrapper adDetailsScrapper = new JSoupAdDetailsScrapper(htmlProvider, slowdown);
         scrapper = new Scrapper(adListingScrapper, adDetailsScrapper, listedAdRepository);
         reloadApartments();
     }
