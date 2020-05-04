@@ -45,7 +45,7 @@ public class Scrapper {
         while(pageNumber <= 10 && scrapNextPage) {
             List<ListedAd> page = adListingScrapper.scrap(city, pageNumber);
             listedAds.addAll(page);
-            boolean alreadySavedExist = skipFirstFiveAndCheckIfAlreadySavedExist(page);
+            boolean alreadySavedExist = checkIfAlreadySavedExist(page);
             scrapNextPage = !alreadySavedExist;
             pageNumber++;
         }
@@ -53,10 +53,9 @@ public class Scrapper {
         return listedAds;
     }
 
-    private boolean skipFirstFiveAndCheckIfAlreadySavedExist(List<ListedAd> ads) {
+    private boolean checkIfAlreadySavedExist(List<ListedAd> ads) {
         Set<String> gumtreeIds = ads.stream()
                 .filter(Predicate.not(ListedAd::isFeatured))
-                .skip(5) // ad might be added during reading multiple pages
                 .map(ListedAd::getGumtreeId)
                 .collect(Collectors.toSet());
         return listedAdRepository.existsByGumtreeIdIn(gumtreeIds);
