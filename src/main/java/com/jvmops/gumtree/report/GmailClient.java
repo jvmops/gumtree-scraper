@@ -21,7 +21,7 @@ import static org.springframework.util.CollectionUtils.isEmpty;
 @Slf4j
 @RequiredArgsConstructor
 class GmailClient implements NotificationSender {
-    private static final String TITLE_PATTERN = "%s apartments report";
+    private static final String TITLE_PATTERN = "Mieszkania/domy do wynajęcia - %s";
 
     private final JavaMailSender emailSender;
     private final TemplateEngine templateEngine;

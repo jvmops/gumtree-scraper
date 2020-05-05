@@ -21,8 +21,8 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @Slf4j
 class ApartmentReportFactory {
-    private static final Sort SORT_BY_PRICE = Sort.by("price").descending();
-    private static final Sort SORT_BY_GUMTREE_CREATION_TIME_AND_PRICE = Sort.by("gumtreeCreationDate", "price").descending();
+    private static final Sort SORT_BY_PRICE = Sort.by("price");
+    private static final Sort SORT_BY_GUMTREE_CREATION_TIME_AND_PRICE = Sort.by("gumtreeCreationDate", "price").ascending();
 
 
     private AdRepository adRepository;
@@ -42,13 +42,12 @@ class ApartmentReportFactory {
                 .dishwasherAndGasApartments(dishwasherAndGas)
                 .cheapestApartments(cheapest)
                 .build();
-        log.debug(apartmentReport.toString());
         return apartmentReport;
     }
 
     private List<Ad> newestAds(String city) {
         LocalDateTime yesterday = time.now().minusDays(1);
-        return adRepository.findAllByCityAndCreationTimeGreaterThanOrderByGumtreeCreationDate(city, yesterday);
+        return adRepository.findTop20ByCityAndCreationTimeGreaterThanOrderByGumtreeCreationDate(city, yesterday);
     }
 
     private List<Ad> gasApartments(String city) {
@@ -70,8 +69,8 @@ class ApartmentReportFactory {
 
     private List<Ad> cheapestApartments(String city) {
 
-        return adRepository.findTop10ByCityAndGumtreeCreationDateGreaterThan(
-                city, oneWeekAgo(), SORT_BY_PRICE);
+        return adRepository.findTop20ByCityAndPriceGreaterThanAndGumtreeCreationDateGreaterThan(
+                city, 0, oneWeekAgo(), SORT_BY_PRICE);
     }
 
     private LocalDate oneWeekAgo() {
