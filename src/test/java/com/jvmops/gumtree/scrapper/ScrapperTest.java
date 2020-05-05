@@ -1,6 +1,7 @@
 package com.jvmops.gumtree.scrapper;
 
 import com.jvmops.gumtree.Main;
+import com.jvmops.gumtree.ScrapperProperties;
 import org.junit.Assert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -26,16 +27,19 @@ public class ScrapperTest extends DataInitializer {
     private HtmlProvider htmlProvider;
 
     @Autowired
+    private AdUrlBuilder adUrlBuilder;
+    @Autowired
     private ListedAdRepository listedAdRepository;
     @Autowired
     private Slowdown slowdown;
+    @Autowired
+    private ScrapperProperties scrapperProperties;
 
     @BeforeEach
     public void setup() {
-        var adUrlBuilder = new AdUrlBuilder();
         JSoupAdListingScrapper adListingScrapper = new JSoupAdListingScrapper(htmlProvider, adUrlBuilder);
         JSoupAdDetailsScrapper adDetailsScrapper = new JSoupAdDetailsScrapper(htmlProvider, slowdown);
-        scrapper = new Scrapper(adListingScrapper, adDetailsScrapper, listedAdRepository);
+        scrapper = new Scrapper(adListingScrapper, adDetailsScrapper, listedAdRepository, scrapperProperties);
         reloadApartments();
     }
 
@@ -51,7 +55,8 @@ public class ScrapperTest extends DataInitializer {
     }
 
     @Test
-    public void maximum_of_10_pages_of_apartments_will_be_scrapped_with_duplicated_ads_removed_from_listing() {
+    public void maximum_of_3_pages_of_apartments_will_be_scrapped_with_duplicated_ads_removed_from_listing() {
+        // limit comes from ScrapperProperties
         when(htmlProvider.adListing(anyString(), anyInt())).thenReturn(
                 HtmlFile.AD_LISTING_PAGE_1.getHtml() // otherwise it will fall in the endless loop
         );
@@ -76,7 +81,7 @@ public class ScrapperTest extends DataInitializer {
     public void there_will_be_31_ads_scrapped_from_3_pages() {
         when(htmlProvider.adListing(anyString(), anyInt())).thenReturn(
                 HtmlFile.AD_LISTING_PAGE_1.getHtml(),
-                HtmlFile.AD_LISTING_PAGE_2.getHtml(), // duplicates at the beginning - offer was added during scrapping
+                HtmlFile.AD_LISTING_PAGE_2.getHtml(),
                 HtmlFile.AD_LISTING_PAGE_3.getHtml() // duplicates at the end - it means that next pages were already scrapped
         );
         when(htmlProvider.adDetails(any())).thenReturn(

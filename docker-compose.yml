@@ -41,6 +41,7 @@ services:
     depends_on:
       - gumtree-web
     environment:
+      GUMTREE_SCRAPPER_MAX-SCRAPPED-PAGES: 5
       SPRING_PROFILES_ACTIVE: scrapper
       SPRING_MAIN_WEB-APPLICATION-TYPE: NONE
       SPRING_DATA_MONGODB_HOST: gumtree-mongo

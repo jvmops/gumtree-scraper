@@ -1,5 +1,6 @@
 package com.jvmops.gumtree.scrapper;
 
+import com.jvmops.gumtree.ScrapperProperties;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -19,6 +20,7 @@ public class Scrapper {
     private final JSoupAdListingScrapper adListingScrapper;
     private final JSoupAdDetailsScrapper  adDetailsScrapper;
     private final ListedAdRepository listedAdRepository;
+    private final ScrapperProperties scrapperProperties;
 
     Set<Ad> scrapAds(String city) {
         Set<Ad> scrapped = filteredListing(city).stream()
@@ -42,14 +44,14 @@ public class Scrapper {
         Set<ListedAd> listedAds = new HashSet<>(60);
         int pageNumber = FIRST_PAGE;
         boolean scrapNextPage = true;
-        while(pageNumber <= 10 && scrapNextPage) {
+        while(pageNumber <= scrapperProperties.getMaxScrappedPages() && scrapNextPage) {
             List<ListedAd> page = adListingScrapper.scrap(city, pageNumber);
             listedAds.addAll(page);
             boolean alreadySavedExist = checkIfAlreadySavedExist(page);
             scrapNextPage = !alreadySavedExist;
             pageNumber++;
         }
-        log.info("{} ads scrapped from {} pages", listedAds.size(), pageNumber);
+        log.info("{} ads scrapped from {} pages", listedAds.size(), pageNumber-1);
         return listedAds;
     }
 
