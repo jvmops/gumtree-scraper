@@ -25,6 +25,7 @@ public class City {
     private ObjectId id;
     @Indexed(unique = true)
     private String name;
+    private String urlCode;
     @Builder.Default
     private Set<String> notifications = new HashSet<>();
     @CreatedDate

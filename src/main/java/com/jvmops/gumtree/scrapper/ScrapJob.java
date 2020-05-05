@@ -22,7 +22,6 @@ public class ScrapJob {
     @PostConstruct
     void scrapAds() {
         cityService.cities().stream()
-                .map(City::getName)
                 .map(scrapper::scrapAds)
                 .flatMap(Collection::stream)
                 .forEach(adEvaluator::processAd);

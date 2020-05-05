@@ -1,5 +1,6 @@
 package com.jvmops.gumtree.scrapper;
 
+import com.jvmops.gumtree.city.City;
 import com.jvmops.gumtree.scrapper.AdUrlBuilder.AdUrl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,7 +23,7 @@ class JSoupAdListingScrapper implements PriceParser {
     private final HtmlProvider htmlProvider;
     private final AdUrlBuilder adUrlBuilder;
 
-    List<ListedAd> scrap(String city, int pageNumber) {
+    List<ListedAd> scrap(City city, int pageNumber) {
         String adListingHtml = htmlProvider.adListing(city, pageNumber);
         Document adListing = Jsoup.parse(adListingHtml);
 
@@ -57,11 +58,11 @@ class JSoupAdListingScrapper implements PriceParser {
                 .select("div.tileV1");
     }
 
-    private ListedAd parse(Element adFromList, String city) {
+    private ListedAd parse(Element adFromList, City city) {
         return parse(adFromList, city, false);
     }
 
-    private ListedAd parse(Element adFromList, String city, boolean featured) {
+    private ListedAd parse(Element adFromList, City city, boolean featured) {
         Element title = adFromList.select("div.title").first();
         String urlSuffix = title.select("a[href]").attr("href");
         AdUrl adUrl = adUrlBuilder.buildAdUrl(urlSuffix);
@@ -69,7 +70,7 @@ class JSoupAdListingScrapper implements PriceParser {
         Integer price = parse(priceSpanValue);
 
         return ListedAd.builder()
-                .city(city)
+                .city(city.getName())
                 .gumtreeId(adUrl.gumtreeId())
                 .url(adUrl.url())
                 .title(title.text().trim())
@@ -81,8 +82,8 @@ class JSoupAdListingScrapper implements PriceParser {
     static class EmptyAdListingPage extends RuntimeException {
         private static final String msg = "Not a single ad found for %s on page %s";
 
-        public EmptyAdListingPage(String city, int pageNumber) {
-            super(String.format(msg, city, pageNumber));
+        public EmptyAdListingPage(City city, int pageNumber) {
+            super(String.format(msg, city.getName(), pageNumber));
         }
     }
 }

@@ -1,6 +1,7 @@
 package com.jvmops.gumtree.scrapper;
 
 import com.jvmops.gumtree.ScrapperProperties;
+import com.jvmops.gumtree.city.City;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -22,14 +23,14 @@ public class Scrapper {
     private final ListedAdRepository listedAdRepository;
     private final ScrapperProperties scrapperProperties;
 
-    Set<Ad> scrapAds(String city) {
+    Set<Ad> scrapAds(City city) {
         Set<Ad> scrapped = filteredListing(city).stream()
                 .map(adDetailsScrapper::scrap)
                 .collect(Collectors.toSet());
         return scrapped;
     }
 
-    Set<ListedAd> filteredListing(String city) {
+    Set<ListedAd> filteredListing(City city) {
         Set<ListedAd> listing = listing(city);
         Set<String> gumtreeIds = listing.stream()
                 .map(ListedAd::getGumtreeId)
@@ -40,7 +41,7 @@ public class Scrapper {
         return listing;
     }
 
-    Set<ListedAd> listing(String city) {
+    Set<ListedAd> listing(City city) {
         Set<ListedAd> listedAds = new HashSet<>(60);
         int pageNumber = FIRST_PAGE;
         boolean scrapNextPage = true;
