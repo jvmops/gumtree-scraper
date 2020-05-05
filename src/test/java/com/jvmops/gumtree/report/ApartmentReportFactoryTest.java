@@ -15,34 +15,43 @@ class ApartmentReportFactoryTest extends DataInitializer {
     private ApartmentReportFactory apartmentReportFactory;
 
     @Test
-    void there_are_no_persisted_ads_from_wroclaw() {
+    void there_is_one_persisted_ad_for_wroclaw_that_meets_all_criterias() {
         var apartmentReport = apartmentReportFactory.create(new City("Wroclaw"));
-        assertEquals(0, apartmentReport.getNewApartments().size());
-        assertEquals(0, apartmentReport.getGasApartments().size());
-        assertEquals(0, apartmentReport.getCheapestApartments().size());
-    }
-
-    @Test
-    void there_will_be_two_newest_ads() {
-        var apartmentReport = apartmentReportFactory.create(new City("Katowice"));
-        assertEquals(2, apartmentReport.getNewApartments().size());
-    }
-
-    @Test
-    void there_will_be_one_gas_ad() {
-        var apartmentReport = apartmentReportFactory.create(new City("Katowice"));
+        assertEquals(1, apartmentReport.getNewApartments().size());
         assertEquals(1, apartmentReport.getGasApartments().size());
+        assertEquals(1, apartmentReport.getDishwasherApartments().size());
+        assertEquals(1, apartmentReport.getDishwasherAndGasApartments().size());
+        assertEquals(1, apartmentReport.getCheapestApartments().size());
     }
 
     @Test
-    void there_will_be_two_cheapest_ads() {
+    void there_are_three_newest_ads_for_katowice() {
         var apartmentReport = apartmentReportFactory.create(new City("Katowice"));
-        assertEquals(2, apartmentReport.getCheapestApartments().size());
+        assertEquals(3, apartmentReport.getNewApartments().size());
     }
 
     @Test
-    void test_report_will_have_15_lines() {
+    void there_are_two_gas_ads_for_katowice() {
         var apartmentReport = apartmentReportFactory.create(new City("Katowice"));
-        assertEquals(15L, apartmentReport.getReport().lines().count());
+        assertEquals(2, apartmentReport.getGasApartments().size());
+    }
+
+    @Test
+    void there_are_two_ads_from_katowice_with_dishwasher() {
+        // search is case insensitive and polish letters are handled
+        var apartmentReport = apartmentReportFactory.create(new City("Katowice"));
+        assertEquals(2, apartmentReport.getDishwasherApartments().size());
+    }
+
+    @Test
+    void there_is_one_ad_with_both_dishwasher_and_gas() {
+        var apartmentReport = apartmentReportFactory.create(new City("Katowice"));
+        assertEquals(1, apartmentReport.getDishwasherAndGasApartments().size());
+    }
+
+    @Test
+    void all_ads_from_the_last_5_days_from_katowice_counts_as_cheapest() {
+        var apartmentReport = apartmentReportFactory.create(new City("Katowice"));
+        assertEquals(3, apartmentReport.getCheapestApartments().size());
     }
 }

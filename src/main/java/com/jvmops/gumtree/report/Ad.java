@@ -1,7 +1,10 @@
 package com.jvmops.gumtree.report;
 
-import lombok.*;
+import lombok.Builder;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.bson.types.ObjectId;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.index.TextIndexed;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -12,8 +15,10 @@ import java.util.List;
 
 @Document
 @Data
+@EqualsAndHashCode(of = "id")
 @Builder
 class Ad {
+    @Id
     private ObjectId id;
     private String city;
     private String url;

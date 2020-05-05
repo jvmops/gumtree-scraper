@@ -6,8 +6,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeAll;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.time.LocalDateTime;
 import java.util.List;
-import java.util.UUID;
 
 @Slf4j
 abstract class DataInitializer {
@@ -22,33 +22,59 @@ abstract class DataInitializer {
     }
 
     private static List<Ad> createFewAds(Time time) {
-        Ad newAd = Ad.builder()
+        // Katowice
+        LocalDateTime twoHoursBefore = time.now().minusHours(2);
+        Ad newAdPolishLetters = Ad.builder()
                 .city("Katowice")
-                .title(UUID.randomUUID().toString())
-                .description("Just added ad")
+                .title("Bieżąca oferta - dla leniucha - polskie znaki")
+                .description("Fajne mieszkanie ze zmywarka")
                 .price(2400)
-                .creationTime(time.now().minusHours(2))
-                .gumtreeCreationDate(time.now().toLocalDate())
-                .updates(List.of(time.now().toLocalDate()))
+                .creationTime(twoHoursBefore)
+                .gumtreeCreationDate(twoHoursBefore.toLocalDate())
+                .updates(List.of(twoHoursBefore.toLocalDate()))
                 .build();
+        LocalDateTime fourHoursBefore = time.now().minusHours(4);
+        Ad newAdWithoutPolishLetters = Ad.builder()
+                .city("Katowice")
+                .title("Biezaca oferta - dla leniucha i kucharza")
+                .description("Rudera, ale zmywarka jest i gaz też podłączony")
+                .price(2400)
+                .creationTime(fourHoursBefore)
+                .gumtreeCreationDate(fourHoursBefore.toLocalDate())
+                .updates(List.of(fourHoursBefore.toLocalDate()))
+                .build();
+        LocalDateTime twentyHoursBefore = time.now().minusHours(20);
         Ad gasApartment = Ad.builder()
                 .city("Katowice")
-                .title(UUID.randomUUID().toString())
-                .description("Apartment with kuchnia gazowa (gas) in the kitchen")
+                .title("Mieszkanie dla kucharza")
+                .description("Mieszkanie z kuchenka gazowa")
                 .price(2200)
-                .creationTime(time.now().minusHours(23))
-                .gumtreeCreationDate(time.now().toLocalDate())
-                .updates(List.of(time.now().toLocalDate()))
+                .creationTime(twentyHoursBefore)
+                .gumtreeCreationDate(twentyHoursBefore.toLocalDate())
+                .updates(List.of(twentyHoursBefore.toLocalDate()))
                 .build();
+        // more that 5 days old
+        LocalDateTime twoWeeksBefore = time.now().minusWeeks(2);
         Ad oldAd = Ad.builder()
                 .city("Katowice")
-                .title(UUID.randomUUID().toString())
-                .description("Some two week old ad")
+                .title("Stara, dlugo nieodswiezana oferta")
+                .description("Fajne mieszkanie sprzed 2 tygodni")
                 .price(700)
-                .creationTime(time.now().minusWeeks(2))
-                .gumtreeCreationDate(time.now().minusWeeks(2).toLocalDate())
-                .updates(List.of(time.now().minusWeeks(2).toLocalDate()))
+                .creationTime(twoWeeksBefore)
+                .gumtreeCreationDate(twoWeeksBefore.toLocalDate())
+                .updates(List.of(twoWeeksBefore.toLocalDate()))
                 .build();
-        return List.of(newAd, gasApartment, oldAd);
+
+        // Wroclaw
+        Ad wroclawAd = Ad.builder()
+                .city("Wroclaw")
+                .title("Wszystko czego potrzeba")
+                .description("Mieszkanie we wroclawiu ze zmywarka i gazem")
+                .price(700)
+                .creationTime(twoHoursBefore)
+                .gumtreeCreationDate(twoHoursBefore.toLocalDate())
+                .updates(List.of(twoHoursBefore.toLocalDate()))
+                .build();
+        return List.of(newAdPolishLetters, newAdWithoutPolishLetters, gasApartment, oldAd, wroclawAd);
     }
 }
