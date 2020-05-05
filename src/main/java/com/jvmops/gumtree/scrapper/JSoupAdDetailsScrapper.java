@@ -37,7 +37,7 @@ class JSoupAdDetailsScrapper {
                 .url(listedAd.getUrl())
                 .title(listedAd.getTitle())
                 .featured(listedAd.isFeatured())
-                .description(description)
+                .description(description.toLowerCase())
                 // TODO: mb check if there is a price somewhere in the description?
                 .price(listedAd.getPrice())
                 .availableSince(adAttributes.getAvailableSince())
