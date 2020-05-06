@@ -28,13 +28,9 @@
                     <div class="col-md-8" data-aos="fade-up">
                         <form method="post" th:action="@{/unsubscribe}" th:object="${subscription}">
                             <div class="row form-group">
-                                <div class="col-md-6 mb-3 mb-md-0">
-                                    <input id="city" type="text" class="form-control" placeholder="city"
-                                           aria-describedby="sizing-addon2"
-                                           readonly
-                                           th:value="${subscription.city}"
-                                           th:field="*{city}">
-                                </div>
+
+                                <th:block th:replace="shared :: cities-dropdown"/>
+
                                 <div class="col-md-6">
                                     <input id="email" type="email" class="form-control" placeholder="email"
                                            aria-describedby="sizing-addon2"

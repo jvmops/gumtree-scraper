@@ -1,5 +1,6 @@
 package com.jvmops.gumtree.report;
 
+import com.jvmops.gumtree.city.City;
 import com.jvmops.gumtree.city.CityService;
 import com.jvmops.gumtree.city.Subscription;
 import lombok.AllArgsConstructor;
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.validation.Valid;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Profile("web")
 @Controller
@@ -44,10 +47,12 @@ public class EmailSubscriptionController {
             @RequestParam @NotEmpty String city,
             Model model
     ) {
-        Subscription subscription = Subscription.builder()
-                .city(city)
-                .build();
-        model.addAttribute("subscription", subscription);
+        List<String> cities = cityService.cities().stream()
+                .map(City::getName)
+                .collect(Collectors.toList());
+        model.addAttribute("subscription", new Subscription());
+        model.addAttribute("cities", cities);
+        model.addAttribute("selectedCity", city);
         return "unsubscribe";
     }
 
