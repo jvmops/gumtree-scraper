@@ -1,4 +1,4 @@
-package com.jvmops.gumtree.city;
+package com.jvmops.gumtree.subscriptions;
 
 import lombok.Builder;
 import lombok.Data;

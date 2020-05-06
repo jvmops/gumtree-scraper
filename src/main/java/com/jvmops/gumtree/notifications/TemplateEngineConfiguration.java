@@ -1,4 +1,4 @@
-package com.jvmops.gumtree.report;
+package com.jvmops.gumtree.notifications;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

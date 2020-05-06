@@ -1,4 +1,4 @@
-package com.jvmops.gumtree.report;
+package com.jvmops.gumtree.notifications;
 
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Profile;

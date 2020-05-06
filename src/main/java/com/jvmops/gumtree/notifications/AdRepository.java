@@ -1,4 +1,4 @@
-package com.jvmops.gumtree.report;
+package com.jvmops.gumtree.notifications;
 
 import org.bson.types.ObjectId;
 import org.springframework.data.domain.Sort;

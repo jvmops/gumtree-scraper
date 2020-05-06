@@ -1,8 +1,8 @@
-package com.jvmops.gumtree.report;
+package com.jvmops.gumtree.notifications;
 
-import com.jvmops.gumtree.city.City;
-import com.jvmops.gumtree.city.CityService;
-import com.jvmops.gumtree.city.Subscription;
+import com.jvmops.gumtree.subscriptions.City;
+import com.jvmops.gumtree.subscriptions.CityService;
+import com.jvmops.gumtree.subscriptions.Subscription;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Controller;

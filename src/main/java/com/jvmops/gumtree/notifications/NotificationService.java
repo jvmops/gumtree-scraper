@@ -1,7 +1,7 @@
-package com.jvmops.gumtree.report;
+package com.jvmops.gumtree.notifications;
 
-import com.jvmops.gumtree.city.City;
-import com.jvmops.gumtree.city.CityService;
+import com.jvmops.gumtree.subscriptions.City;
+import com.jvmops.gumtree.subscriptions.CityService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Lazy;

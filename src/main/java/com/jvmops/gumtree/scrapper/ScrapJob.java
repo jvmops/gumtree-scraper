@@ -1,6 +1,6 @@
 package com.jvmops.gumtree.scrapper;
 
-import com.jvmops.gumtree.city.CityService;
+import com.jvmops.gumtree.subscriptions.CityService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Profile;

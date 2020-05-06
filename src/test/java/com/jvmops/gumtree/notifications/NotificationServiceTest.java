@@ -1,8 +1,8 @@
-package com.jvmops.gumtree.report;
+package com.jvmops.gumtree.notifications;
 
 import com.jvmops.gumtree.Main;
-import com.jvmops.gumtree.city.City;
-import com.jvmops.gumtree.city.CityService;
+import com.jvmops.gumtree.subscriptions.City;
+import com.jvmops.gumtree.subscriptions.CityService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;

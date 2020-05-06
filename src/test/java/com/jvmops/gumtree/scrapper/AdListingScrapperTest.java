@@ -1,6 +1,6 @@
 package com.jvmops.gumtree.scrapper;
 
-import com.jvmops.gumtree.city.City;
+import com.jvmops.gumtree.subscriptions.City;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

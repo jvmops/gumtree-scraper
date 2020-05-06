@@ -1,4 +1,4 @@
-package com.jvmops.gumtree.city;
+package com.jvmops.gumtree.subscriptions;
 
 import com.jvmops.gumtree.Main;
 import com.jvmops.gumtree.Time;

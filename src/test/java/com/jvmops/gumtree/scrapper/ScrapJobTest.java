@@ -1,7 +1,7 @@
 package com.jvmops.gumtree.scrapper;
 
-import com.jvmops.gumtree.city.City;
-import com.jvmops.gumtree.city.CityService;
+import com.jvmops.gumtree.subscriptions.City;
+import com.jvmops.gumtree.subscriptions.CityService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
