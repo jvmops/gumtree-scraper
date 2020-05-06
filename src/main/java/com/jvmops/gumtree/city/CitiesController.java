@@ -24,7 +24,7 @@ public class CitiesController {
     @GetMapping
     public String cities(Model model) {
         Set<CityDto> cities = cityService.cities().stream()
-                .map(this::toDto)
+                .map(this::toCityDto)
                 .collect(Collectors.toSet());
         model.addAttribute("cities", cities);
         model.addAttribute("email", new EmailDto());
@@ -38,7 +38,7 @@ public class CitiesController {
         return "redirect:/cities";
     }
 
-    private CityDto toDto(City city) {
+    private CityDto toCityDto(City city) {
         return CityDto.builder()
                 .name(city.getName())
                 .emails(city.getSubscribers())

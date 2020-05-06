@@ -28,27 +28,23 @@
                     <div class="col-md-8" data-aos="fade-up">
                         <form method="post" th:action="@{/}" th:object="${subscription}">
                             <div class="row form-group">
-                                <div class="dropdown">
 
+                                <div class="dropdown">
                                     <div class="col-auto my-1">
-                                        <select th:field="*{city}" class="custom-select mr-sm-2">
-                                            <option selected value="0">City</option>
-                                            <option  th:value="KATOWICE" th:text="Katowice" value="0"></option>
-                                            <option  th:value="GLIWICE" th:text="Gliwice" value="0"></option>
-                                            <option  th:value="KRAKOW" th:text="Krakow" value="0"></option>
+                                        <select required name="city" class="custom-select mr-sm-2"  >
+                                            <option value="">Select city</option>
+                                            <option th:each="city:${cities}"
+                                                    th:value="${city}"
+                                                    th:text="${city}"
+                                                    th:selected="${city eq selectedCity}"></option>
                                         </select>
                                     </div>
-<!--                                    This is some idea on how to generate this from backend -->
-<!--                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">-->
-<!--                                        <div th:each="c:${categories}">-->
-<!--                                            <a class="dropdown-item" href="#" th:text="${c.getCategoryName()}">Action</a>-->
-<!--                                        </div>-->
-<!--                                    </div>-->
                                 </div>
+
                                 <div class="col-auto">
                                     <input id="email" type="email" class="form-control" placeholder="email"
                                            aria-describedby="sizing-addon2"
-                                           required="required"
+                                           required
                                            onfocus="this.removeAttribute('readonly');"
                                            th:field="*{email}">
                                     <span class="error text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>

@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.validation.Valid;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Profile("web")
 @Controller
@@ -25,6 +27,10 @@ public class ReportController {
     @GetMapping
     public String notifications(Model model) {
         model.addAttribute("subscription", Subscription.builder().build());
+        List<String> cityNames = cityService.cities().stream()
+                .map(City::getName)
+                .collect(Collectors.toList());
+        model.addAttribute("cities", cityNames);
         return "notifications";
     }
 
