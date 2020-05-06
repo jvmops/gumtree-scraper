@@ -24,17 +24,22 @@ public class ReportController {
 
     @GetMapping
     public String notifications(Model model) {
-        model.addAttribute("emailMapping", Subscription.builder().build());
+        model.addAttribute("subscription", Subscription.builder().build());
         return "notifications";
     }
 
     @PostMapping
     public String sentReport(
-            @Valid Subscription cityEmail
+            @Valid Subscription cityEmail,
+            BindingResult bindingResult
     ) {
+        if (bindingResult.hasErrors()) {
+            return "notifications";
+        }
+
         City city = cityService.getByName(cityEmail.getCity());
         reportService.initialEmail(
                 city, cityEmail.getEmail());
-        return "redirect:/?emailSent=true";
+        return "redirect:/?initialEmailSent";
     }
 }

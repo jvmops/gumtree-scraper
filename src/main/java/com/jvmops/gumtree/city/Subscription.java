@@ -16,5 +16,6 @@ public class Subscription {
     @NotEmpty
     private String city;
     @Email
+    @NotEmpty
     private String email;
 }

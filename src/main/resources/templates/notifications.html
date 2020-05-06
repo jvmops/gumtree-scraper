@@ -26,7 +26,7 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-8" data-aos="fade-up">
-                        <form method="post" th:action="@{/}" th:object="${emailMapping}">
+                        <form method="post" th:action="@{/}" th:object="${subscription}">
                             <div class="row form-group">
                                 <div class="dropdown">
 
@@ -46,11 +46,11 @@
 <!--                                    </div>-->
                                 </div>
                                 <div class="col-auto">
-                                    <input id="email" type="text" class="form-control" placeholder="email"
+                                    <input id="email" type="email" class="form-control" placeholder="email"
                                            aria-describedby="sizing-addon2"
                                            onfocus="this.removeAttribute('readonly');"
-                                           readonly="readonly"
                                            th:field="*{email}">
+                                    <span class="error text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
                                 </div>
                             </div>
                             <div class="row form-group">
