@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,9 +14,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
 
 @Profile("web")
 @Controller
+@Validated
 @RequestMapping("/")
 @AllArgsConstructor
 public class EmailSubscriptionController {
@@ -23,7 +26,7 @@ public class EmailSubscriptionController {
 
     @GetMapping("/subscribe")
     public String subscribe(
-            @RequestParam String city,
+            @RequestParam @NotEmpty String city,
             @RequestParam @Email String email,
             Model model
     ) {
@@ -38,7 +41,7 @@ public class EmailSubscriptionController {
 
     @GetMapping("/unsubscribe")
     public String unsubscribeForm(
-            @RequestParam String city,
+            @RequestParam @NotEmpty String city,
             Model model
     ) {
         Subscription subscription = Subscription.builder()

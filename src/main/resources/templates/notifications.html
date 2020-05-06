@@ -48,6 +48,7 @@
                                 <div class="col-auto">
                                     <input id="email" type="email" class="form-control" placeholder="email"
                                            aria-describedby="sizing-addon2"
+                                           required="required"
                                            onfocus="this.removeAttribute('readonly');"
                                            th:field="*{email}">
                                     <span class="error text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>

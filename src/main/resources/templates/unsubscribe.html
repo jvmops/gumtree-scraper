@@ -31,16 +31,16 @@
                                 <div class="col-md-6 mb-3 mb-md-0">
                                     <input id="city" type="text" class="form-control" placeholder="city"
                                            aria-describedby="sizing-addon2"
-                                           onfocus="this.removeAttribute('readonly');"
-                                           readonly="readonly"
+                                           readonly
                                            th:value="${subscription.city}"
                                            th:field="*{city}">
                                 </div>
                                 <div class="col-md-6">
-                                    <input id="email" type="text" class="form-control" placeholder="email"
+                                    <input id="email" type="email" class="form-control" placeholder="email"
                                            aria-describedby="sizing-addon2"
                                            onfocus="this.removeAttribute('readonly');"
                                            readonly="readonly"
+                                           required="required"
                                            th:field="*{email}">
                                 </div>
                             </div>
