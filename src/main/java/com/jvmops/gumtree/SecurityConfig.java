@@ -8,7 +8,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.thymeleaf.TemplateEngine;
-import org.thymeleaf.extras.springsecurity4.dialect.SpringSecurityDialect;
 
 import javax.annotation.PostConstruct;
 
@@ -44,12 +43,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         public void addViewControllers(ViewControllerRegistry registry) {
             registry.addViewController("/login").setViewName("login");
         }
-    }
-
-    // TODO: very very ugly hack - try think of something better
-    // this is for the sec tag in html (xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4")
-    @PostConstruct
-    void addDialect() {
-        templateEngine.addDialect(new SpringSecurityDialect());
     }
 }
