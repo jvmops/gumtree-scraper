@@ -9,5 +9,5 @@ import java.util.Set;
 @Repository
 public interface CityRepository extends CrudRepository<City, Long> {
     Optional<City> findByNameIgnoreCase(String city);
-    Set<City> findAllByNotificationsContaining(String email);
+    Set<City> findAllBySubscribersContaining(String email);
 }

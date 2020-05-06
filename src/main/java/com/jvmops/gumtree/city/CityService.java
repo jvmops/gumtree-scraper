@@ -1,9 +1,9 @@
 package com.jvmops.gumtree.city;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import java.util.Set;
@@ -11,12 +11,12 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
-@Configuration
+@Component
+@RequiredArgsConstructor
 @Slf4j
 public class CityService {
 
-    @Autowired
-    private CityRepository cityRepository;
+    private final CityRepository cityRepository;
 
     public Set<City> cities() {
         return findAll().collect(Collectors.toSet());
@@ -24,7 +24,7 @@ public class CityService {
 
     public Set<String> emails(String city) {
         return findCityByName(city)
-                .getNotifications();
+                .getSubscribers();
     }
 
     public City findCityByName(String city) {
@@ -32,9 +32,9 @@ public class CityService {
                 .orElseThrow(() -> new CityNotFound(city));
     }
 
-    public City addCity(String name) {
+    public City addCity(String name, String urlCode) {
         return cityRepository.save(
-                createNewCity(name, null)
+                createNewCity(name, "urlCode")
         );
     }
 
@@ -42,16 +42,16 @@ public class CityService {
         log.info("Subscribing {} to {} notifications...", email, city);
         City toBeSaved = cityRepository.findByNameIgnoreCase(city)
                 .map(existingCity -> subscribe(email, existingCity))
-                .orElse(createNewCity(city, email));
+                .orElseThrow(() -> new CityNotFound(city));
         return cityRepository.save(toBeSaved);
     }
 
     @SuppressWarnings("squid:S3864")
     public void stopNotifications(String email) {
-        Set<City> cities = cityRepository.findAllByNotificationsContaining(email);
+        Set<City> cities = cityRepository.findAllBySubscribersContaining(email);
         cities.stream()
                 .peek(city -> log.info("Removing {} from {} notifications", email, city.getName()))
-                .forEach(city -> city.getNotifications().remove(email));
+                .forEach(city -> city.getSubscribers().remove(email));
         cityRepository.saveAll(cities);
     }
 
@@ -68,12 +68,11 @@ public class CityService {
         return existingCity;
     }
 
-    private City createNewCity(String city, String email) {
-        Set<String> emails = StringUtils.isEmpty(email) ? Set.of() : Set.of(email);
+    private City createNewCity(String city, String urlCode) {
         return City.builder()
                 .id(ObjectId.get())
                 .name(city)
-                .notifications(emails)
+                .urlCode(urlCode)
                 .build();
     }
 }

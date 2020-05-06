@@ -6,12 +6,9 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
-import org.thymeleaf.TemplateEngine;
-import org.thymeleaf.context.Context;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
-import java.util.Locale;
 import java.util.Set;
 
 import static org.springframework.util.CollectionUtils.isEmpty;
@@ -24,66 +21,47 @@ class GmailClient implements NotificationSender {
     private static final String TITLE_PATTERN = "Mieszkania/domy do wynajęcia - %s";
 
     private final JavaMailSender emailSender;
-    private final TemplateEngine templateEngine;
+    private final TemplateProcessor templateProcessor;
 
     @Override
     public void initialEmail(ApartmentReport apartmentReport, String email) {
+        String city = apartmentReport.getCity().getName();
+        String subject = String.format(TITLE_PATTERN, city);
+        String html = templateProcessor.initialEmail(apartmentReport, email);
         try {
-            MimeMessageWrapper message = prepareMessage(apartmentReport, EmailType.INITIAL);
-            initialEmail(message, email);
+            MimeMessageWrapper message = prepareMessage(subject, html);
+            sendInitialMessage(message, email);
         } catch (MessagingException e) {
-            log.error("Unable to send email to {}", email, e);
+            log.error("Unable to send initial email for {} subscription to {}", city, email, e);
         }
     }
 
     @Override
     public void notifySubscribers(ApartmentReport apartmentReport) {
-        Set<String> emails = apartmentReport.getCity().getNotifications();
-        notifySubscribers(apartmentReport, emails);
-    }
-
-    @Override
-    public void notifySubscribers(ApartmentReport apartmentReport, Set<String> emails) {
-        if (isEmpty(emails)) {
-            log.warn("No one is subscribed to {} report!", apartmentReport.getCity());
-            return;
-        }
-
+        String city = apartmentReport.getCity().getName();
+        String subject = String.format(TITLE_PATTERN, city);
+        String html = templateProcessor.subscriptionEmail(apartmentReport);
+        Set<String> subscribers = apartmentReport.getCity().getSubscribers();
         try {
-            MimeMessageWrapper message = prepareMessage(apartmentReport, EmailType.SUBSCRIPTION);
-            notifySubscribers(message, emails);
+            MimeMessageWrapper message = prepareMessage(subject, html);
+            notifySubscribers(message, subscribers);
         } catch (MessagingException e) {
-            log.error("Unable to send email to {}", emails, e);
+            log.error("Unable to send subscription emails for {} to {}", city, subscribers, e);
         }
     }
 
-    private MimeMessageWrapper prepareMessage(ApartmentReport apartmentReport, EmailType emailType) throws MessagingException {
-        String html = processHtmlTemplate(apartmentReport, emailType);
+    private MimeMessageWrapper prepareMessage(String subject, String content) throws MessagingException {
 
         MimeMessage message = emailSender.createMimeMessage();
-        message.setContent(html, "text/html; charset=utf-8");
+        message.setContent(content, "text/html; charset=utf-8");
 
         MimeMessageHelper helper = new MimeMessageHelper(message, "UTF-8");
-        String subject = String.format(TITLE_PATTERN, apartmentReport.getCity().getName());
         helper.setSubject(subject);
 
         return new MimeMessageWrapper(message, helper);
     }
 
-    private String processHtmlTemplate(ApartmentReport apartmentReport, EmailType emailType) {
-        Context context = new Context(Locale.ENGLISH);
-        context.setVariable("city", apartmentReport.getCity().getName());
-        context.setVariable("report", apartmentReport);
-
-        String templatePath = switch (emailType) {
-            case INITIAL -> "email/initial.html";
-            case SUBSCRIPTION -> "email/subscription.html";
-        };
-
-        return templateEngine.process(templatePath, context);
-    }
-
-    private void initialEmail(MimeMessageWrapper messageWrapper, String email) throws MessagingException {
+    private void sendInitialMessage(MimeMessageWrapper messageWrapper, String email) throws MessagingException {
         messageWrapper.helper.setTo(email);
         emailSender.send(messageWrapper.message);
     }
@@ -94,9 +72,4 @@ class GmailClient implements NotificationSender {
     }
 
     private record MimeMessageWrapper(MimeMessage message, MimeMessageHelper helper){}
-
-    private enum EmailType {
-        INITIAL,
-        SUBSCRIPTION
-    }
 }

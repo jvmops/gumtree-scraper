@@ -40,7 +40,7 @@ public class CityServiceTest {
     public void city_name_is_unique() {
         assertThrows(
                 DuplicateKeyException.class,
-                () -> cityService.addCity("Wroclaw")
+                () -> cityService.addCity("Wroclaw", "235235")
         );
     }
 
@@ -56,7 +56,7 @@ public class CityServiceTest {
     public void you_can_subscribe_to_notifications_with_email() {
         cityService.subscribeToNotifications("Wroclaw", "other@gmail.com");
         City wroclaw = cityService.findCityByName("Wroclaw");
-        assertEquals(2, wroclaw.getNotifications().size());
+        assertEquals(2, wroclaw.getSubscribers().size());
     }
 
     @Test
@@ -64,28 +64,28 @@ public class CityServiceTest {
         cityService.stopNotifications("jvmops@gmail.com");
         City katowice = cityService.findCityByName("Katowice");
         City wroclaw = cityService.findCityByName("Wroclaw");
-        assertEquals(1, katowice.getNotifications().size());
-        assertEquals(0, wroclaw.getNotifications().size());
+        assertEquals(1, katowice.getSubscribers().size());
+        assertEquals(0, wroclaw.getSubscribers().size());
     }
 
     @Test
     public void new_city_with_empty_mailing_list_can_be_added() {
-        cityService.subscribeToNotifications("gliwice", null);
-        City wroclaw = cityService.findCityByName("gliwice");
-        assertEquals(0, wroclaw.getNotifications().size());
+        cityService.addCity("gliwice", "523523");
+        City gliwice = cityService.findCityByName("gliwice");
+        assertEquals(0, gliwice.getSubscribers().size());
     }
 
     private List<City> createCities() {
         City katowice = City.builder()
                 .id(ObjectId.get())
                 .name("Katowice")
-                .notifications(Set.of("jvmops@gmail.com", "jvmops+test@gmail.com"))
+                .subscribers(Set.of("jvmops@gmail.com", "jvmops+test@gmail.com"))
                 .creationTime(time.now())
                 .build();
         City wroclaw = City.builder()
                 .id(ObjectId.get())
                 .name("Wroclaw")
-                .notifications(Set.of("jvmops@gmail.com"))
+                .subscribers(Set.of("jvmops@gmail.com"))
                 .creationTime(time.now())
                 .build();
         return List.of(katowice, wroclaw);

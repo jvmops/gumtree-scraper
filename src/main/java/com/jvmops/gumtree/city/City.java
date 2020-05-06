@@ -25,7 +25,7 @@ public class City {
     private String name;
     private String urlCode;
     @Builder.Default
-    private Set<String> notifications = new HashSet<>();
+    private Set<String> subscribers = new HashSet<>();
     @CreatedDate
     private LocalDateTime creationTime;
     @LastModifiedDate
@@ -36,6 +36,6 @@ public class City {
     }
 
     public boolean subscribe(String email) {
-        return notifications.add(email);
+        return subscribers.add(email);
     }
 }

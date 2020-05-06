@@ -35,11 +35,7 @@ public class CitiesController {
 
     @PostMapping
     public String processCityEmail(@Valid CityEmailDto cityEmail) {
-        if (StringUtils.isEmpty(cityEmail.getEmail())) {
-            cityService.addCity(cityEmail.getCity());
-        } else {
-            cityService.subscribeToNotifications(cityEmail.getCity(), cityEmail.getEmail());
-        }
+        cityService.subscribeToNotifications(cityEmail.getCity(), cityEmail.getEmail());
         return "redirect:/cities";
     }
 
@@ -52,7 +48,7 @@ public class CitiesController {
     private CityDto toDto(City city) {
         return CityDto.builder()
                 .name(city.getName())
-                .emails(city.getNotifications())
+                .emails(city.getSubscribers())
                 .build();
     }
 }

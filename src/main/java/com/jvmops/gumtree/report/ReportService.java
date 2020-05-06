@@ -26,7 +26,7 @@ public class ReportService {
         cityService.cities().stream()
                 .peek(city -> log.info("Creating {} apartment report", city.getName()))
                 .map(apartmentReportFactory::create)
-                .peek(report -> log.info("Sending {} apartment report to {}", report.getCity().getName(), report.getCity().getNotifications()))
+                .peek(report -> log.info("Sending {} apartment report to {}", report.getCity().getName(), report.getCity().getSubscribers()))
                 .forEach(notificationSender::notifySubscribers);
     }
 }
