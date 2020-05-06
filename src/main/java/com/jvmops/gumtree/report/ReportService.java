@@ -7,8 +7,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
-import java.util.Set;
-
 @Component
 @Lazy
 @Slf4j
@@ -18,18 +16,17 @@ public class ReportService {
     private NotificationSender notificationSender;
     private CityService cityService;
 
-    public void createReportAndNotifySingleEmail(String cityName, String email) {
-        City city = new City(cityName);
+    public void initialEmail(City city, String email) {
         ApartmentReport apartmentReport = apartmentReportFactory.create(city);
-        notificationSender.send(apartmentReport, Set.of(email));
+        notificationSender.initialEmail(apartmentReport, email);
     }
 
     @SuppressWarnings("squid:S3864")
-    public void createReportAndNotifyForEachCity() {
+    public void notifySubscribers() {
         cityService.cities().stream()
                 .peek(city -> log.info("Creating {} apartment report", city.getName()))
                 .map(apartmentReportFactory::create)
                 .peek(report -> log.info("Sending {} apartment report to {}", report.getCity().getName(), report.getCity().getNotifications()))
-                .forEach(notificationSender::send);
+                .forEach(notificationSender::notifySubscribers);
     }
 }

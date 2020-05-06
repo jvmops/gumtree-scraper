@@ -12,8 +12,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Set;
 
+//TODO: improve this test
 @SpringBootTest(classes = Main.class)
 class ReportServiceTest extends DataInitializer {
+    public static final City KATOWICE = new City("Katowice");
+
     @Autowired
     private ApartmentReportFactory apartmentReportFactory;
     @Mock
@@ -29,25 +32,25 @@ class ReportServiceTest extends DataInitializer {
     }
 
     @Test
-    void katowice_apartment_report_will_be_send_to_the_concerned_parties() {
+    void subscribers_can_be_notified() {
         Mockito.when(cityService.cities())
-                .thenReturn(Set.of(new City("Katowice")));
+                .thenReturn(Set.of(KATOWICE));
 
-        reportService.createReportAndNotifyForEachCity();
+        reportService.notifySubscribers();
 
-        Mockito.verify(notificationSender).send(Mockito.any());
+        Mockito.verify(notificationSender).notifySubscribers(Mockito.any());
     }
 
     @Test
-    void report_can_be_send_on_demand() {
+    void initial_email_can_be_send() {
         Mockito.when(cityService.cities())
                 .thenReturn(Set.of(new City("Katowice")));
 
-        reportService.createReportAndNotifySingleEmail("Katowice", "test@gmail.com");
+        reportService.initialEmail(KATOWICE, "test@gmail.com");
 
-        Mockito.verify(notificationSender).send(
+        Mockito.verify(notificationSender).initialEmail(
                 Mockito.any(),
-                Mockito.eq(Set.of("test@gmail.com"))
+                Mockito.eq("test@gmail.com")
         );
     }
 }

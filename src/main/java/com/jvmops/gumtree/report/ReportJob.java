@@ -14,6 +14,6 @@ public class ReportJob {
 
     @PostConstruct
     void execute() {
-        reportService.createReportAndNotifyForEachCity();
+        reportService.notifySubscribers();
     }
 }

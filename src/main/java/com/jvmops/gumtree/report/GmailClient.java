@@ -27,42 +27,76 @@ class GmailClient implements NotificationSender {
     private final TemplateEngine templateEngine;
 
     @Override
-    public void send(ApartmentReport apartmentReport) {
-        Set<String> emailAddresses = apartmentReport.getCity().getNotifications();
-        send(apartmentReport, emailAddresses);
+    public void initialEmail(ApartmentReport apartmentReport, String email) {
+        try {
+            MimeMessageWrapper message = prepareMessage(apartmentReport, EmailType.INITIAL);
+            initialEmail(message, email);
+        } catch (MessagingException e) {
+            log.error("Unable to send email to {}", email, e);
+        }
     }
 
     @Override
-    public void send(ApartmentReport apartmentReport, Set<String> emails) {
+    public void notifySubscribers(ApartmentReport apartmentReport) {
+        Set<String> emails = apartmentReport.getCity().getNotifications();
+        notifySubscribers(apartmentReport, emails);
+    }
+
+    @Override
+    public void notifySubscribers(ApartmentReport apartmentReport, Set<String> emails) {
         if (isEmpty(emails)) {
+            log.warn("No one is subscribed to {} report!", apartmentReport.getCity());
             return;
         }
 
         try {
-            sendEmail(apartmentReport, emails);
+            MimeMessageWrapper message = prepareMessage(apartmentReport, EmailType.SUBSCRIPTION);
+            notifySubscribers(message, emails);
         } catch (MessagingException e) {
             log.error("Unable to send email to {}", emails, e);
         }
     }
 
-    void sendEmail(ApartmentReport apartmentReport, Set<String> emails) throws MessagingException {
-        String html = processHtmlTemplate(apartmentReport);
+    private MimeMessageWrapper prepareMessage(ApartmentReport apartmentReport, EmailType emailType) throws MessagingException {
+        String html = processHtmlTemplate(apartmentReport, emailType);
 
         MimeMessage message = emailSender.createMimeMessage();
         message.setContent(html, "text/html; charset=utf-8");
 
         MimeMessageHelper helper = new MimeMessageHelper(message, "UTF-8");
+        String subject = String.format(TITLE_PATTERN, apartmentReport.getCity().getName());
+        helper.setSubject(subject);
 
-        helper.setBcc(emails.toArray(new String[0]));
-        helper.setSubject(String.format(TITLE_PATTERN, apartmentReport.getCity().getName()));
-
-        emailSender.send(message);
+        return new MimeMessageWrapper(message, helper);
     }
 
-    private String processHtmlTemplate(ApartmentReport apartmentReport) {
+    private String processHtmlTemplate(ApartmentReport apartmentReport, EmailType emailType) {
         Context context = new Context(Locale.ENGLISH);
         context.setVariable("city", apartmentReport.getCity().getName());
         context.setVariable("report", apartmentReport);
-        return templateEngine.process("email/report.html", context);
+
+        String templatePath = switch (emailType) {
+            case INITIAL -> "email/initial.html";
+            case SUBSCRIPTION -> "email/subscription.html";
+        };
+
+        return templateEngine.process(templatePath, context);
+    }
+
+    private void initialEmail(MimeMessageWrapper messageWrapper, String email) throws MessagingException {
+        messageWrapper.helper.setTo(email);
+        emailSender.send(messageWrapper.message);
+    }
+
+    private void notifySubscribers(MimeMessageWrapper messageWrapper, Set<String> emails) throws MessagingException {
+        messageWrapper.helper.setBcc(emails.toArray(new String[0]));
+        emailSender.send(messageWrapper.message);
+    }
+
+    private record MimeMessageWrapper(MimeMessage message, MimeMessageHelper helper){}
+
+    private enum EmailType {
+        INITIAL,
+        SUBSCRIPTION
     }
 }

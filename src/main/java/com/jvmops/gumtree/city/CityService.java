@@ -28,7 +28,7 @@ public class CityService {
     }
 
     public City findCityByName(String city) {
-        return cityRepository.findByName(city)
+        return cityRepository.findByNameIgnoreCase(city)
                 .orElseThrow(() -> new CityNotFound(city));
     }
 
@@ -40,7 +40,7 @@ public class CityService {
 
     public City subscribeToNotifications(String city, String email) {
         log.info("Subscribing {} to {} notifications...", email, city);
-        City toBeSaved = cityRepository.findByName(city)
+        City toBeSaved = cityRepository.findByNameIgnoreCase(city)
                 .map(existingCity -> subscribe(email, existingCity))
                 .orElse(createNewCity(city, email));
         return cityRepository.save(toBeSaved);

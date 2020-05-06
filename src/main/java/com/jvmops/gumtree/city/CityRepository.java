@@ -8,6 +8,6 @@ import java.util.Set;
 
 @Repository
 public interface CityRepository extends CrudRepository<City, Long> {
-    Optional<City> findByName(String city);
+    Optional<City> findByNameIgnoreCase(String city);
     Set<City> findAllByNotificationsContaining(String email);
 }

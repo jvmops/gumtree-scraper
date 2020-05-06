@@ -1,6 +1,8 @@
 package com.jvmops.gumtree.report;
 
+import com.jvmops.gumtree.city.City;
 import com.jvmops.gumtree.city.CityEmailDto;
+import com.jvmops.gumtree.city.CityService;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Controller;
@@ -17,17 +19,19 @@ import javax.validation.Valid;
 @AllArgsConstructor
 public class ReportController {
     private ReportService reportService;
+    private CityService cityService;
 
     @GetMapping
-    public String notification(Model model) {
+    public String notifications(Model model) {
         model.addAttribute("emailMapping", new CityEmailDto());
         return "reports";
     }
 
     @PostMapping
     public String sentReport(@Valid CityEmailDto cityEmail) {
-        reportService.createReportAndNotifySingleEmail(
-                cityEmail.getCity(), cityEmail.getEmail());
-        return "redirect:/";
+        City city = cityService.findCityByName(cityEmail.getCity());
+        reportService.initialEmail(
+                city, cityEmail.getEmail());
+        return "redirect:/?emailSent=true";
     }
 }

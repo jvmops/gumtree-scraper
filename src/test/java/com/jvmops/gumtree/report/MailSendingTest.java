@@ -19,7 +19,7 @@ class MailSendingTest extends DataInitializer {
     // TODO: check issues at Junit5 / maven plugin
     // @Test
     void email_should_be_send_through_gmail() {
-        reportService.createReportAndNotifyForEachCity();
+        reportService.notifySubscribers();
         log.info("Email shipped to the test inbox");
         assertEquals(1, 1);
     }
