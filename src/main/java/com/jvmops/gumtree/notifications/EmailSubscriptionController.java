@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Email;
@@ -31,14 +32,14 @@ public class EmailSubscriptionController {
     public String subscribe(
             @RequestParam @NotEmpty String city,
             @RequestParam @Email String email,
-            Model model
+            RedirectAttributes redirectAttributes
     ) {
         Subscription subscription = Subscription.builder()
                 .city(city)
                 .email(email)
                 .build();
         cityService.start(subscription);
-        model.addAttribute("subscription", subscription);
+        redirectAttributes.addAttribute("subscribedCity", subscription.getCity());
         return "redirect:/?subscribed";
     }
 
@@ -59,9 +60,10 @@ public class EmailSubscriptionController {
     @PostMapping("/unsubscribe")
     public String unsubscribe(
             @Valid Subscription subscription,
-            Model model) {
+            RedirectAttributes redirectAttributes) {
         cityService.cancel(subscription);
-        model.addAttribute("subscription", subscription);
-        return "redirect:/?unsubscribed";
+        redirectAttributes.addAttribute("unsubscribed");
+        redirectAttributes.addAttribute("unsubscribedCity", subscription.getCity());
+        return "redirect:/unsubscribe?unsubscribed";
     }
 }

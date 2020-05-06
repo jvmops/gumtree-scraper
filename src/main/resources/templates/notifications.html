@@ -22,7 +22,6 @@
         </div>
 
         <div class="site-section">
-
             <div class="container">
                 <div class="row">
                     <div class="col-md-8" data-aos="fade-up">
@@ -44,6 +43,14 @@
                                 <div class="col-md-12">
                                     <input type="submit" value="Send it" class="btn btn-primary py-2 px-4 text-white">
                                 </div>
+                            </div>
+                            <div class="alert alert-success" role="alert"
+                                 th:if="${param.keySet().contains('initialEmailSent')}" >
+                                Email has been sent!
+                            </div>
+                            <div class="alert alert-success" role="alert"
+                                 th:if="${param.keySet().contains('subscribed')}" th:text="|You have been subscribed to the ${param.subscribedCity} notifications!|">
+                                You have been subscribed
                             </div>
                         </form>
                         <div class="mt-5 mb-5">
