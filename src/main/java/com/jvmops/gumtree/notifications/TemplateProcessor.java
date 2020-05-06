@@ -1,5 +1,6 @@
 package com.jvmops.gumtree.notifications;
 
+import com.jvmops.gumtree.ScrapperProperties;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Lazy;
@@ -19,10 +20,11 @@ import java.util.Locale;
 @RequiredArgsConstructor
 public class TemplateProcessor {
     private final TemplateEngine templateEngine;
+    private final ScrapperProperties scrapperProperties;
 
     String initialEmail(ApartmentReport apartmentReport, String email) {
         Context context = initializeContext(apartmentReport);
-        context.setVariable("baseUrl", ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString());
+        context.setVariable("baseUrl", scrapperProperties.getWebsiteUrl());
         context.setVariable("email", encodeForUrl(email));
         return templateEngine.process("email/initial.html", context);
     }

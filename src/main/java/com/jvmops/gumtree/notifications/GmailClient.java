@@ -44,7 +44,7 @@ class GmailClient implements NotificationSender {
         Set<String> subscribers = apartmentReport.getCity().getSubscribers();
 
         if (isEmpty(subscribers)) {
-            log.warn("No one is subscribed to {} report!", apartmentReport.getCity());
+            log.warn("No one is subscribed to {} report!", apartmentReport.getCity().getName());
             return;
         }
 

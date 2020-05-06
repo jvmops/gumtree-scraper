@@ -25,6 +25,7 @@ services:
     ports:
       - 8080:8080
     environment:
+      GUMTREE_SCRAPPER_WEBSITE-URL: "http://localhost:8080"
       SPRING_SECURITY_USER_NAME: "${ADMIN_USERNAME}"
       SPRING_SECURITY_USER_PASSWORD: "${ADMIN_PASSWORD}"
       SPRING_PROFILES_ACTIVE: web
