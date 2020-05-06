@@ -30,12 +30,18 @@ docker build -t jvmops/gumtree-scrapper .
 Requirements:
 - docker-compose
 
-Docker image is available at [docker hub](https://hub.docker.com/r/jvmops/gumtree-scrapper)
+Docker image is available at [docker hub](https://hub.docker.com/r/jvmops/gumtree-scrapper).
 ```
 git clone https://github.com/jvmops/gumtree-scrapper.git
 cd gumtree-scrapper
 docker pull jvmops/gumtree-scrapper
 docker-compose up -d
 ```
-
 Website should be available at: http://localhost:8080
+
+Scrapping and sending report is done by separate containers. They are stopped after the job is done. In order to re-run them:
+```
+docker start gumtree-scrapper
+docker start gumtree-report
+```
+It's best to add those commands to a crontab.
