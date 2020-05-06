@@ -42,6 +42,12 @@ class GmailClient implements NotificationSender {
         String subject = String.format(TITLE_PATTERN, city);
         String html = templateProcessor.subscriptionEmail(apartmentReport);
         Set<String> subscribers = apartmentReport.getCity().getSubscribers();
+
+        if (isEmpty(subscribers)) {
+            log.warn("No one is subscribed to {} report!", apartmentReport.getCity());
+            return;
+        }
+
         try {
             MimeMessageWrapper message = prepareMessage(subject, html);
             notifySubscribers(message, subscribers);
