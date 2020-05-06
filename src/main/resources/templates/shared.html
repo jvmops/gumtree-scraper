@@ -95,6 +95,20 @@
         </footer>
     </th:block>
 
+    <th:block th:fragment="cities-dropdown">
+        <div class="dropdown">
+            <div class="col-auto my-1">
+                <select required name="city" class="custom-select mr-sm-2"  >
+                    <option value="">Select city</option>
+                    <option th:each="city:${cities}"
+                            th:value="${city}"
+                            th:text="${city}"
+                            th:selected="${city eq selectedCity}"></option>
+                </select>
+            </div>
+        </div>
+    </th:block>
+
     <th:block th:fragment="stylesheets">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Mono">
         <link rel="stylesheet" href="static/fonts/icomoon/style.css">
