@@ -44,7 +44,7 @@ class ReportServiceTest extends DataInitializer {
     @Test
     void initial_email_can_be_send() {
         Mockito.when(cityService.cities())
-                .thenReturn(Set.of(new City("Katowice")));
+                .thenReturn(Set.of(KATOWICE));
 
         reportService.initialEmail(KATOWICE, "test@gmail.com");
 

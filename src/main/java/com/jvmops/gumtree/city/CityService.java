@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
 
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -22,58 +21,23 @@ public class CityService {
         return findAll().collect(Collectors.toSet());
     }
 
-    public Set<String> emails(String city) {
-        return findCityByName(city)
-                .getSubscribers();
-    }
-
-    public City findCityByName(String city) {
+    public City getByName(String city) {
         return cityRepository.findByNameIgnoreCase(city)
                 .orElseThrow(() -> new CityNotFound(city));
     }
 
-    public City addCity(String name, String urlCode) {
-        return cityRepository.save(
-                createNewCity(name, "urlCode")
-        );
-    }
-
-    public City subscribeToNotifications(String cityName, String email) {
-        log.info("Subscribing {} to {} notifications...", email, cityName);
-        City toBeSaved = cityRepository.findByNameIgnoreCase(cityName)
-                .map(existingCity -> subscribe(email, existingCity))
-                .orElseThrow(() -> new CityNotFound(cityName));
-        return cityRepository.save(toBeSaved);
-    }
-
-    @SuppressWarnings("squid:S3864")
-    public void stopNotifications(String email) {
-        Set<City> cities = cityRepository.findAllBySubscribersContaining(email);
-        cities.stream()
-                .peek(city -> log.info("Removing {} from {} notifications", email, city.getName()))
-                .forEach(city -> city.getSubscribers().remove(email));
-        cityRepository.saveAll(cities);
-    }
-
-    private Stream<City> findAll() {
-        var iterable = cityRepository.findAll();
-        return StreamSupport.stream(iterable.spliterator(), false);
-    }
-
-    private City subscribe(String email, City city) {
-        boolean subscribed = city.subscribe(email);
-        if (!subscribed) {
-            log.warn("{} IS ALREADY ON the notification list for {}", email, city.getName());
+    public City start(Subscription subscription) {
+        City city = cityRepository.findByNameIgnoreCase(subscription.getCity())
+                .orElseThrow(() -> new CityNotFound(subscription.getCity()));
+        boolean subscribed = city.subscribe(subscription.getEmail());
+        if (subscribed) {
+            log.info("{} subscribed for {} report", subscription.getEmail(), city.getName());
+            cityRepository.save(city);
+        } else {
+            log.warn("{} is already subscribed for {} report", subscription.getEmail(), city.getName());
         }
-        return city;
-    }
 
-    private City createNewCity(String city, String urlCode) {
-        return City.builder()
-                .id(ObjectId.get())
-                .name(city)
-                .urlCode(urlCode)
-                .build();
+        return city;
     }
 
     public City cancel(Subscription subscription) {
@@ -89,6 +53,24 @@ public class CityService {
         }
 
         return city;
+    }
+
+    /**
+     * @param cityUrlCode - gumtree thingy, just check url for apartment listing and you will know
+     */
+    City add(String cityName, String cityUrlCode) {
+        return cityRepository.save(
+                City.builder()
+                        .id(ObjectId.get())
+                        .name(cityName)
+                        .urlCode(cityUrlCode)
+                        .build()
+        );
+    }
+
+    private Stream<City> findAll() {
+        var iterable = cityRepository.findAll();
+        return StreamSupport.stream(iterable.spliterator(), false);
     }
 }
 

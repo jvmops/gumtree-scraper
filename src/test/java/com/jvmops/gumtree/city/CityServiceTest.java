@@ -40,7 +40,7 @@ public class CityServiceTest {
     public void city_name_is_unique() {
         assertThrows(
                 DuplicateKeyException.class,
-                () -> cityService.addCity("Wroclaw", "235235")
+                () -> cityService.add("Wroclaw", "235235")
         );
     }
 
@@ -48,30 +48,25 @@ public class CityServiceTest {
     void quering_an_unknown_city_will_result_in_exception() {
         assertThrows(
                 CityNotFound.class,
-                () -> cityService.emails("no_such_city")
+                () -> cityService.getByName("no_such_city")
         );
     }
 
     @Test
     public void you_can_subscribe_to_notifications_with_email() {
-        cityService.subscribeToNotifications("Wroclaw", "other@gmail.com");
-        City wroclaw = cityService.findCityByName("Wroclaw");
+        Subscription subscription = Subscription.builder()
+                .city("Wroclaw")
+                .email("other@gmail.com")
+                .build();
+        cityService.start(subscription);
+        City wroclaw = cityService.getByName("Wroclaw");
         assertEquals(2, wroclaw.getSubscribers().size());
     }
 
     @Test
-    public void email_can_be_unsubscribed_from_all_notification_lists() {
-        cityService.stopNotifications("jvmops@gmail.com");
-        City katowice = cityService.findCityByName("Katowice");
-        City wroclaw = cityService.findCityByName("Wroclaw");
-        assertEquals(1, katowice.getSubscribers().size());
-        assertEquals(0, wroclaw.getSubscribers().size());
-    }
-
-    @Test
     public void new_city_with_empty_mailing_list_can_be_added() {
-        cityService.addCity("gliwice", "523523");
-        City gliwice = cityService.findCityByName("gliwice");
+        cityService.add("gliwice", "523523");
+        City gliwice = cityService.getByName("gliwice");
         assertEquals(0, gliwice.getSubscribers().size());
     }
 

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" >
+>
 <head>
     <title>Apartments :: Subsciptions</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
@@ -26,7 +26,7 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-6" data-aos="fade-up">
-                        <form method="post" th:action="@{cities}" th:object="${cityEmail}">
+                        <form method="post" th:action="@{cities}" th:object="${subscription}">
                             <div class="row form-group">
                                 <div class="col-md-6 mb-3 mb-md-0">
                                     <input id="city" type="text" class="form-control" placeholder="city"

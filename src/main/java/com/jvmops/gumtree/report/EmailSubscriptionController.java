@@ -1,7 +1,7 @@
 package com.jvmops.gumtree.report;
 
-import com.jvmops.gumtree.city.Subscription;
 import com.jvmops.gumtree.city.CityService;
+import com.jvmops.gumtree.city.Subscription;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Controller;
@@ -13,9 +13,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Email;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 
 @Profile("web")
 @Controller
@@ -27,10 +24,16 @@ public class EmailSubscriptionController {
     @GetMapping("/subscribe")
     public String subscribe(
             @RequestParam String city,
-            @RequestParam @Email String email
+            @RequestParam @Email String email,
+            Model model
     ) {
-        cityService.subscribeToNotifications(city, email);
-        return String.format("redirect:/?subscribed=true&city=%s&email=%s", encodeForUrl(city), encodeForUrl(email));
+        Subscription subscription = Subscription.builder()
+                .city(city)
+                .email(email)
+                .build();
+        cityService.start(subscription);
+        model.addAttribute("subscription", subscription);
+        return "redirect:/?subscribed";
     }
 
     @GetMapping("/unsubscribe")
@@ -46,16 +49,11 @@ public class EmailSubscriptionController {
     }
 
     @PostMapping("/unsubscribe")
-    public String unsubscribe(@Valid Subscription subscription) {
+    public String unsubscribe(
+            @Valid Subscription subscription,
+            Model model) {
         cityService.cancel(subscription);
-        return "redirect:/?unsubscribed=true";
-    }
-
-    public static String encodeForUrl(String value) {
-        try {
-            return URLEncoder.encode(value, StandardCharsets.UTF_8.toString());
-        } catch (UnsupportedEncodingException e) {
-            throw new RuntimeException(String.format("Unable to encode value '%s' to url", value));
-        }
+        model.addAttribute("subscription", subscription);
+        return "redirect:/?unsubscribed";
     }
 }

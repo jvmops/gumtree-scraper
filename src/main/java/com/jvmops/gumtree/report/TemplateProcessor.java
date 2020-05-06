@@ -8,9 +8,10 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.Locale;
-
-import static com.jvmops.gumtree.report.EmailSubscriptionController.encodeForUrl;
 
 @Lazy
 @Component
@@ -37,5 +38,13 @@ public class TemplateProcessor {
         context.setVariable("report", apartmentReport);
         context.setVariable("cityForUrl", encodeForUrl(apartmentReport.getCity().getName()));
         return context;
+    }
+
+    public static String encodeForUrl(String value) {
+        try {
+            return URLEncoder.encode(value, StandardCharsets.UTF_8.toString());
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(String.format("Unable to encode value '%s' to url", value));
+        }
     }
 }

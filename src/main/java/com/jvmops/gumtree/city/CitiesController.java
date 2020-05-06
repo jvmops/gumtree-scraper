@@ -28,19 +28,13 @@ public class CitiesController {
                 .collect(Collectors.toSet());
         model.addAttribute("cities", cities);
         model.addAttribute("email", new EmailDto());
-        model.addAttribute("cityEmail", Subscription.builder().build());
+        model.addAttribute("subscription", new Subscription());
         return "cities";
     }
 
     @PostMapping
-    public String processCityEmail(@Valid Subscription cityEmail) {
-        cityService.subscribeToNotifications(cityEmail.getCity(), cityEmail.getEmail());
-        return "redirect:/cities";
-    }
-
-    @PostMapping("emails")
-    public String stopNotifications(@Valid EmailDto email) {
-        cityService.stopNotifications(email.getValue());
+    public String subscribe(@Valid Subscription subscription) {
+        cityService.start(subscription);
         return "redirect:/cities";
     }
 
