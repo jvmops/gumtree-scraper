@@ -50,6 +50,7 @@ class GmailClient implements NotificationSender {
 
         try {
             MimeMessageWrapper message = prepareMessage(subject, html);
+            log.info("Sending {} report to: {}}", apartmentReport.getCity().getName(), subscribers);
             notifySubscribers(message, subscribers);
         } catch (MessagingException e) {
             log.error("Unable to send subscription emails for {} to {}", city, subscribers, e);

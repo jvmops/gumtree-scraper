@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 @Lazy
 @Slf4j
 @AllArgsConstructor
-public class ReportService {
+public class NotificationService {
     private ApartmentReportFactory apartmentReportFactory;
     private NotificationSender notificationSender;
     private CityService cityService;
@@ -26,7 +26,7 @@ public class ReportService {
         cityService.cities().stream()
                 .peek(city -> log.info("Creating {} apartment report", city.getName()))
                 .map(apartmentReportFactory::create)
-                .peek(report -> log.info("Sending {} apartment report to {}", report.getCity().getName(), report.getCity().getSubscribers()))
+                .peek(report -> log.info("Preparing to notify {} subscribers about new apartment report", report.getCity().getName()))
                 .forEach(notificationSender::notifySubscribers);
     }
 }

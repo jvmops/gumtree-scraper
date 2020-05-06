@@ -14,7 +14,7 @@ import java.util.Set;
 
 //TODO: improve this test
 @SpringBootTest(classes = Main.class)
-class ReportServiceTest extends DataInitializer {
+class NotificationServiceTest extends DataInitializer {
     public static final City KATOWICE = new City("Katowice");
 
     @Autowired
@@ -24,11 +24,11 @@ class ReportServiceTest extends DataInitializer {
     @Mock
     private NotificationSender notificationSender;
 
-    private ReportService reportService;
+    private NotificationService notificationService;
 
     @BeforeEach
     void setup() {
-        reportService = new ReportService(apartmentReportFactory, notificationSender, cityService);
+        notificationService = new NotificationService(apartmentReportFactory, notificationSender, cityService);
     }
 
     @Test
@@ -36,7 +36,7 @@ class ReportServiceTest extends DataInitializer {
         Mockito.when(cityService.cities())
                 .thenReturn(Set.of(KATOWICE));
 
-        reportService.notifySubscribers();
+        notificationService.notifySubscribers();
 
         Mockito.verify(notificationSender).notifySubscribers(Mockito.any());
     }
@@ -46,7 +46,7 @@ class ReportServiceTest extends DataInitializer {
         Mockito.when(cityService.cities())
                 .thenReturn(Set.of(KATOWICE));
 
-        reportService.initialEmail(KATOWICE, "test@gmail.com");
+        notificationService.initialEmail(KATOWICE, "test@gmail.com");
 
         Mockito.verify(notificationSender).initialEmail(
                 Mockito.any(),

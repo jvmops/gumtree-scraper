@@ -15,10 +15,10 @@ import java.util.stream.Collectors;
 
 @Profile("web")
 @Controller
-@RequestMapping("/cities")
+@RequestMapping("/subscriptions")
 @Slf4j
 @AllArgsConstructor
-public class CitiesController {
+public class SubscriptionsController {
     private CityService cityService;
 
     @GetMapping
@@ -27,15 +27,14 @@ public class CitiesController {
                 .map(this::toCityDto)
                 .collect(Collectors.toSet());
         model.addAttribute("cities", cities);
-        model.addAttribute("email", new EmailDto());
         model.addAttribute("subscription", new Subscription());
-        return "cities";
+        return "subscriptions";
     }
 
     @PostMapping
     public String subscribe(@Valid Subscription subscription) {
         cityService.start(subscription);
-        return "redirect:/cities";
+        return "redirect:/subscriptions";
     }
 
     private CityDto toCityDto(City city) {

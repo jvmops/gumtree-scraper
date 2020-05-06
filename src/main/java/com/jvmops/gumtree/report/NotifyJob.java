@@ -9,11 +9,11 @@ import javax.annotation.PostConstruct;
 @Profile("report")
 @Component
 @AllArgsConstructor
-public class ReportJob {
-    private ReportService reportService;
+public class NotifyJob {
+    private NotificationService notificationService;
 
     @PostConstruct
     void execute() {
-        reportService.notifySubscribers();
+        notificationService.notifySubscribers();
     }
 }

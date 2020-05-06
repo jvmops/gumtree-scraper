@@ -13,13 +13,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @Slf4j
 class MailSendingTest extends DataInitializer {
     @Autowired
-    private ReportService reportService;
+    private NotificationService notificationService;
 
     // EnableIf(..) doesn't work for maven - you can run this test in IntelliJ no prob and it ignores it but maven has a hiccup
     // TODO: check issues at Junit5 / maven plugin
     // @Test
     void email_should_be_send_through_gmail() {
-        reportService.notifySubscribers();
+        notificationService.notifySubscribers();
         log.info("Email shipped to the test inbox");
         assertEquals(1, 1);
     }

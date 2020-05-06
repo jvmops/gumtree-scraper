@@ -20,8 +20,8 @@ import java.util.stream.Collectors;
 @Controller
 @RequestMapping("/")
 @AllArgsConstructor
-public class ReportController {
-    private ReportService reportService;
+public class NotificationsController {
+    private NotificationService notificationService;
     private CityService cityService;
 
     @GetMapping
@@ -44,7 +44,7 @@ public class ReportController {
         }
 
         City city = cityService.getByName(cityEmail.getCity());
-        reportService.initialEmail(
+        notificationService.initialEmail(
                 city, cityEmail.getEmail());
         return "redirect:/?initialEmailSent";
     }
