@@ -5,7 +5,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,12 +28,12 @@ public class CitiesController {
                 .collect(Collectors.toSet());
         model.addAttribute("cities", cities);
         model.addAttribute("email", new EmailDto());
-        model.addAttribute("cityEmail", new CityEmailDto());
+        model.addAttribute("cityEmail", Subscription.builder().build());
         return "cities";
     }
 
     @PostMapping
-    public String processCityEmail(@Valid CityEmailDto cityEmail) {
+    public String processCityEmail(@Valid Subscription cityEmail) {
         cityService.subscribeToNotifications(cityEmail.getCity(), cityEmail.getEmail());
         return "redirect:/cities";
     }

@@ -38,4 +38,8 @@ public class City {
     public boolean subscribe(String email) {
         return subscribers.add(email);
     }
+
+    public boolean unsubscribe(String email) {
+        return subscribers.remove(email);
+    }
 }

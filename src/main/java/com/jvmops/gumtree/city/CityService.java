@@ -38,11 +38,11 @@ public class CityService {
         );
     }
 
-    public City subscribeToNotifications(String city, String email) {
-        log.info("Subscribing {} to {} notifications...", email, city);
-        City toBeSaved = cityRepository.findByNameIgnoreCase(city)
+    public City subscribeToNotifications(String cityName, String email) {
+        log.info("Subscribing {} to {} notifications...", email, cityName);
+        City toBeSaved = cityRepository.findByNameIgnoreCase(cityName)
                 .map(existingCity -> subscribe(email, existingCity))
-                .orElseThrow(() -> new CityNotFound(city));
+                .orElseThrow(() -> new CityNotFound(cityName));
         return cityRepository.save(toBeSaved);
     }
 
@@ -60,12 +60,12 @@ public class CityService {
         return StreamSupport.stream(iterable.spliterator(), false);
     }
 
-    private City subscribe(String email, City existingCity) {
-        boolean subscribed = existingCity.subscribe(email);
+    private City subscribe(String email, City city) {
+        boolean subscribed = city.subscribe(email);
         if (!subscribed) {
-            log.warn("{} IS ALREADY ON the notification list for {}", email, existingCity.getName());
+            log.warn("{} IS ALREADY ON the notification list for {}", email, city.getName());
         }
-        return existingCity;
+        return city;
     }
 
     private City createNewCity(String city, String urlCode) {
@@ -74,6 +74,21 @@ public class CityService {
                 .name(city)
                 .urlCode(urlCode)
                 .build();
+    }
+
+    public City cancel(Subscription subscription) {
+        City city = cityRepository.findByNameIgnoreCase(subscription.getCity())
+                .orElseThrow(() -> new CityNotFound(subscription.getCity()));
+
+        boolean unsubscribed = city.unsubscribe(subscription.getEmail());
+        if (unsubscribed) {
+            log.info("{} has been unsubscribed from {} report", subscription.getEmail(), city.getName());
+            cityRepository.save(city);
+        } else {
+            log.warn("There is no such email as {} among {} subscribers", subscription.getEmail(), city.getName());
+        }
+
+        return city;
     }
 }
 

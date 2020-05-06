@@ -1,7 +1,7 @@
 package com.jvmops.gumtree.report;
 
 import com.jvmops.gumtree.city.City;
-import com.jvmops.gumtree.city.CityEmailDto;
+import com.jvmops.gumtree.city.Subscription;
 import com.jvmops.gumtree.city.CityService;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Profile;
@@ -23,12 +23,12 @@ public class ReportController {
 
     @GetMapping
     public String notifications(Model model) {
-        model.addAttribute("emailMapping", new CityEmailDto());
+        model.addAttribute("emailMapping", Subscription.builder().build());
         return "reports";
     }
 
     @PostMapping
-    public String sentReport(@Valid CityEmailDto cityEmail) {
+    public String sentReport(@Valid Subscription cityEmail) {
         City city = cityService.findCityByName(cityEmail.getCity());
         reportService.initialEmail(
                 city, cityEmail.getEmail());
