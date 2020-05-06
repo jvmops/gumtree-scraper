@@ -12,6 +12,8 @@ Polish private rental apartment market is established around gumtree. Ads are di
 
 This app solves that problem. It scrap ads, watch for duplicated offers and gather those data. Daily report with interesting findings is distributed to the concerned parties via a gmail account.
 
+Demo available at: https://gumtree.jvmops.com
+
 ## Building from sources:
 Requirements:
 - JDK 14
