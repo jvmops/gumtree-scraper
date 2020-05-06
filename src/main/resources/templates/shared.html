@@ -32,7 +32,7 @@
                                     <a th:href="@{/logout}" href="logout">Log out</a>
                                 </li>
                                 <li>
-                                    <a th:href="@{https://github.com/jvmops/gumtree-scrapper}" href="https://github.com/jvmops/gumtree-scrapper">Github</a>
+                                    <a th:href="@{https://github.com/jvmops/gumtree-scrapper}" target="_blank" href="https://github.com/jvmops/gumtree-scrapper">Github</a>
                                 </li>
                                 <li sec:authorize="isAuthenticated()" th:classappend="${#request.requestURI.equals('/cities') ? 'active':''}">
                                     <a th:href="@{/subscriptions}" href="subscriptions.html">Subscriptions</a>
@@ -64,18 +64,18 @@
                         <ul class="list-unstyled">
                             <li><a th:href="@{/}">Notifications</a></li>
                             <li class="mb-4"><a th:href="@{login}">Login</a></li>
-                            <li><a th:href="@{https://github.com/jvmops/gumtree-scrapper}">Github</a></li>
-                            <li><a th:href="@{https://jvmops.com}">Homepage</a></li>
+                            <li><a th:href="@{https://github.com/jvmops/gumtree-scrapper}" target="_blank">Github</a></li>
+                            <li><a th:href="@{https://jvmops.com}" target="_blank">Homepage</a></li>
                             <li sec:authorize="isAuthenticated()"><a th:href="@{subscriptions}">Subscriptions</a></li>
                         </ul>
                     </div>
                     <div class="col-md-4 mb-5">
                         <h2 class="footer-heading text-uppercase mb-4">Follow me at</h2>
                         <p>
-                            <a href="#" class="p-2 pl-0"><span class="icon-facebook"></span></a>
-                            <a href="#" class="p-2"><span class="icon-twitter"></span></a>
-                            <a href="#" class="p-2"><span class="icon-youtube"></span></a>
-                            <a href="#" class="p-2"><span class="icon-instagram"></span></a>
+<!--                            <a href="#" class="p-2 pl-0"><span class="icon-facebook"></span></a>-->
+<!--                            <a href="#" class="p-2"><span class="icon-twitter"></span></a>-->
+<!--                            <a href="#" class="p-2"><span class="icon-youtube"></span></a>-->
+                            <a href="https://github.com/jvmops" target="_blank" class="p-2"><span class="icon-github"></span></a>
                         </p>
                     </div>
                 </div>
