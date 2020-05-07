@@ -109,6 +109,30 @@
         </div>
     </th:block>
 
+    <th:block th:fragment="city-email-form-group">
+        <div class="row form-group">
+            <div class="dropdown">
+                <div class="col-auto my-1">
+                    <select required name="city" class="custom-select mr-sm-2"  >
+                        <option value="">Select city</option>
+                        <option th:each="city:${cities}"
+                                th:value="${city}"
+                                th:text="${city}"
+                                th:selected="${city eq selectedCity}"></option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-auto">
+                <input id="email" type="email" class="form-control" placeholder="email"
+                       aria-describedby="sizing-addon2"
+                       required
+                       onfocus="this.removeAttribute('readonly');"
+                       th:field="*{email}">
+                <span class="error text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
+            </div>
+        </div>
+    </th:block>
+
     <th:block th:fragment="stylesheets">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Mono">
         <link rel="stylesheet" href="static/fonts/icomoon/style.css">

@@ -8,8 +8,8 @@ import java.util.Set;
 
 @Data
 @Builder
-public class CityDto {
-    private String name;
+public class CitySubscribers {
+    private String cityName;
     private Set<String> emails;
     private LocalDateTime modificationTime;
 }

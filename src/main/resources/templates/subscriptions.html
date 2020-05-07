@@ -15,7 +15,7 @@
             <div class="container">
                 <div class="row align-items-center">
                     <div class="col-md-10" data-aos="fade-up">
-                        <span class="d-block mb-3 caption" data-aos="fade-up" data-aos-delay="100">New subscribers?</span>
+                        <span class="d-block mb-3 caption" data-aos="fade-up" data-aos-delay="100">Admin space!</span>
                     </div>
                 </div>
             </div>
@@ -26,41 +26,58 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-6" data-aos="fade-up">
+                        <span class="d-block mb-3 caption" data-aos="fade-up">Add new city:</span>
                         <form method="post" th:action="@{subscriptions}" th:object="${subscription}">
-                            <div class="row form-group">
-                                <div class="col-md-6 mb-3 mb-md-0">
-                                    <input id="city" type="text" class="form-control" placeholder="city"
-                                           aria-describedby="sizing-addon2"
-                                           onfocus="this.removeAttribute('readonly');"
-                                           readonly="readonly"
-                                           th:field="*{city}">
-                                </div>
-                                <div class="col-md-6">
-                                    <input id="email" type="text" class="form-control" placeholder="email"
-                                           aria-describedby="sizing-addon2"
-                                           onfocus="this.removeAttribute('readonly');"
-                                           readonly="readonly"
-                                           th:field="*{email}">
-                                </div>
-                            </div>
+                            <th:block th:replace="shared :: city-email-form-group"/>
                             <div class="row form-group">
                                 <div class="col-md-12">
                                     <input type="submit" value="Subscribe" class="btn btn-primary py-2 px-4 text-white">
                                 </div>
                             </div>
                         </form>
+
                         <br/>
-                        <span>This subscription will deliver daily email with the most recent and relevant crawler findings.</span>
+                        <br/>
+
+                        <span class="d-block mb-3 caption" data-aos="fade-up">Remove city:</span>
+                        <form method="post" th:action="@{cities/remove}" th:object="${city}">
+                            <div class="row form-group">
+                                <div class="dropdown">
+                                    <div class="col-auto my-1">
+                                        <select required name="city" class="custom-select mr-sm-2"  >
+                                            <option value="">Select city</option>
+                                            <option th:each="city:${cities}"
+                                                    th:value="${city}"
+                                                    th:text="${city}"
+                                                    th:selected="${city eq selectedCity}"></option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col-md-12">
+                                    <input type="submit" value="Remove" class="btn btn-primary py-2 px-4 text-white">
+                                </div>
+                            </div>
+                        </form>
+
+                        <br/>
+                        <br/>
+
+                        <span class="d-block mb-3 caption" data-aos="fade-up">Subscribe new user:</span>
+                        <form method="post" th:action="@{subscriptions}" th:object="${subscription}">
+                            <th:block th:replace="shared :: city-email-form-group"/>
+                            <div class="row form-group">
+                                <div class="col-md-12">
+                                    <input type="submit" value="Subscribe" class="btn btn-primary py-2 px-4 text-white">
+                                </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="site-section">
-            <div class="container">
-                <a id="see_them_all" href="#"><span>See them all...</span></a></span>
-            </div>
-        </div>
 
         <div id="this_is_all" class="site-section">
 
@@ -72,9 +89,9 @@
                         <th scope="col" style="width:80%">Subscribers</th>
                     </tr>
                     </thead>
-                    <tbody th:each="city : ${cities}">
+                    <tbody th:each="city : ${citySubscribers}">
                     <tr>
-                        <td th:text="${city.name}">Katowice</td>
+                        <td th:text="${city.cityName}">Katowice</td>
                         <!--                <td>-->
                         <!--                    <form method="post"-->
                         <!--                          th:action="@{/accounts/{accountId}/activations(accountId=${account.id})}">-->

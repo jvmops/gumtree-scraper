@@ -66,4 +66,11 @@ public class EmailSubscriptionController {
         redirectAttributes.addAttribute("unsubscribedCity", subscription.getCity());
         return "redirect:/unsubscribe?unsubscribed";
     }
+
+    @PostMapping("/unsubscribehard")
+    public String unsubscribehard(
+            Subscription subscription) {
+        cityService.cancel(subscription);
+        return "redirect:/subscriptions";
+    }
 }

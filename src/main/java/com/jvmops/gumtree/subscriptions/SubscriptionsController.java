@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.validation.Valid;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -23,10 +24,14 @@ public class SubscriptionsController {
 
     @GetMapping
     public String cities(Model model) {
-        Set<CityDto> cities = cityService.cities().stream()
-                .map(this::toCityDto)
+        Set<CitySubscribers> citySubscribers = cityService.cities().stream()
+                .map(this::citySubscribers)
                 .collect(Collectors.toSet());
+        List<String> cities = citySubscribers.stream()
+                .map(CitySubscribers::getCityName)
+                .collect(Collectors.toList());
         model.addAttribute("cities", cities);
+        model.addAttribute("citySubscribers", citySubscribers);
         model.addAttribute("subscription", new Subscription());
         return "subscriptions";
     }
@@ -37,9 +42,9 @@ public class SubscriptionsController {
         return "redirect:/subscriptions";
     }
 
-    private CityDto toCityDto(City city) {
-        return CityDto.builder()
-                .name(city.getName())
+    private CitySubscribers citySubscribers(City city) {
+        return CitySubscribers.builder()
+                .cityName(city.getName())
                 .emails(city.getSubscribers())
                 .build();
     }
