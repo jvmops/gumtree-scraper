@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -45,7 +46,7 @@ public class EmailSubscriptionController {
 
     @GetMapping("/unsubscribe")
     public String unsubscribeForm(
-            @RequestParam @NotEmpty String city,
+            @RequestParam(required = false) String city,
             Model model
     ) {
         List<String> cities = cityService.cities().stream()
@@ -53,7 +54,9 @@ public class EmailSubscriptionController {
                 .collect(Collectors.toList());
         model.addAttribute("subscription", new Subscription());
         model.addAttribute("cities", cities);
-        model.addAttribute("selectedCity", city);
+        if (StringUtils.hasText(city)) {
+            model.addAttribute("selectedCity", city);
+        }
         return "unsubscribe";
     }
 
@@ -62,15 +65,7 @@ public class EmailSubscriptionController {
             @Valid Subscription subscription,
             RedirectAttributes redirectAttributes) {
         cityService.cancel(subscription);
-        redirectAttributes.addAttribute("unsubscribed");
         redirectAttributes.addAttribute("unsubscribedCity", subscription.getCity());
         return "redirect:/unsubscribe?unsubscribed";
-    }
-
-    @PostMapping("/unsubscribehard")
-    public String unsubscribehard(
-            Subscription subscription) {
-        cityService.cancel(subscription);
-        return "redirect:/subscriptions";
     }
 }
