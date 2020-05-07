@@ -381,9 +381,9 @@
 
                                         <h4>Mieszkania z gazem:</h4>
 
-                                        <p th:if="${#lists.isEmpty(report.gasApartments)}">Brak mieszkań w tej kategorii.</p>
+                                        <p th:if="${#lists.isEmpty(report.gasOnlyApartments)}">Brak mieszkań w tej kategorii.</p>
 
-                                        <table role="presentation" border="0" cellpadding="0" cellspacing="0" th:if="${not #lists.isEmpty(report.gasApartments)}">
+                                        <table role="presentation" border="0" cellpadding="0" cellspacing="0" th:if="${not #lists.isEmpty(report.gasOnlyApartments)}">
                                             <tbody>
                                             <tr>
                                                 <td align="left">
@@ -393,7 +393,7 @@
                                                     Tytuł ogłoszenia
                                                 </td>
                                             </tr>
-                                            <tr  th:each="ad : ${report.gasApartments}">
+                                            <tr  th:each="ad : ${report.gasOnlyApartments}">
                                                 <td align="right" th:text="${ad.price}">
                                                     1500
                                                 </td>
@@ -406,9 +406,9 @@
 
                                         <h4>Mieszkania ze zmywarką:</h4>
 
-                                        <p th:if="${#lists.isEmpty(report.gasApartments)}">Brak mieszkań w tej kategorii.</p>
+                                        <p th:if="${#lists.isEmpty(report.dishwasherOnlyApartments)}">Brak mieszkań w tej kategorii.</p>
 
-                                        <table role="presentation" border="0" cellpadding="0" cellspacing="0" th:if="${not #lists.isEmpty(report.dishwasherApartments)}">
+                                        <table role="presentation" border="0" cellpadding="0" cellspacing="0" th:if="${not #lists.isEmpty(report.dishwasherOnlyApartments)}">
                                             <tbody>
                                             <tr>
                                                 <td align="left">
@@ -418,7 +418,7 @@
                                                     Tytuł ogłoszenia
                                                 </td>
                                             </tr>
-                                            <tr  th:each="ad : ${report.dishwasherApartments}">
+                                            <tr  th:each="ad : ${report.dishwasherOnlyApartments}">
                                                 <td align="right" th:text="${ad.price}">
                                                     1500
                                                 </td>
@@ -431,7 +431,7 @@
 
                                         <h4>Mieszkania ze zmywarką i gazem :)</h4>
 
-                                        <p th:if="${#lists.isEmpty(report.gasApartments)}">Brak mieszkań w tej kategorii.</p>
+                                        <p th:if="${#lists.isEmpty(report.dishwasherAndGasApartments)}">Brak mieszkań w tej kategorii.</p>
 
                                         <table role="presentation" border="0" cellpadding="0" cellspacing="0" th:if="${not #lists.isEmpty(report.dishwasherAndGasApartments)}">
                                             <tbody>
@@ -456,7 +456,7 @@
 
                                         <h4>Najtańsze oferty z ostatniego tygodnia:</h4>
 
-                                        <p th:if="${#lists.isEmpty(report.gasApartments)}">Brak mieszkań w tej kategorii.</p>
+                                        <p th:if="${#lists.isEmpty(report.cheapestApartments)}">Brak mieszkań w tej kategorii.</p>
 
                                         <table role="presentation" border="0" cellpadding="0" cellspacing="0" th:if="${not #lists.isEmpty(report.cheapestApartments)}">
                                             <tbody>

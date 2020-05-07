@@ -13,8 +13,8 @@ import java.util.List;
 class ApartmentReport {
     private City city;
     private List<Ad> newApartments;
-    private List<Ad> gasApartments;
-    private List<Ad> dishwasherApartments;
+    private List<Ad> gasOnlyApartments;
+    private List<Ad> dishwasherOnlyApartments;
     private List<Ad> dishwasherAndGasApartments;
     private List<Ad> cheapestApartments;
 }

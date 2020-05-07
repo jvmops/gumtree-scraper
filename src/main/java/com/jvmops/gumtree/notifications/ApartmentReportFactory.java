@@ -39,8 +39,8 @@ class ApartmentReportFactory {
         var apartmentReport = ApartmentReport.builder()
                 .city(city)
                 .newApartments(newest)
-                .gasApartments(gas.size() > 20 ? gas.subList(0, 20) : gas)
-                .dishwasherApartments(dishwasher.size() > 20 ? dishwasher.subList(0, 20) : dishwasher)
+                .gasOnlyApartments(gas.size() > 20 ? gas.subList(0, 20) : gas)
+                .dishwasherOnlyApartments(dishwasher.size() > 20 ? dishwasher.subList(0, 20) : dishwasher)
                 .dishwasherAndGasApartments(dishwasherAndGas)
                 .cheapestApartments(cheapest)
                 .build();

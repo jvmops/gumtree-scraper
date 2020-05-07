@@ -18,12 +18,12 @@ class ApartmentReportFactoryTest extends DataInitializer {
     private ApartmentReportFactory apartmentReportFactory;
 
     @Test
-    void there_is_one_persisted_ad_for_wroclaw_that_meets_all_criterias() {
+    void there_is_one_persisted_ad_for_wroclaw() {
         var apartmentReport = apartmentReportFactory.create(WROCLAW);
         assertEquals(1, apartmentReport.getNewApartments().size());
-        assertEquals(1, apartmentReport.getGasApartments().size());
-        assertEquals(1, apartmentReport.getDishwasherApartments().size());
         assertEquals(1, apartmentReport.getDishwasherAndGasApartments().size());
+        assertEquals(0, apartmentReport.getGasOnlyApartments().size());
+        assertEquals(0, apartmentReport.getDishwasherOnlyApartments().size());
         assertEquals(1, apartmentReport.getCheapestApartments().size());
     }
 
@@ -34,22 +34,23 @@ class ApartmentReportFactoryTest extends DataInitializer {
     }
 
     @Test
-    void there_are_two_gas_ads_for_katowice() {
-        var apartmentReport = apartmentReportFactory.create(KATOWICE);
-        assertEquals(2, apartmentReport.getGasApartments().size());
-    }
-
-    @Test
-    void there_are_two_ads_from_katowice_with_dishwasher() {
-        // search is case insensitive and polish letters are handled
-        var apartmentReport = apartmentReportFactory.create(KATOWICE);
-        assertEquals(2, apartmentReport.getDishwasherApartments().size());
-    }
-
-    @Test
     void there_is_one_ad_with_both_dishwasher_and_gas() {
         var apartmentReport = apartmentReportFactory.create(KATOWICE);
         assertEquals(1, apartmentReport.getDishwasherAndGasApartments().size());
+    }
+
+    @Test
+    void there_is_one_distinct_apartment_with_gas() {
+        // if gas apartment contains dishwasher too it does not count here
+        var apartmentReport = apartmentReportFactory.create(KATOWICE);
+        assertEquals(1, apartmentReport.getGasOnlyApartments().size());
+    }
+
+    @Test
+    void there_is_one_distinct_apartment_with_dishwasher() {
+        // if dishwasher apartment contains gas too it does not count here
+        var apartmentReport = apartmentReportFactory.create(KATOWICE);
+        assertEquals(1, apartmentReport.getDishwasherOnlyApartments().size());
     }
 
     @Test
