@@ -34,11 +34,13 @@ class ApartmentReportFactory {
         List<Ad> dishwasher = dishwasherApartments(city.getName());
         List<Ad> dishwasherAndGas = findCommons(gas, dishwasher);
         List<Ad> cheapest = cheapestApartments(city.getName());
+        gas.removeAll(dishwasherAndGas);
+        dishwasher.removeAll(dishwasherAndGas);
         var apartmentReport = ApartmentReport.builder()
                 .city(city)
                 .newApartments(newest)
-                .gasApartments(gas)
-                .dishwasherApartments(dishwasher)
+                .gasApartments(gas.size() > 20 ? gas.subList(0, 20) : gas)
+                .dishwasherApartments(dishwasher.size() > 20 ? dishwasher.subList(0, 20) : dishwasher)
                 .dishwasherAndGasApartments(dishwasherAndGas)
                 .cheapestApartments(cheapest)
                 .build();
