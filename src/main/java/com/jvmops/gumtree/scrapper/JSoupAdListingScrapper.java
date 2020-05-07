@@ -1,7 +1,7 @@
 package com.jvmops.gumtree.scrapper;
 
-import com.jvmops.gumtree.subscriptions.City;
 import com.jvmops.gumtree.scrapper.AdUrlBuilder.AdUrl;
+import com.jvmops.gumtree.subscriptions.City;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;

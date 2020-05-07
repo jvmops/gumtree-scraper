@@ -72,6 +72,10 @@ public class CityService {
         var iterable = cityRepository.findAll();
         return StreamSupport.stream(iterable.spliterator(), false);
     }
+
+    public void remove(City city) {
+        cityRepository.delete(city);
+    }
 }
 
 

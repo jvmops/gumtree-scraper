@@ -1,5 +1,6 @@
 package com.jvmops.gumtree.subscriptions;
 
+import com.jvmops.gumtree.scrapper.CityUrlCodeValidator;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Profile;
@@ -21,6 +22,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class SubscriptionsController {
     private CityService cityService;
+    private CityUrlCodeValidator urlCodeValidator;
 
     @GetMapping
     public String cities(Model model) {
@@ -32,6 +34,8 @@ public class SubscriptionsController {
                 .collect(Collectors.toList());
         model.addAttribute("cities", cities);
         model.addAttribute("citySubscribers", citySubscribers);
+
+        model.addAttribute("newCity", new NewCityDto());
         model.addAttribute("subscription", new Subscription());
         return "subscriptions";
     }
@@ -39,6 +43,24 @@ public class SubscriptionsController {
     @PostMapping
     public String subscribe(@Valid Subscription subscription) {
         cityService.start(subscription);
+        return "redirect:/subscriptions";
+    }
+
+    @PostMapping("/cities")
+    public String addCity(NewCityDto newCityDto) {
+        String urlCodeWithoutPagination = newCityDto.getUrlCode().substring(0, newCityDto.getUrlCode().length() - 2);
+        boolean urlCodeIsValid = urlCodeValidator.isValid(urlCodeWithoutPagination);
+        if ( ! urlCodeIsValid ) {
+            return "redirect:/subscriptions?urlCodeInvalid";
+        }
+        cityService.add(newCityDto.getName(), urlCodeWithoutPagination);
+        return "redirect:/subscriptions";
+    }
+
+    @PostMapping("/cities/remove")
+    public String removeCity(String cityName) {
+        City city = cityService.getByName(cityName);
+        cityService.remove(city);
         return "redirect:/subscriptions";
     }
 

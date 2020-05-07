@@ -19,6 +19,12 @@ class HtmlProvider {
         return get(url);
     }
 
+    String adListing(String cityUrlCode) {
+        String url = String.format(URL_TEMPLATE, GUMTREE_URL, cityUrlCode, 1);
+        log.info("Scrapping ads using url code {} from {}", cityUrlCode, url);
+        return get(url);
+    }
+
     String adDetails(ListedAd listedAd) {
         return get(listedAd.getUrl());
     }
@@ -27,7 +33,8 @@ class HtmlProvider {
         try {
             return Jsoup.connect(url).get().html();
         } catch (IOException e) {
-            throw new IllegalArgumentException(e);
+            log.error("Unable to fetch html from: {}", url, e);
+            return "";
         }
     }
 }
