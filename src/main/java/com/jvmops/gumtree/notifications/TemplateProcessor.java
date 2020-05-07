@@ -24,7 +24,7 @@ public class TemplateProcessor {
 
     String initialEmail(ApartmentReport apartmentReport, String email) {
         Context context = initializeContext(apartmentReport);
-        context.setVariable("baseUrl", scrapperProperties.getWebsiteUrl());
+
         context.setVariable("email", encodeForUrl(email));
         return templateEngine.process("email/initial.html", context);
     }
@@ -38,6 +38,7 @@ public class TemplateProcessor {
         Context context = new Context(Locale.ENGLISH);
         context.setVariable("city", apartmentReport.getCity().getName());
         context.setVariable("report", apartmentReport);
+        context.setVariable("baseUrl", scrapperProperties.getWebsiteUrl());
         context.setVariable("cityForUrl", encodeForUrl(apartmentReport.getCity().getName()));
         return context;
     }
