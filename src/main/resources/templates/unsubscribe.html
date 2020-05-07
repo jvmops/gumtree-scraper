@@ -27,19 +27,7 @@
                 <div class="row">
                     <div class="col-md-8" data-aos="fade-up">
                         <form method="post" th:action="@{/unsubscribe}" th:object="${subscription}">
-                            <div class="row form-group">
-
-                                <th:block th:replace="shared :: cities-dropdown"/>
-
-                                <div class="col-md-6">
-                                    <input id="email" type="email" class="form-control" placeholder="email"
-                                           aria-describedby="sizing-addon2"
-                                           onfocus="this.removeAttribute('readonly');"
-                                           readonly="readonly"
-                                           required="required"
-                                           th:field="*{email}">
-                                </div>
-                            </div>
+                            <th:block th:replace="shared :: city-email-form-group"/>
                             <div class="row form-group">
                                 <div class="col-md-12">
                                     <input type="submit" value="Unsubscribe" class="btn btn-primary py-2 px-4 text-white">

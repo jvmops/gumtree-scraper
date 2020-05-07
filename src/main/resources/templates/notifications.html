@@ -26,19 +26,7 @@
                 <div class="row">
                     <div class="col-md-8" data-aos="fade-up">
                         <form method="post" th:action="@{/}" th:object="${subscription}">
-                            <div class="row form-group">
-
-                                <th:block th:replace="shared :: cities-dropdown"/>
-
-                                <div class="col-auto">
-                                    <input id="email" type="email" class="form-control" placeholder="email"
-                                           aria-describedby="sizing-addon2"
-                                           required
-                                           onfocus="this.removeAttribute('readonly');"
-                                           th:field="*{email}">
-                                    <span class="error text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
-                                </div>
-                            </div>
+                            <th:block th:replace="shared :: city-email-form-group"/>
                             <div class="row form-group">
                                 <div class="col-md-12">
                                     <input type="submit" value="Send it" class="btn btn-primary py-2 px-4 text-white">
