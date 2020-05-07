@@ -9,6 +9,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import java.util.Collection;
 import java.util.List;
@@ -18,7 +19,7 @@ import java.util.stream.Stream;
 @Component
 @Slf4j
 @RequiredArgsConstructor
-class JSoupAdListingScrapper implements PriceParser {
+class JSoupAdListingScrapper {
 
     private final HtmlProvider htmlProvider;
     private final AdUrlBuilder adUrlBuilder;
@@ -77,6 +78,18 @@ class JSoupAdListingScrapper implements PriceParser {
                 .price(price)
                 .featured(featured)
                 .build();
+    }
+
+    private Integer parse(String priceSpanValue) {
+        if (StringUtils.hasText(priceSpanValue)
+                && priceSpanValue.contains("zł")) {
+            String price = priceSpanValue.replace("zł", "")
+                    .trim()
+                    .replace(" ", ""); // "2 200"
+            return Integer.valueOf(price);
+        } else {
+            return 0;
+        }
     }
 
     static class EmptyAdListingPage extends RuntimeException {
