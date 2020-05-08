@@ -5,7 +5,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
@@ -18,7 +17,7 @@ import java.util.Locale;
 @Component
 @Slf4j
 @RequiredArgsConstructor
-public class TemplateProcessor {
+public class EmailTemplateProcessor {
     private final TemplateEngine templateEngine;
     private final ScrapperProperties scrapperProperties;
 

@@ -18,16 +18,14 @@ import static org.springframework.util.CollectionUtils.isEmpty;
 @Slf4j
 @RequiredArgsConstructor
 class GmailClient implements NotificationSender {
-    private static final String TITLE_PATTERN = "Mieszkania/domy do wynajęcia - %s";
-
     private final JavaMailSender emailSender;
-    private final TemplateProcessor templateProcessor;
+    private final EmailTemplateProcessor emailTemplateProcessor;
 
     @Override
     public void initialEmail(ApartmentReport apartmentReport, String email) {
         String city = apartmentReport.getCity().getName();
-        String subject = String.format(TITLE_PATTERN, city);
-        String html = templateProcessor.initialEmail(apartmentReport, email);
+        String subject = apartmentReport.getTitle();
+        String html = emailTemplateProcessor.initialEmail(apartmentReport, email);
         try {
             MimeMessageWrapper message = prepareMessage(subject, html);
             sendInitialMessage(message, email);
@@ -39,8 +37,8 @@ class GmailClient implements NotificationSender {
     @Override
     public void notifySubscribers(ApartmentReport apartmentReport) {
         String city = apartmentReport.getCity().getName();
-        String subject = String.format(TITLE_PATTERN, city);
-        String html = templateProcessor.subscriptionEmail(apartmentReport);
+        String subject = apartmentReport.getTitle();
+        String html = emailTemplateProcessor.subscriptionEmail(apartmentReport);
         Set<String> subscribers = apartmentReport.getCity().getSubscribers();
 
         if (isEmpty(subscribers)) {

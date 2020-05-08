@@ -11,10 +11,15 @@ import java.util.List;
 @Slf4j
 @Builder
 class ApartmentReport {
+    private ReportType reportType;
+    private boolean empty;
+    private String title;
     private City city;
-    private List<Ad> newApartments;
-    private List<Ad> gasOnlyApartments;
-    private List<Ad> dishwasherOnlyApartments;
-    private List<Ad> dishwasherAndGasApartments;
-    private List<Ad> cheapestApartments;
+    private List<Category> categories;
+
+    static ApartmentReport empty() {
+        return ApartmentReport.builder()
+                .empty(true)
+                .build();
+    }
 }

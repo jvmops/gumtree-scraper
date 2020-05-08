@@ -7,6 +7,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
+import java.util.function.Predicate;
+
 @Component
 @Lazy
 @Slf4j
@@ -17,16 +19,17 @@ public class NotificationService {
     private CityService cityService;
 
     public void initialEmail(City city, String email) {
-        ApartmentReport apartmentReport = apartmentReportFactory.create(city);
+        ApartmentReport apartmentReport = apartmentReportFactory.create(city, ReportType.INITIAL);
         notificationSender.initialEmail(apartmentReport, email);
     }
 
     @SuppressWarnings("squid:S3864")
-    public void notifySubscribers() {
+    public void notifySubscribers(ReportType reportType) {
         cityService.cities().stream()
                 .peek(city -> log.info("Creating {} apartment report", city.getName()))
-                .map(apartmentReportFactory::create)
-                .peek(report -> log.info("Preparing to notify {} subscribers about new apartment report", report.getCity().getName()))
+                .map(city -> apartmentReportFactory.create(city, reportType))
+                .filter(Predicate.not(ApartmentReport::isEmpty))
+                .peek(report -> log.info("Preparing to notify {} subscribers about new {} apartment report", report.getCity().getName(), reportType))
                 .forEach(notificationSender::notifySubscribers);
     }
 }
