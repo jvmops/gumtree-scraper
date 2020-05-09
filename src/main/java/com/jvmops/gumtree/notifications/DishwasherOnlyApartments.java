@@ -6,6 +6,8 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+import static com.jvmops.gumtree.notifications.CategoryType.DISHWASHER_ONLY;
+
 @Component
 @Lazy
 class DishwasherOnlyApartments extends CategoryFactoryBase {
@@ -21,7 +23,7 @@ class DishwasherOnlyApartments extends CategoryFactoryBase {
 
     @Override
     public CategoryType categoryType() {
-        return CategoryType.DISHWASHER_ONLY;
+        return DISHWASHER_ONLY;
     }
 
     @Override
@@ -29,6 +31,7 @@ class DishwasherOnlyApartments extends CategoryFactoryBase {
         List<Ad> ads = regexpAdRepository.findAllByCityWithDishwasherOnly(
                 city, oneWeekAgo());
         return Category.builder()
+                .type(DISHWASHER_ONLY)
                 .header("Mieszkania ze zmywarką:")
                 .ads(ads)
                 .build();

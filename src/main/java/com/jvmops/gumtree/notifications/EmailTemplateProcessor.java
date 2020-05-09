@@ -23,16 +23,19 @@ public class EmailTemplateProcessor {
 
     EmailWithReport initialEmail(ApartmentReport apartmentReport, String email) {
         Context context = initializeContext(apartmentReport);
-
         context.setVariable("email", encodeForUrl(email));
-        String html = templateEngine.process("email/initial.html", context);
+        String html = processTemplate(context);
         return new EmailWithReport(apartmentReport, html);
     }
 
     EmailWithReport subscriptionEmail(ApartmentReport apartmentReport) {
         Context context = initializeContext(apartmentReport);
-        String html = templateEngine.process("email/subscription.html", context);
+        String html = processTemplate(context);
         return new EmailWithReport(apartmentReport, html);
+    }
+
+    private String processTemplate(Context context) {
+        return templateEngine.process("email/initial.html", context);
     }
 
     private Context initializeContext(ApartmentReport apartmentReport) {

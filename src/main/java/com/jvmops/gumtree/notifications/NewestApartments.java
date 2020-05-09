@@ -7,6 +7,8 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import static com.jvmops.gumtree.notifications.CategoryType.NEWS;
+
 @Component
 @Lazy
 class NewestApartments extends CategoryFactoryBase {
@@ -16,7 +18,7 @@ class NewestApartments extends CategoryFactoryBase {
 
     @Override
     public CategoryType categoryType() {
-        return CategoryType.NEWEST;
+        return NEWS;
     }
 
     @Override
@@ -24,6 +26,7 @@ class NewestApartments extends CategoryFactoryBase {
         LocalDateTime time = this.time.now().minusHours(2);
         List<Ad> ads = adRepository.findTop20ByCityAndCreationTimeGreaterThanOrderByGumtreeCreationDate(city, time);
         return Category.builder()
+                .type(NEWS)
                 .header("Jeszcze ciepłe:")
                 .ads(ads)
                 .build();

@@ -8,6 +8,7 @@ import java.util.List;
 @Builder
 @Getter
 class Category {
+    private CategoryType type;
     private String header;
     private List<Ad> ads;
 

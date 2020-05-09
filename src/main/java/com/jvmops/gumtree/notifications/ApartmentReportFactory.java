@@ -29,7 +29,7 @@ class ApartmentReportFactory {
     ApartmentReport create(City city, ReportType reportType) {
         List<CategoryFactory> filteredCategoryFactories = switch(reportType) {
             case INITIAL -> List.of(
-                    categoryFactories.get(NEWEST),
+                    categoryFactories.get(NEWS),
                     categoryFactories.get(DISHWASHER_AND_GAS),
                     categoryFactories.get(DISHWASHER_ONLY),
                     categoryFactories.get(CHEAPEST));
@@ -37,7 +37,7 @@ class ApartmentReportFactory {
                     categoryFactories.get(DISHWASHER_AND_GAS),
                     categoryFactories.get(DISHWASHER_ONLY),
                     categoryFactories.get(CHEAPEST));
-            case NEWEST -> List.of(categoryFactories.get(NEWEST));
+            case NEWEST -> List.of(categoryFactories.get(NEWS));
         };
 
         List<Category> categories = filteredCategoryFactories.stream()

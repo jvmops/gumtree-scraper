@@ -1,7 +1,7 @@
 package com.jvmops.gumtree.notifications;
 
 public enum CategoryType {
-    NEWEST,
+    NEWS,
     DISHWASHER_AND_GAS,
     DISHWASHER_ONLY,
     CHEAPEST

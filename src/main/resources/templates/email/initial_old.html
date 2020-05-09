@@ -351,85 +351,159 @@
                             <table role="presentation" border="0" cellpadding="0" cellspacing="0">
                                 <tr>
                                     <td>
-
-                                        <!-- Email content -->
-
                                         <h3>Cześć najemco!</h3>
-                                        <p>Sprawdź poniższe oferty, może znajdziesz coś dla siebie!</p>
+                                        <p>Poniżej świeży zestaw mieszkań, które mogą Cie zainteresować!</p>
 
-                                        <div name="categoryWrapper" th:each="category : ${report.categories}">
-                                            <div name="category" th:id="${category.type}">
-                                                <h4 name="header" th:text="${category.header}">Nagłówek kategorii</h4>
-                                                <p th:if="${#lists.isEmpty(category.ads)}">Brak ofert w tej kategorii.</p>
-                                                <table id="ads" role="presentation" border="0" cellpadding="0" cellspacing="0" th:if="${not #lists.isEmpty(category.ads)}">
-                                                    <tbody>
-                                                    <tr>
-                                                        <td align="left">
-                                                            Cena
-                                                        </td>
-                                                        <td align="left">
-                                                            Tytuł ogłoszenia
-                                                        </td>
-                                                    </tr>
-                                                    <tr name="ad" th:each="ad : ${category.ads}">
-                                                        <td align="right" th:text="${ad.price}">
-                                                            1500
-                                                        </td>
-                                                        <td align="left">
-                                                            <a th:href="${ad.url}" th:text="${ad.title}"></a>
-                                                        </td>
-                                                    </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
+                                        <h4>Jeszcze ciepłe:</h4>
 
+                                        <p th:if="${#lists.isEmpty(report.newApartments)}">Brak mieszkań w tej kategorii.</p>
+
+                                        <table role="presentation" border="0" cellpadding="0" cellspacing="0" th:if="${not #lists.isEmpty(report.newApartments)}">
+                                            <tbody>
+                                            <tr>
+                                                <td align="left">
+                                                    Cena
+                                                </td>
+                                                <td align="left">
+                                                    Tytuł ogłoszenia
+                                                </td>
+                                            </tr>
+                                            <tr  th:each="ad : ${report.newApartments}">
+                                                <td align="right" th:text="${ad.price}">
+                                                    1500
+                                                </td>
+                                                <td align="left">
+                                                    <a th:href="${ad.url}" th:text="${ad.title}"></a>
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+
+                                        <h4>Mieszkania z gazem:</h4>
+
+                                        <p th:if="${#lists.isEmpty(report.gasOnlyApartments)}">Brak mieszkań w tej kategorii.</p>
+
+                                        <table role="presentation" border="0" cellpadding="0" cellspacing="0" th:if="${not #lists.isEmpty(report.gasOnlyApartments)}">
+                                            <tbody>
+                                            <tr>
+                                                <td align="left">
+                                                    Cena
+                                                </td>
+                                                <td align="left">
+                                                    Tytuł ogłoszenia
+                                                </td>
+                                            </tr>
+                                            <tr  th:each="ad : ${report.gasOnlyApartments}">
+                                                <td align="right" th:text="${ad.price}">
+                                                    1500
+                                                </td>
+                                                <td align="left">
+                                                    <a th:href="${ad.url}" th:text="${ad.title}"></a>
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+
+                                        <h4>Mieszkania ze zmywarką:</h4>
+
+                                        <p th:if="${#lists.isEmpty(report.dishwasherOnlyApartments)}">Brak mieszkań w tej kategorii.</p>
+
+                                        <table role="presentation" border="0" cellpadding="0" cellspacing="0" th:if="${not #lists.isEmpty(report.dishwasherOnlyApartments)}">
+                                            <tbody>
+                                            <tr>
+                                                <td align="left">
+                                                    Cena
+                                                </td>
+                                                <td align="left">
+                                                    Tytuł ogłoszenia
+                                                </td>
+                                            </tr>
+                                            <tr  th:each="ad : ${report.dishwasherOnlyApartments}">
+                                                <td align="right" th:text="${ad.price}">
+                                                    1500
+                                                </td>
+                                                <td align="left">
+                                                    <a th:href="${ad.url}" th:text="${ad.title}"></a>
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+
+                                        <h4>Mieszkania ze zmywarką i gazem :)</h4>
+
+                                        <p th:if="${#lists.isEmpty(report.dishwasherAndGasApartments)}">Brak mieszkań w tej kategorii.</p>
+
+                                        <table role="presentation" border="0" cellpadding="0" cellspacing="0" th:if="${not #lists.isEmpty(report.dishwasherAndGasApartments)}">
+                                            <tbody>
+                                            <tr>
+                                                <td align="left">
+                                                    Cena
+                                                </td>
+                                                <td align="left">
+                                                    Tytuł ogłoszenia
+                                                </td>
+                                            </tr>
+                                            <tr  th:each="ad : ${report.dishwasherAndGasApartments}">
+                                                <td align="right" th:text="${ad.price}">
+                                                    1500
+                                                </td>
+                                                <td align="left">
+                                                    <a th:href="${ad.url}" th:text="${ad.title}"></a>
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+
+                                        <h4>Najtańsze oferty z ostatniego tygodnia:</h4>
+
+                                        <p th:if="${#lists.isEmpty(report.cheapestApartments)}">Brak mieszkań w tej kategorii.</p>
+
+                                        <table role="presentation" border="0" cellpadding="0" cellspacing="0" th:if="${not #lists.isEmpty(report.cheapestApartments)}">
+                                            <tbody>
+                                            <tr>
+                                                <td align="left">
+                                                    Cena
+                                                </td>
+                                                <td align="left">
+                                                    Tytuł ogłoszenia
+                                                </td>
+                                            </tr>
+                                            <tr  th:each="ad : ${report.cheapestApartments}">
+                                                <td align="right" th:text="${ad.price}">
+                                                    1500
+                                                </td>
+                                                <td align="left">
+                                                    <a th:href="${ad.url}" th:text="${ad.title}"></a>
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
                                     </td>
                                 </tr>
                             </table>
 
-
-                            <!-- Subscribe button  -->
-
-                            <div id="cto" th:if="${report.reportType.toString() eq 'INITIAL'}">
-                                <p align="center">Chciałbyś otrzymywać ten email codziennie?</p>
-                                <table role="presentation" border="0" cellpadding="0" cellspacing="0" class="btn btn-primary">
-                                    <tbody>
-                                    <tr>
-                                        <td align="center">
-                                            <table id="cto_button" role="presentation" border="0" cellpadding="0" cellspacing="0">
-                                                <tbody>
-                                                <tr>
-                                                    <td> <a id="cto_button_url" th:href="|${baseUrl}/subscribe?email=${email}&city=${cityForUrl}|">Subskrybuj</a> </td>
-                                                </tr>
-                                                </tbody>
-                                            </table>
-                                        </td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>
+                            <p align="center">Chciałbyś otrzymywać ten email codziennie?</p>
+                            <table role="presentation" border="0" cellpadding="0" cellspacing="0" class="btn btn-primary">
+                                <tbody>
+                                <tr>
+                                    <td align="center">
+                                        <table role="presentation" border="0" cellpadding="0" cellspacing="0">
+                                            <tbody>
+                                            <tr>
+                                                <td> <a th:href="|${baseUrl}/subscribe?email=${email}&city=${cityForUrl}|">Subskrybuj</a> </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
 
                         </td>
                     </tr>
                     <!-- END MAIN CONTENT AREA -->
                 </table>
                 <!-- END CENTERED WHITE CONTAINER -->
-
-                <!-- START FOOTER -->
-                <div id="footer" th:if="${report.reportType.toString() eq 'NEWEST' or report.reportType.toString() eq 'DAILY'}" class="footer">
-                    <table role="presentation" border="0" cellpadding="0" cellspacing="0">
-                        <tr>
-                            <td class="content-block">
-                                <br> Znalazłeś już nową chatę? W takim razie
-                                <a id="footer_url" th:href="|${baseUrl}/unsubscribe?city=${cityForUrl}|">
-                                    zakończ subskrypcję
-                                </a>.
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-                <!-- END FOOTER -->
 
             </div>
         </td>

@@ -7,6 +7,8 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+import static com.jvmops.gumtree.notifications.CategoryType.CHEAPEST;
+
 @Component
 @Lazy
 class CheapestApartments extends CategoryFactoryBase {
@@ -18,7 +20,7 @@ class CheapestApartments extends CategoryFactoryBase {
 
     @Override
     public CategoryType categoryType() {
-        return CategoryType.CHEAPEST;
+        return CHEAPEST;
     }
 
     @Override
@@ -27,6 +29,7 @@ class CheapestApartments extends CategoryFactoryBase {
                 city, 0, oneWeekAgo(), SORT_BY_PRICE);
 
         return Category.builder()
+                .type(CHEAPEST)
                 .header("Najtańsze oferty:")
                 .ads(ads)
                 .build();
