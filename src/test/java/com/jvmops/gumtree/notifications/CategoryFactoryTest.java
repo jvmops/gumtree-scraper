@@ -42,7 +42,7 @@ class CategoryFactoryTest extends JsonDataInitializer {
     @Test
     void there_are_13_cheapest_apartments() {
         Category category = cheapestApartments.of(KATOWICE);
-        Assert.assertEquals(18, category.getAds().size());
+        Assert.assertEquals(8, category.getAds().size());
     }
 
     @Test

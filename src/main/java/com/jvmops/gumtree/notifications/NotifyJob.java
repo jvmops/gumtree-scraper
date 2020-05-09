@@ -13,12 +13,14 @@ import javax.annotation.PostConstruct;
 public class NotifyJob {
     private NotificationService notificationService;
 
-    @Scheduled
+    // every two hour starting at 8am and ending at 8pm
+    @Scheduled(cron = "0 0 8,10,12,14,16,18 20 * *")
     void newestApartments() {
         notificationService.notifySubscribers(ReportType.NEWEST);
     }
 
-    @Scheduled
+    // every day at 7pm
+    @Scheduled(cron = "0 0 19 * * ?")
     void dailyReport() {
         notificationService.notifySubscribers(ReportType.DAILY);
     }
