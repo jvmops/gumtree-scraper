@@ -1,6 +1,7 @@
 package com.jvmops.gumtree.notifications;
 
-import lombok.RequiredArgsConstructor;
+import com.jvmops.gumtree.notifications.EmailTemplateProcessor.EmailWithReport;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -16,39 +17,36 @@ import static org.springframework.util.CollectionUtils.isEmpty;
 @Lazy
 @Component
 @Slf4j
-@RequiredArgsConstructor
+@AllArgsConstructor
 class GmailClient implements NotificationSender {
-    private final JavaMailSender emailSender;
-    private final EmailTemplateProcessor emailTemplateProcessor;
+    private JavaMailSender emailSender;
 
     @Override
-    public void initialEmail(ApartmentReport apartmentReport, String email) {
-        String city = apartmentReport.getCity().getName();
-        String subject = apartmentReport.getTitle();
-        String html = emailTemplateProcessor.initialEmail(apartmentReport, email);
+    public void initialEmail(EmailWithReport email, String subscriberWannabe) {
+        String city = email.report().getCity().getName();
+        String subject = email.report().getTitle();
         try {
-            MimeMessageWrapper message = prepareMessage(subject, html);
-            sendInitialMessage(message, email);
+            MimeMessageWrapper message = prepareMessage(subject, email.html());
+            sendInitialMessage(message, subscriberWannabe);
         } catch (MessagingException e) {
-            log.error("Unable to send initial email for {} subscription to {}", city, email, e);
+            log.error("Unable to send initial email for {} subscription to {}", city, subscriberWannabe, e);
         }
     }
 
     @Override
-    public void notifySubscribers(ApartmentReport apartmentReport) {
-        String city = apartmentReport.getCity().getName();
-        String subject = apartmentReport.getTitle();
-        String html = emailTemplateProcessor.subscriptionEmail(apartmentReport);
-        Set<String> subscribers = apartmentReport.getCity().getSubscribers();
+    public void notifySubscribers(EmailWithReport email) {
+        String city = email.report().getCity().getName();
+        String subject = email.report().getTitle();
+        Set<String> subscribers = email.report().getCity().getSubscribers();
 
         if (isEmpty(subscribers)) {
-            log.warn("No one is subscribed to {} report!", apartmentReport.getCity().getName());
-            return;
+            // this is handled before
+            log.error("No one is subscribed to {} report!", city);
         }
 
         try {
-            MimeMessageWrapper message = prepareMessage(subject, html);
-            log.info("Sending {} report to: {}}", apartmentReport.getCity().getName(), subscribers);
+            MimeMessageWrapper message = prepareMessage(subject, email.html());
+            log.info("Sending {} report to: {}}", city, subscribers);
             notifySubscribers(message, subscribers);
         } catch (MessagingException e) {
             log.error("Unable to send subscription emails for {} to {}", city, subscribers, e);

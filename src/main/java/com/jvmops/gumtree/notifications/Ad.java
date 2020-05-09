@@ -6,7 +6,6 @@ import lombok.EqualsAndHashCode;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
-import org.springframework.data.mongodb.core.index.TextIndexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDate;
@@ -24,7 +23,7 @@ class Ad {
     private String url;
     @Indexed
     private String title;
-    @TextIndexed
+    @Indexed
     private String description;
     private Integer price;
     private LocalDate availableSince;
@@ -34,9 +33,4 @@ class Ad {
     private LocalDate gumtreeCreationDate;
     private List<LocalDate> updates;
     private LocalDateTime creationTime;
-
-    void setGumtreeCreationDate(LocalDate gumtreeCreationDate) {
-        this.gumtreeCreationDate = gumtreeCreationDate;
-        this.updates.add(gumtreeCreationDate);
-    }
 }

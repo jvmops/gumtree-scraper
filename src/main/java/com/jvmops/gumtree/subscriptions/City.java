@@ -42,4 +42,8 @@ public class City {
     public boolean unsubscribe(String email) {
         return subscribers.remove(email);
     }
+
+    public boolean hasSubscribers() {
+        return !this.subscribers.isEmpty();
+    }
 }

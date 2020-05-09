@@ -1,6 +1,6 @@
 package com.jvmops.gumtree.notifications;
 
-import lombok.RequiredArgsConstructor;
+import com.jvmops.gumtree.Time;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
@@ -9,9 +9,12 @@ import java.util.List;
 
 @Component
 @Lazy
-@RequiredArgsConstructor
 class CheapestApartments extends CategoryFactoryBase {
     private static final Sort SORT_BY_PRICE = Sort.by("price");
+
+    public CheapestApartments(AdRepository adRepository, Time time) {
+        super(adRepository, time);
+    }
 
     @Override
     public CategoryType categoryType() {
@@ -19,12 +22,12 @@ class CheapestApartments extends CategoryFactoryBase {
     }
 
     @Override
-    public Category get(String city) {
+    public Category of(String city) {
         List<Ad> ads = adRepository.findTop20ByCityAndPriceGreaterThanAndGumtreeCreationDateGreaterThan(
                 city, 0, oneWeekAgo(), SORT_BY_PRICE);
 
         return Category.builder()
-                .header("Najtańsze oferty")
+                .header("Najtańsze oferty:")
                 .ads(ads)
                 .build();
     }

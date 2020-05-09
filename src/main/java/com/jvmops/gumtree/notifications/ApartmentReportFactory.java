@@ -41,7 +41,7 @@ class ApartmentReportFactory {
         };
 
         List<Category> categories = filteredCategoryFactories.stream()
-                .map(categoryFactory -> categoryFactory.get(city.getName()))
+                .map(categoryFactory -> categoryFactory.of(city.getName()))
                 .collect(Collectors.toList());
         List<Category> emptyCategories = categories.stream()
                 .filter(Category::isEmpty)
@@ -49,15 +49,12 @@ class ApartmentReportFactory {
 
         if (categories.size() == emptyCategories.size()) {
             log.info("All categories from {} {} report are empty!", city.getName(), reportType);
-            return ApartmentReport.empty();
+            return ApartmentReport.empty(city, reportType);
         }
-
-        String title = String.format(reportType.getTitleTemplate(), city.getName());
 
         return ApartmentReport.builder()
                 .reportType(reportType)
                 .city(city)
-                .title(title)
                 .categories(categories)
                 .build();
     }

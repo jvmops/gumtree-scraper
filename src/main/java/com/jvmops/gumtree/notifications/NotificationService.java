@@ -1,5 +1,6 @@
 package com.jvmops.gumtree.notifications;
 
+import com.jvmops.gumtree.notifications.EmailTemplateProcessor.EmailWithReport;
 import com.jvmops.gumtree.subscriptions.City;
 import com.jvmops.gumtree.subscriptions.CityService;
 import lombok.AllArgsConstructor;
@@ -14,22 +15,38 @@ import java.util.function.Predicate;
 @Slf4j
 @AllArgsConstructor
 public class NotificationService {
-    private ApartmentReportFactory apartmentReportFactory;
-    private NotificationSender notificationSender;
     private CityService cityService;
+    private ApartmentReportFactory apartmentReportFactory;
+    private EmailTemplateProcessor emailTemplateProcessor;
+    private NotificationSender notificationSender;
 
-    public void initialEmail(City city, String email) {
+    public void initialEmail(City city, String subscriberWannabe) {
         ApartmentReport apartmentReport = apartmentReportFactory.create(city, ReportType.INITIAL);
-        notificationSender.initialEmail(apartmentReport, email);
+        if (apartmentReport.isEmpty()) {
+            return;
+        }
+
+        EmailWithReport email = emailTemplateProcessor.initialEmail(apartmentReport, subscriberWannabe);
+        notificationSender.initialEmail(email, subscriberWannabe);
     }
 
     @SuppressWarnings("squid:S3864")
     public void notifySubscribers(ReportType reportType) {
         cityService.cities().stream()
+                .filter(this::hasSubscribers)
                 .peek(city -> log.info("Creating {} apartment report", city.getName()))
                 .map(city -> apartmentReportFactory.create(city, reportType))
                 .filter(Predicate.not(ApartmentReport::isEmpty))
-                .peek(report -> log.info("Preparing to notify {} subscribers about new {} apartment report", report.getCity().getName(), reportType))
+                .map(emailTemplateProcessor::subscriptionEmail)
+                .peek(email -> log.info("Preparing to notify {} subscribers about new {} report", email.report().getCity().getName(), reportType))
                 .forEach(notificationSender::notifySubscribers);
+    }
+
+    private boolean hasSubscribers(City city) {
+        boolean hasSubscribers = city.hasSubscribers();
+        if (!hasSubscribers) {
+            log.info("{} apartment report has no subscribers", city.getName());
+        }
+        return hasSubscribers;
     }
 }

@@ -21,16 +21,18 @@ public class EmailTemplateProcessor {
     private final TemplateEngine templateEngine;
     private final ScrapperProperties scrapperProperties;
 
-    String initialEmail(ApartmentReport apartmentReport, String email) {
+    EmailWithReport initialEmail(ApartmentReport apartmentReport, String email) {
         Context context = initializeContext(apartmentReport);
 
         context.setVariable("email", encodeForUrl(email));
-        return templateEngine.process("email/initial.html", context);
+        String html = templateEngine.process("email/initial.html", context);
+        return new EmailWithReport(apartmentReport, html);
     }
 
-    String subscriptionEmail(ApartmentReport apartmentReport) {
+    EmailWithReport subscriptionEmail(ApartmentReport apartmentReport) {
         Context context = initializeContext(apartmentReport);
-        return templateEngine.process("email/subscription.html", context);
+        String html = templateEngine.process("email/subscription.html", context);
+        return new EmailWithReport(apartmentReport, html);
     }
 
     private Context initializeContext(ApartmentReport apartmentReport) {
@@ -49,4 +51,6 @@ public class EmailTemplateProcessor {
             throw new RuntimeException(String.format("Unable to encode value '%s' to url", value));
         }
     }
+
+    record EmailWithReport(ApartmentReport report, String html) {}
 }

@@ -1,6 +1,6 @@
 package com.jvmops.gumtree.notifications;
 
-import lombok.RequiredArgsConstructor;
+import com.jvmops.gumtree.Time;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
@@ -8,18 +8,26 @@ import java.util.List;
 
 @Component
 @Lazy
-@RequiredArgsConstructor
 class DishwasherAndGasApartments extends CategoryFactoryBase {
+
+    private SuperQuerasyK regexpAdRepository;
+
+    public DishwasherAndGasApartments(
+            SuperQuerasyK regexpAdRepository,
+            AdRepository adRepository,
+            Time time) {
+        super(adRepository, time);
+        this.regexpAdRepository = regexpAdRepository;
+    }
+
     @Override
     public CategoryType categoryType() {
         return CategoryType.DISHWASHER_AND_GAS;
     }
 
     @Override
-    public Category get(String city) {
-        String description = "gaz zmywark";
-        List<Ad> ads = adRepository.findByCityAndDescriptionContainsAndGumtreeCreationDateGreaterThan(
-                city, description, oneWeekAgo(), SORT_BY_GUMTREE_CREATION_TIME_AND_PRICE);
+    public Category of(String city) {
+        List<Ad> ads = regexpAdRepository.findAllByCityWithDishwasherAndGas(city, oneWeekAgo());
         return Category.builder()
                 .header("Mieszkania ze zmywarką i gazem:")
                 .ads(ads)

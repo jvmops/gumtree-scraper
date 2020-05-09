@@ -1,18 +1,23 @@
 package com.jvmops.gumtree.notifications;
 
-import lombok.AllArgsConstructor;
-import org.bson.types.ObjectId;
+import com.jvmops.gumtree.Time;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Component
 @Lazy
-@AllArgsConstructor
 class DishwasherOnlyApartments extends CategoryFactoryBase {
-    private CategoryFactory dishwasherAndGasApartments;
+    private SuperQuerasyK regexpAdRepository;
+
+    public DishwasherOnlyApartments(
+            SuperQuerasyK regexpAdRepository,
+            AdRepository adRepository,
+            Time time) {
+        super(adRepository, time);
+        this.regexpAdRepository = regexpAdRepository;
+    }
 
     @Override
     public CategoryType categoryType() {
@@ -20,17 +25,9 @@ class DishwasherOnlyApartments extends CategoryFactoryBase {
     }
 
     @Override
-    public Category get(String city) {
-        List<ObjectId> dishwasherAndGasAdIds = dishwasherAndGasApartments.get(city)
-                .getAds()
-                .stream()
-                .map(Ad::getId)
-                .collect(Collectors.toList());
-
-        String description = "zmywark";
-        List<Ad> ads = adRepository.findByCityAndDescriptionContainsAndGumtreeCreationDateGreaterThanAndIdNotIn(
-                city, description, oneWeekAgo(), dishwasherAndGasAdIds, SORT_BY_GUMTREE_CREATION_TIME_AND_PRICE);
-
+    public Category of(String city) {
+        List<Ad> ads = regexpAdRepository.findAllByCityWithDishwasherOnly(
+                city, oneWeekAgo());
         return Category.builder()
                 .header("Mieszkania ze zmywarką:")
                 .ads(ads)

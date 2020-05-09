@@ -29,7 +29,7 @@ class Ad {
     @Indexed
     private String title;
     private Integer price;
-    @TextIndexed
+    @Indexed
     private String description;
     private LocalDate availableSince;
     private String landlord;

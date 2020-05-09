@@ -1,0 +1,35 @@
+[
+  {
+    "_id": {
+      "$oid": "5eb304226f0fa94b1deea168"
+    },
+    "title": "to i to - 1",
+    "description": "kuchnia gazowa i dwie zmywarki",
+    "_class": "com.jvmops.gumtree.scrapper.Ad"
+  },
+  {
+    "_id": {
+      "$oid": "5eb304226f0ea94b1deea168"
+    },
+    "title": "to i to - 2",
+    "description": "zmywarkokosiarka i ogrzewanie gazowe, kuchnia tez",
+    "_class": "com.jvmops.gumtree.scrapper.Ad"
+  },
+  {
+    "_id": {
+      "$oid": "5eb304226f0ca94b1deea169"
+    },
+    "title": "tylko tamto",
+    "description": "wszystko na prąd łacznie ze zmywarką",
+    "_class": "com.jvmops.gumtree.scrapper.Ad"
+  },
+  {
+    "_id": {
+      "$oid": "5eb304226f0ba94b1deea169"
+    },
+    "title": "nic z tych rzeczy",
+    "description": "bieda",
+    "_class": "com.jvmops.gumtree.scrapper.Ad"
+  }
+]
+

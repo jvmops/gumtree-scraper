@@ -1,6 +1,8 @@
 package com.jvmops.gumtree.notifications;
 
+import com.jvmops.gumtree.notifications.EmailTemplateProcessor.EmailWithReport;
+
 public interface NotificationSender {
-    void initialEmail(ApartmentReport apartmentReport, String emails);
-    void notifySubscribers(ApartmentReport apartmentReport);
+    void initialEmail(EmailWithReport email, String subscriberWannabe);
+    void notifySubscribers(EmailWithReport email);
 }
