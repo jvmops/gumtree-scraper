@@ -1,10 +1,12 @@
 package com.jvmops.gumtree;
 
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 
-@Component("customTime")
+@Component
+@Primary
 public class CustomTime implements Time {
 
     @Override

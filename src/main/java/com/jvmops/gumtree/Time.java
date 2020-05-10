@@ -1,6 +1,5 @@
 package com.jvmops.gumtree;
 
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -12,5 +11,4 @@ public interface Time {
 }
 
 @Component
-@ConditionalOnMissingBean(name = "customTime")
 class Now implements Time {}
