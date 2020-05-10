@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -35,17 +36,23 @@ public class NotificationsController {
     }
 
     @PostMapping
-    public String sentReport(
-            @Valid Subscription cityEmail,
+    public String initialEmail(
+            @Valid Subscription subscription,
             BindingResult bindingResult
     ) {
         if (bindingResult.hasErrors()) {
             return "notifications";
         }
 
-        City city = cityService.getByName(cityEmail.getCity());
+        City city = cityService.getByName(subscription.getCity());
         notificationService.initialEmail(
-                city, cityEmail.getEmail());
+                city, subscription.getEmail());
         return "redirect:/?initialEmailSent";
+    }
+
+    @PostMapping("notifications")
+    public String notifySubscribers() {
+        notificationService.notifySubscribers(ReportType.DAILY);
+        return "redirect:/subscriptions?reportSent";
     }
 }
