@@ -35,7 +35,7 @@ public class EmailTemplateProcessor {
     }
 
     private String processTemplate(Context context) {
-        return templateEngine.process("email/initial.html", context);
+        return templateEngine.process("email.html", context);
     }
 
     private Context initializeContext(ApartmentReport apartmentReport) {
