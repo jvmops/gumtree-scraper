@@ -1,6 +1,6 @@
 package com.jvmops.gumtree.subscriptions;
 
-import com.jvmops.gumtree.scraper.CityUrlCodeValidator;
+import com.jvmops.gumtree.scraper.CityCodeValidator;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Profile;
@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class SubscriptionsController {
     private CityService cityService;
-    private CityUrlCodeValidator urlCodeValidator;
+    private CityCodeValidator cityCodeValidator;
 
     @GetMapping
     public String cities(Model model) {
@@ -47,13 +47,13 @@ public class SubscriptionsController {
     }
 
     @PostMapping("/cities")
-    public String addCity(NewCityDto newCityDto) {
-        String urlCodeWithoutPagination = newCityDto.getUrlCode().substring(0, newCityDto.getUrlCode().length() - 2);
-        boolean urlCodeIsValid = urlCodeValidator.isValid(urlCodeWithoutPagination);
+    public String addCity(NewCityDto city) {
+        String cityCode = stripPaginationInfo(city.getUrlCode());
+        boolean urlCodeIsValid = cityCodeValidator.isValid(cityCode);
         if ( ! urlCodeIsValid ) {
             return "redirect:/subscriptions?urlCodeInvalid";
         }
-        cityService.add(newCityDto.getName(), urlCodeWithoutPagination);
+        cityService.add(city.getName(), cityCode);
         return "redirect:/subscriptions";
     }
 
@@ -69,5 +69,9 @@ public class SubscriptionsController {
                 .cityName(city.getName())
                 .emails(city.getSubscribers())
                 .build();
+    }
+
+    private String stripPaginationInfo(String urlCode) {
+        return urlCode.substring(0, urlCode.length() - 2);
     }
 }

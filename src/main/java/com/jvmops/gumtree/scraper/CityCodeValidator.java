@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class CityUrlCodeValidator {
+public class CityCodeValidator {
     private final HtmlProvider htmlProvider;
 
     public boolean isValid(String cityCode) {
