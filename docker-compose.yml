@@ -3,7 +3,7 @@ services:
   gumtree-mongo:
     container_name: gumtree-mongo
     image: mongo:4
-    restart: always
+    restart: no
     ports:
       - 27017:27017
     environment:
@@ -19,7 +19,7 @@ services:
         - buildno
         - gitcommithash
     image: jvmops/gumtree-scrapper
-    restart: always
+    restart: no
     depends_on:
       - gumtree-mongo
     ports:
@@ -40,7 +40,7 @@ services:
   gumtree-scrapper:
     container_name: gumtree-scrapper
     image: jvmops/gumtree-scrapper
-    restart: "no"
+    restart: no
     depends_on:
       - gumtree-web
     environment:
@@ -55,7 +55,7 @@ services:
   gumtree-report:
     container_name: gumtree-report
     image: jvmops/gumtree-scrapper
-    restart: "no"
+    restart: no
     depends_on:
       - gumtree-web
     environment:
