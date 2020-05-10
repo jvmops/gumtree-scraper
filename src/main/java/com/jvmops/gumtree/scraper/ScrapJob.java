@@ -1,4 +1,4 @@
-package com.jvmops.gumtree.scrapper;
+package com.jvmops.gumtree.scraper;
 
 import com.jvmops.gumtree.subscriptions.CityService;
 import lombok.AllArgsConstructor;
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 import java.util.Collection;
 
-@Profile("scrapper")
+@Profile("scraper")
 @Component
 @Slf4j
 @AllArgsConstructor

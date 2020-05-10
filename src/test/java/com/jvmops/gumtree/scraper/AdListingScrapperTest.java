@@ -1,4 +1,4 @@
-package com.jvmops.gumtree.scrapper;
+package com.jvmops.gumtree.scraper;
 
 import com.jvmops.gumtree.subscriptions.City;
 import org.junit.jupiter.api.Assertions;

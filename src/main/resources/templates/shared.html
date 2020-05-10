@@ -32,7 +32,7 @@
                                     <a th:href="@{/logout}" href="logout">Log out</a>
                                 </li>
                                 <li>
-                                    <a th:href="@{https://github.com/jvmops/gumtree-scrapper}" target="_blank" href="https://github.com/jvmops/gumtree-scrapper">Github</a>
+                                    <a th:href="@{https://github.com/jvmops/gumtree-scraper}" target="_blank" href="https://github.com/jvmops/gumtree-scraper">Github</a>
                                 </li>
                                 <li sec:authorize="isAuthenticated()" th:classappend="${#request.requestURI.equals('/cities') ? 'active':''}">
                                     <a th:href="@{/subscriptions}" href="subscriptions.html">Subscriptions</a>
@@ -64,7 +64,7 @@
                         <ul class="list-unstyled">
                             <li><a th:href="@{/}">Notifications</a></li>
                             <li class="mb-4"><a th:href="@{login}">Login</a></li>
-                            <li><a th:href="@{https://github.com/jvmops/gumtree-scrapper}" target="_blank">Github</a></li>
+                            <li><a th:href="@{https://github.com/jvmops/gumtree-scraper}" target="_blank">Github</a></li>
                             <li><a th:href="@{https://jvmops.com}" target="_blank">Homepage</a></li>
                             <li sec:authorize="isAuthenticated()"><a th:href="@{subscriptions}">Subscriptions</a></li>
                         </ul>

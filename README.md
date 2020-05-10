@@ -1,8 +1,8 @@
 <h1 align="center">
   gumtree-scraper<br>
-  <a href="https://github.com/jvmops/gumtree-scrapper/actions"><img align="center" src="https://github.com/jvmops/gumtree-scrapper/workflows/master/badge.svg"></a> 
-  <a href="https://codecov.io/gh/jvmops/gumtree-scrapper"><img align="center" src="https://codecov.io/gh/jvmops/gumtree-scrapper/branch/master/graph/badge.svg"></a> 
-  <a href="https://github.com/jvmops/gumtree-scrapper/blob/master/LICENSE"><img align="center" src="https://img.shields.io/github/license/jvmops/gumtree-scrapper.svg"></a>
+  <a href="https://github.com/jvmops/gumtree-scraper/actions"><img align="center" src="https://github.com/jvmops/gumtree-scraper/workflows/master/badge.svg"></a>
+  <a href="https://codecov.io/gh/jvmops/gumtree-scraper"><img align="center" src="https://codecov.io/gh/jvmops/gumtree-scraper/branch/master/graph/badge.svg"></a>
+  <a href="https://github.com/jvmops/gumtree-scraper/blob/master/LICENSE"><img align="center" src="https://img.shields.io/github/license/jvmops/gumtree-scraper.svg"></a>
   <br><br>
 </h1>
 
@@ -30,7 +30,7 @@ docker build -t jvmops/gumtree-scraper .
 Requirements:
 - docker-compose
 
-Docker image is available at [docker hub](https://hub.docker.com/r/jvmops/gumtree-scrapper). Building from sources is not required to run this app.
+Docker image is available at [docker hub](https://hub.docker.com/r/jvmops/gumtree-scraper). Building from sources is not required to run this app.
 ```
 git clone https://github.com/jvmops/gumtree-scraper.git
 cd gumtree-scraper

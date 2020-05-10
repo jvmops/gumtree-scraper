@@ -7,7 +7,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import javax.annotation.PostConstruct;
 
-@ConfigurationProperties(prefix = "gumtree.scrapper")
+@ConfigurationProperties(prefix = "gumtree.scraper")
 @Getter
 @Setter
 @Slf4j

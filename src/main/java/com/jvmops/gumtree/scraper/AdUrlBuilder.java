@@ -1,9 +1,9 @@
-package com.jvmops.gumtree.scrapper;
+package com.jvmops.gumtree.scraper;
 
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
-import static com.jvmops.gumtree.scrapper.HtmlProvider.GUMTREE_URL;
+import static com.jvmops.gumtree.scraper.HtmlProvider.GUMTREE_URL;
 
 @Component
 class AdUrlBuilder {

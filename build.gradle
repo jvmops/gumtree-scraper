@@ -75,7 +75,7 @@ tasks.withType(JavaExec) {
 }
 
 bootJar {
-	archiveFileName = "gumtree-scrapper.jar"
+	archiveFileName = "gumtree-scraper.jar"
 }
 
 /**

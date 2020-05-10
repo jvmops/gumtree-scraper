@@ -1,4 +1,4 @@
-package com.jvmops.gumtree.scrapper;
+package com.jvmops.gumtree.scraper;
 
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
