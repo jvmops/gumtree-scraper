@@ -27,7 +27,6 @@ class NewestApartments extends CategoryFactoryBase {
         List<Ad> ads = adRepository.findTop20ByCityAndCreationTimeGreaterThanOrderByGumtreeCreationDate(city, time);
         return Category.builder()
                 .type(NEWS)
-                .header("Jeszcze ciepłe:")
                 .ads(ads)
                 .build();
     }

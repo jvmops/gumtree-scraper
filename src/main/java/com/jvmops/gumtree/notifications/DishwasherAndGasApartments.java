@@ -32,7 +32,6 @@ class DishwasherAndGasApartments extends CategoryFactoryBase {
         List<Ad> ads = regexpAdRepository.findAllByCityWithDishwasherAndGas(city, oneWeekAgo());
         return Category.builder()
                 .type(DISHWASHER_AND_GAS)
-                .header("Mieszkania ze zmywarką i gazem:")
                 .ads(ads)
                 .build();
     }

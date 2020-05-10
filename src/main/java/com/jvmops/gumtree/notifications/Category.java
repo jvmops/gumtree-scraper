@@ -9,8 +9,11 @@ import java.util.List;
 @Getter
 class Category {
     private CategoryType type;
-    private String header;
     private List<Ad> ads;
+
+    public String getHeader() {
+        return type.getHeader();
+    }
 
     boolean isEmpty() {
         return ads.isEmpty();

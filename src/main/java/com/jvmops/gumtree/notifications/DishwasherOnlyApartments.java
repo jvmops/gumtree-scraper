@@ -32,7 +32,6 @@ class DishwasherOnlyApartments extends CategoryFactoryBase {
                 city, oneWeekAgo());
         return Category.builder()
                 .type(DISHWASHER_ONLY)
-                .header("Mieszkania ze zmywarką:")
                 .ads(ads)
                 .build();
     }

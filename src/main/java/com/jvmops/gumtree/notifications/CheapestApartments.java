@@ -30,7 +30,6 @@ class CheapestApartments extends CategoryFactoryBase {
 
         return Category.builder()
                 .type(CHEAPEST)
-                .header("Najtańsze oferty:")
                 .ads(ads)
                 .build();
     }
