@@ -20,10 +20,10 @@ Requirements:
 - docker
 
 ```
-git clone https://github.com/jvmops/gumtree-scrapper.git
-cd gumtree-scrapper
+git clone https://github.com/jvmops/gumtree-scraper.git
+cd gumtree-scraper
 ./gradlew build
-docker build -t jvmops/gumtree-scrapper .
+docker build -t jvmops/gumtree-scraper .
 ```
 
 ## Running
@@ -32,8 +32,8 @@ Requirements:
 
 Docker image is available at [docker hub](https://hub.docker.com/r/jvmops/gumtree-scrapper). Building from sources is not required to run this app.
 ```
-git clone https://github.com/jvmops/gumtree-scrapper.git
-cd gumtree-scrapper
+git clone https://github.com/jvmops/gumtree-scraper.git
+cd gumtree-scraper
 docker-compose up -d
 ```
 Now go to: http://localhost:8080
@@ -41,5 +41,5 @@ Now go to: http://localhost:8080
 ## Scrapping
 Scrapping is done by a separate container. It's best to run this command by a crontab.
 ```
-docker start gumtree-scrapper
+docker start gumtree-scraper
 ```
