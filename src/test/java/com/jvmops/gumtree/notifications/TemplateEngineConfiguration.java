@@ -1,17 +1,18 @@
 package com.jvmops.gumtree.notifications;
 
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
 import org.thymeleaf.spring5.SpringTemplateEngine;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 import org.thymeleaf.templateresolver.ITemplateResolver;
 
-@Profile("report")
-@Configuration
+/**
+ * TODO: turn off web env for tests
+ *
+ * For {@link EmailTemplateProcessorTest}
+ */
+//@Configuration
 public class TemplateEngineConfiguration {
-
     @Bean
     public ITemplateResolver templateResolver(){
         ClassLoaderTemplateResolver templateResolver = new ClassLoaderTemplateResolver();
