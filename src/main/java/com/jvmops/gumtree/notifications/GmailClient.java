@@ -46,7 +46,7 @@ class GmailClient implements NotificationSender {
 
         try {
             MimeMessageWrapper message = prepareMessage(subject, email.html());
-            log.info("Sending {} report to: {}}", city, subscribers);
+            log.info("Sending {} report to: {}", city, subscribers);
             notifySubscribers(message, subscribers);
         } catch (MessagingException e) {
             log.error("Unable to send subscription emails for {} to {}", city, subscribers, e);
