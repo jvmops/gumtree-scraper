@@ -26,7 +26,7 @@ class CheapestApartments extends CategoryFactoryBase {
     @Override
     public Category of(String city) {
         List<Ad> ads = adRepository.findTop20ByCityAndPriceGreaterThanAndGumtreeCreationDateGreaterThan(
-                city, 0, oneWeekAgo(), SORT_BY_PRICE);
+                city, 300, oneWeekAgo(), SORT_BY_PRICE);
 
         return Category.builder()
                 .type(CHEAPEST)
