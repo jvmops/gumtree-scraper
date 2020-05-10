@@ -11,7 +11,6 @@ import static com.jvmops.gumtree.notifications.CategoryType.DISHWASHER_AND_GAS;
 @Component
 @Lazy
 class DishwasherAndGasApartments extends CategoryFactoryBase {
-
     private SuperQuerasyK regexpAdRepository;
 
     public DishwasherAndGasApartments(
@@ -29,7 +28,10 @@ class DishwasherAndGasApartments extends CategoryFactoryBase {
 
     @Override
     public Category of(String city) {
-        List<Ad> ads = regexpAdRepository.findAllByCityWithDishwasherAndGas(city, oneWeekAgo());
+        List<Ad> ads = regexpAdRepository.findAllByCityWithDishwasherAndGas(
+                city,
+                oneWeekAgo(),
+                DEFAULT_PAGE_REQUEST);
         return Category.builder()
                 .type(DISHWASHER_AND_GAS)
                 .ads(ads)

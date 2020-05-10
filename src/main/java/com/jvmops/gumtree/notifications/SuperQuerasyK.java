@@ -1,6 +1,7 @@
 package com.jvmops.gumtree.notifications;
 
 import org.bson.types.ObjectId;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -40,14 +41,9 @@ public interface SuperQuerasyK extends MongoRepository<Ad, ObjectId> {
                         $gt: ?1
                     }
                 }]
-            }""",
-            sort = """
-            { 
-                gumtreeCreationDate: -1,
-                price: 1
             }"""
     )
-    List<Ad> findAllByCityWithDishwasherAndGas(String city, LocalDate gumtreeCreationDate);
+    List<Ad> findAllByCityWithDishwasherAndGas(String city, LocalDate gumtreeCreationDate, Pageable page);
 
     @Query(value = """
             { $and: 
@@ -69,12 +65,7 @@ public interface SuperQuerasyK extends MongoRepository<Ad, ObjectId> {
                         $gt: ?1
                     }
                 }]
-            }""",
-            sort = """
-            { 
-                gumtreeCreationDate: -1,
-                price: 1
             }"""
     )
-    List<Ad> findAllByCityWithDishwasherOnly(String city, LocalDate gumtreeCreationDate);
+    List<Ad> findAllByCityWithDishwasherOnly(String city, LocalDate gumtreeCreationDate, Pageable page);
 }

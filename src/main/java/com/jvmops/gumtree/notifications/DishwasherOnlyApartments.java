@@ -29,7 +29,9 @@ class DishwasherOnlyApartments extends CategoryFactoryBase {
     @Override
     public Category of(String city) {
         List<Ad> ads = regexpAdRepository.findAllByCityWithDishwasherOnly(
-                city, oneWeekAgo());
+                city,
+                oneWeekAgo(),
+                DEFAULT_PAGE_REQUEST);
         return Category.builder()
                 .type(DISHWASHER_ONLY)
                 .ads(ads)
