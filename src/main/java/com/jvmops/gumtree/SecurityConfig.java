@@ -1,21 +1,13 @@
 package com.jvmops.gumtree;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import org.thymeleaf.TemplateEngine;
 
 @Configuration
 @Profile("web")
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-
-    @Autowired
-    TemplateEngine templateEngine;
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
@@ -32,14 +24,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .permitAll()
                 .and().logout()
                     .logoutSuccessUrl("/");
-    }
-
-    @Profile("web")
-    @Configuration
-    class SecurityWebConfig implements WebMvcConfigurer {
-        @Override
-        public void addViewControllers(ViewControllerRegistry registry) {
-            registry.addViewController("/login").setViewName("login");
-        }
     }
 }

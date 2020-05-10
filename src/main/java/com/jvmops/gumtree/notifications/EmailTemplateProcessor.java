@@ -1,7 +1,7 @@
 package com.jvmops.gumtree.notifications;
 
 import com.jvmops.gumtree.ScrapperProperties;
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
@@ -16,10 +16,10 @@ import java.util.Locale;
 @Lazy
 @Component
 @Slf4j
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class EmailTemplateProcessor {
-    private final TemplateEngine templateEngine;
-    private final ScrapperProperties scrapperProperties;
+    private TemplateEngine templateEngine;
+    private ScrapperProperties scrapperProperties;
 
     EmailWithReport initialEmail(ApartmentReport apartmentReport, String email) {
         Context context = initializeContext(apartmentReport);

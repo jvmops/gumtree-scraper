@@ -35,6 +35,4 @@ public class TemplateEngineConfiguration {
         templateEngine.setEnableSpringELCompiler(true);
         return templateEngine;
     }
-
-
 }
