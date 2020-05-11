@@ -23,7 +23,7 @@ public class City {
     private ObjectId id;
     @Indexed(unique = true)
     private String name;
-    private String urlCode;
+    private String code;
     @Builder.Default
     private Set<String> subscribers = new HashSet<>();
     @CreatedDate

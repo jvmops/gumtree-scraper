@@ -6,6 +6,8 @@ import lombok.Value;
 import org.joda.money.Money;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.net.URL;
+
 @Document(collection = "ad")
 @Value
 @EqualsAndHashCode(of = "gumtreeId")
@@ -13,7 +15,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 class ListedAd {
     String city;
     String gumtreeId;
-    String url;
+    URL url;
     String title;
     Money price;
     boolean featured;

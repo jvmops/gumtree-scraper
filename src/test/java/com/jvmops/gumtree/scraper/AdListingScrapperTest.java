@@ -24,7 +24,7 @@ public class AdListingScrapperTest {
 
     @BeforeEach
     void initializeDependencies() {
-        var adUrlBuilder = new AdUrlBuilder();
+        var adUrlBuilder = new GumtreeUrlBuilder();
         adListingScrapper = new JSoupAdListingScrapper(htmlProvider, adUrlBuilder);
     }
 
@@ -97,7 +97,7 @@ public class AdListingScrapperTest {
         ListedAd listedAd = adListingScrapper.scrap(katowice(), 1)
                 .get(0);
 
-        Assertions.assertEquals("https://www.gumtree.pl/a-mieszkania-i-domy-do-wynajecia/katowice/1007246940240911148463809", listedAd.getUrl());
+        Assertions.assertEquals(GumtreeUrlBuilder.parseUrl("https://www.gumtree.pl/a-mieszkania-i-domy-do-wynajecia/katowice/1007246940240911148463809"), listedAd.getUrl());
     }
 
 
@@ -120,7 +120,7 @@ public class AdListingScrapperTest {
     private static City katowice() {
         return City.builder()
                 .name("Katowice")
-                .urlCode("v1c9008l3200285")
+                .code("v1c9008l3200285")
                 .build();
     }
 }

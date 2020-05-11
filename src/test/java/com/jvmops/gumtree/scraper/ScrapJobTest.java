@@ -54,14 +54,14 @@ public class ScrapJobTest {
     private static City katowice() {
         return City.builder()
                 .name("Katowice")
-                .urlCode("v1c9008l3200285")
+                .code("v1c9008l3200285")
                 .build();
     }
 
     private static City wroclaw() {
         return City.builder()
                 .name("Wroclaw")
-                .urlCode("v1c9008l3204208")
+                .code("v1c9008l3204208")
                 .build();
     }
 }

@@ -29,7 +29,7 @@ public class ScrapperTest extends DataInitializer {
     private HtmlProvider htmlProvider;
 
     @Autowired
-    private AdUrlBuilder adUrlBuilder;
+    private GumtreeUrlBuilder gumtreeUrlBuilder;
     @Autowired
     private ListedAdRepository listedAdRepository;
     @Autowired
@@ -39,7 +39,7 @@ public class ScrapperTest extends DataInitializer {
 
     @BeforeEach
     public void setup() {
-        JSoupAdListingScrapper adListingScrapper = new JSoupAdListingScrapper(htmlProvider, adUrlBuilder);
+        JSoupAdListingScrapper adListingScrapper = new JSoupAdListingScrapper(htmlProvider, gumtreeUrlBuilder);
         JSoupAdDetailsScrapper adDetailsScrapper = new JSoupAdDetailsScrapper(htmlProvider, slowdown);
         scrapper = new Scrapper(adListingScrapper, adDetailsScrapper, listedAdRepository, scrapperProperties);
         reloadApartments();
@@ -101,7 +101,7 @@ public class ScrapperTest extends DataInitializer {
     private static City katowice() {
         return City.builder()
                 .name("Katowice")
-                .urlCode("v1c9008l3200285")
+                .code("v1c9008l3200285")
                 .build();
     }
 }

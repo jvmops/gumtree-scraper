@@ -1,27 +1,29 @@
 package com.jvmops.gumtree.scraper;
 
 import com.jvmops.gumtree.subscriptions.City;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.net.URL;
 
 @Component
+@AllArgsConstructor
 @Slf4j
 class HtmlProvider {
-    public static final String GUMTREE_URL = "https://www.gumtree.pl";
-    private static final String URL_TEMPLATE = "%s/s-mieszkania-i-domy-do-wynajecia/%sp%s";
+    private final GumtreeUrlBuilder urlBuilder;
 
-    String adListing(City city, int pageNumber) {
-        String url = String.format(URL_TEMPLATE, GUMTREE_URL, city.getUrlCode(), pageNumber);
-        log.info("Scrapping {} ads from page {}... {}", city.getName(), pageNumber, url);
+    String adListing(String cityCode) {
+        URL url = urlBuilder.adListingUrl(cityCode);
+        log.debug("Fetching ad listing using cityCode from: {}", url);
         return get(url);
     }
 
-    String adListing(String cityUrlCode) {
-        String url = String.format(URL_TEMPLATE, GUMTREE_URL, cityUrlCode, 1);
-        log.info("Scrapping ads using url code {} from {}", cityUrlCode, url);
+    String adListing(City city, int pageNumber) {
+        URL url = urlBuilder.adListingUrl(city, pageNumber);
+        log.debug("Fetching page {} of {} ad listing from: {}", pageNumber, city.getName(), url);
         return get(url);
     }
 
@@ -29,9 +31,9 @@ class HtmlProvider {
         return get(listedAd.getUrl());
     }
 
-    private String get(String url) {
+    private String get(URL url) {
         try {
-            return Jsoup.connect(url).get().html();
+            return Jsoup.connect(url.toString()).get().html();
         } catch (IOException e) {
             log.error("Unable to fetch html from: {}", url, e);
             return "";

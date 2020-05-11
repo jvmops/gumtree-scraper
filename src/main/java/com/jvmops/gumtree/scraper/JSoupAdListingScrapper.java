@@ -1,9 +1,8 @@
 package com.jvmops.gumtree.scraper;
 
-import com.jvmops.gumtree.ScrapperConfig;
-import com.jvmops.gumtree.scraper.AdUrlBuilder.AdUrl;
+import com.jvmops.gumtree.scraper.GumtreeUrlBuilder.AdUrl;
 import com.jvmops.gumtree.subscriptions.City;
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.joda.money.Money;
 import org.jsoup.Jsoup;
@@ -22,12 +21,11 @@ import java.util.stream.Stream;
 import static com.jvmops.gumtree.ScrapperConfig.DEFAULT_CURRENCY;
 
 @Component
+@AllArgsConstructor
 @Slf4j
-@RequiredArgsConstructor
 class JSoupAdListingScrapper {
-
-    private final HtmlProvider htmlProvider;
-    private final AdUrlBuilder adUrlBuilder;
+    private HtmlProvider htmlProvider;
+    private GumtreeUrlBuilder gumtreeUrlBuilder;
 
     List<ListedAd> scrap(City city, int pageNumber) {
         String adListingHtml = htmlProvider.adListing(city, pageNumber);
@@ -71,7 +69,7 @@ class JSoupAdListingScrapper {
     private ListedAd parse(Element adFromList, City city, boolean featured) {
         Element title = adFromList.select("div.title").first();
         String urlSuffix = title.select("a[href]").attr("href");
-        AdUrl adUrl = adUrlBuilder.buildAdUrl(urlSuffix);
+        AdUrl adUrl = gumtreeUrlBuilder.buildAdUrl(urlSuffix);
         String priceSpanValue = adFromList.selectFirst("span.price-text").text();
         BigDecimal price = parse(priceSpanValue);
 

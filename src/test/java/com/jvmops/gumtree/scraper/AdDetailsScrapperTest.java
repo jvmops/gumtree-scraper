@@ -38,7 +38,7 @@ public class AdDetailsScrapperTest {
         // those comes from adListing
         Assertions.assertEquals("Katowice", adDetails.getCity());
         Assertions.assertEquals("Fajne mieszkanie do wynajecia", adDetails.getTitle());
-        Assertions.assertEquals("https://www.gumtree.pl/a-mieszkania-i-domy-do-wynajecia/katowice/0195021950192", adDetails.getUrl());
+        Assertions.assertEquals(GumtreeUrlBuilder.parseUrl("https://www.gumtree.pl/a-mieszkania-i-domy-do-wynajecia/katowice/0195021950192"), adDetails.getUrl());
         Assertions.assertEquals("0195021950192", adDetails.getGumtreeId());
         Assertions.assertEquals(3300, adDetails.getPrice().getAmountMajorInt());
         Assertions.assertTrue(adDetails.isFeatured());
@@ -106,7 +106,7 @@ public class AdDetailsScrapperTest {
                 .price(Money.of(DEFAULT_CURRENCY, 3300))
                 .featured(true)
                 .title("Fajne mieszkanie do wynajecia")
-                .url("https://www.gumtree.pl/a-mieszkania-i-domy-do-wynajecia/katowice/0195021950192")
+                .url(GumtreeUrlBuilder.parseUrl("https://www.gumtree.pl/a-mieszkania-i-domy-do-wynajecia/katowice/0195021950192"))
                 .build();
     }
 }

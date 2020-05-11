@@ -63,7 +63,7 @@ public class CityService {
                 City.builder()
                         .id(ObjectId.get())
                         .name(cityName)
-                        .urlCode(cityUrlCode)
+                        .code(cityUrlCode)
                         .build()
         );
     }

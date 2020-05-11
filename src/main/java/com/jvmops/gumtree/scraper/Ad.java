@@ -11,6 +11,7 @@ import org.springframework.data.mongodb.core.index.CompoundIndex;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -24,7 +25,7 @@ class Ad {
     private ObjectId id;
     private String gumtreeId;
     private String city;
-    private String url;
+    private URL url;
     private boolean featured;
     @Indexed
     private String title;
