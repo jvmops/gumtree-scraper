@@ -1,6 +1,8 @@
 package com.jvmops.gumtree.notifications;
 
-import com.jvmops.gumtree.notifications.EmailTemplateProcessor.EmailWithReport;
+import com.jvmops.gumtree.notifications.model.ApartmentReport;
+import com.jvmops.gumtree.notifications.model.ApartmentReportType;
+import com.jvmops.gumtree.notifications.ports.EmailSender;
 import com.jvmops.gumtree.subscriptions.City;
 import com.jvmops.gumtree.subscriptions.CityService;
 import org.junit.jupiter.api.BeforeEach;
@@ -35,13 +37,11 @@ class NotificationServiceTest {
     @Mock
     private CityService cityService;
     @Mock
-    private EmailTemplateProcessor emailTemplateProcessor;
-    @Mock
-    private NotificationSender notificationSender;
+    private EmailSender emailSender;
 
     @BeforeEach
     void setup() {
-        notificationService = new NotificationService(cityService, apartmentReportFactory, emailTemplateProcessor, notificationSender);
+        notificationService = new NotificationService(cityService, apartmentReportFactory, emailSender);
     }
 
     // initial email
@@ -51,82 +51,78 @@ class NotificationServiceTest {
      */
     @Test
     void initial_email_is_not_generated_from_an_empty_report() {
-        ApartmentReport emptyReport = ApartmentReport.empty(KATOWICE, ReportType.INITIAL);
+        var emptyReport = ApartmentReport.empty(KATOWICE, ApartmentReportType.INITIAL);
         Mockito.when(apartmentReportFactory
-                .create(KATOWICE, ReportType.INITIAL))
+                .create(KATOWICE, ApartmentReportType.INITIAL))
                 .thenReturn(emptyReport);
 
         notificationService.initialEmail(KATOWICE, SUBSCRIBERS_EMAIL);
 
-        Mockito.verify(emailTemplateProcessor, never())
-                .initialEmail(emptyReport, SUBSCRIBERS_EMAIL);
-        Mockito.verify(notificationSender, never())
+        Mockito.verify(emailSender, never())
                 .initialEmail(any(), anyString());
     }
 
     @Test
     void initial_email_will_be_sent_to_the_new_subscriber() {
-        ApartmentReport emptyReport = ApartmentReport.empty(KATOWICE, ReportType.INITIAL);
+        var niceReport = ApartmentReport.builder()
+                .apartmentReportType(ApartmentReportType.INITIAL)
+                .build();
         Mockito.when(apartmentReportFactory
-                .create(KATOWICE, ReportType.INITIAL))
-                .thenReturn(emptyReport);
+                .create(KATOWICE, ApartmentReportType.INITIAL))
+                .thenReturn(niceReport);
 
         notificationService.initialEmail(KATOWICE, SUBSCRIBERS_EMAIL);
 
-        Mockito.verify(emailTemplateProcessor, never())
-                .initialEmail(emptyReport, SUBSCRIBERS_EMAIL);
+        Mockito.verify(emailSender, Mockito.times(1))
+                .initialEmail(niceReport, SUBSCRIBERS_EMAIL);
     }
 
     // subscriptions
 
     @Test
     void city_without_subscribers_is_ignored() {
-        Mockito.when(cityService.cities())
-                .thenReturn(Set.of(WROCLAW));
+        stubCityService(WROCLAW);
 
-        notificationService.notifySubscribers(ReportType.DAILY);
+        notificationService.notifySubscribers(ApartmentReportType.DAILY);
 
-        Mockito.verify(emailTemplateProcessor, never())
-                .subscriptionEmail(any());
-        Mockito.verify(notificationSender, never())
+        Mockito.verify(emailSender, never())
                 .notifySubscribers(any());
     }
 
     @Test
     void subscribers_wont_be_notified_about_an_empty_report() {
-        Mockito.when(cityService.cities())
-                .thenReturn(Set.of(KATOWICE));
-        ApartmentReport emptyReport = ApartmentReport.empty(KATOWICE, ReportType.DAILY);
+        stubCityService(KATOWICE);
+        var emptyReport = ApartmentReport.empty(KATOWICE, ApartmentReportType.DAILY);
         Mockito.when(apartmentReportFactory
-                .create(KATOWICE, ReportType.DAILY))
+                .create(KATOWICE, ApartmentReportType.DAILY))
                 .thenReturn(emptyReport);
 
-        notificationService.notifySubscribers(ReportType.DAILY);
+        notificationService.notifySubscribers(ApartmentReportType.DAILY);
 
-        Mockito.verify(emailTemplateProcessor, never())
-                .subscriptionEmail(any());
+        Mockito.verify(emailSender, never())
+                .notifySubscribers(any());
     }
 
     @Test
     void subscribers_will_be_notified_about_new_report() {
-        Mockito.when(cityService.cities())
-                .thenReturn(Set.of(KATOWICE));
-        // report
-        ApartmentReport report = ApartmentReport.builder()
+        stubCityService(KATOWICE);
+        var apartmentReport = ApartmentReport.builder()
                 .city(KATOWICE)
-                .reportType(ReportType.DAILY)
+                .apartmentReportType(ApartmentReportType.DAILY)
                 .build();
         Mockito.when(apartmentReportFactory
-                .create(KATOWICE, ReportType.DAILY))
-                .thenReturn(report);
-        // email
-        EmailWithReport email = new EmailWithReport(report, "email content");
-        Mockito.when(emailTemplateProcessor.subscriptionEmail(report))
-                .thenReturn(email);
+                .create(KATOWICE, ApartmentReportType.DAILY))
+                .thenReturn(apartmentReport);
 
-        notificationService.notifySubscribers(ReportType.DAILY);
+        notificationService.notifySubscribers(ApartmentReportType.DAILY);
 
-        Mockito.verify(notificationSender, times(1))
-                .notifySubscribers(email);
+        Mockito.verify(emailSender, times(1))
+                .notifySubscribers(apartmentReport);
+
+    }
+
+    private void stubCityService(City katowice) {
+        Mockito.when(cityService.cities())
+                .thenReturn(Set.of(katowice));
     }
 }

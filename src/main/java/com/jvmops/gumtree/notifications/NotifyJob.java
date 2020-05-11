@@ -1,5 +1,6 @@
 package com.jvmops.gumtree.notifications;
 
+import com.jvmops.gumtree.notifications.model.ApartmentReportType;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Profile;
@@ -14,16 +15,16 @@ public class NotifyJob {
     private NotificationService notificationService;
 
     // every two hour starting at 8am and ending at 8pm
-    @Scheduled(cron = "0 0 8,10,12,14,16,18 20 * *")
+    // @Scheduled(cron = "0 0 8,10,12,14,16,18 * * ?")
     void newestApartments() {
-        log.info("Notifing subscribers about NEWEST apartments");
-        notificationService.notifySubscribers(ReportType.NEWEST);
+        log.info("Notifying subscribers with NEWEST apartments");
+        notificationService.notifySubscribers(ApartmentReportType.NEWEST);
     }
 
     // every day at 7pm
     @Scheduled(cron = "0 0 19 * * ?")
     void dailyReport() {
-        log.info("Notifing subscribers with daily report");
-        notificationService.notifySubscribers(ReportType.DAILY);
+        log.info("Notifying subscribers with DAILY apartments");
+        notificationService.notifySubscribers(ApartmentReportType.DAILY);
     }
 }

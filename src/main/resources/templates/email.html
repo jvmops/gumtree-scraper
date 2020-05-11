@@ -391,7 +391,7 @@
 
                             <!-- Subscribe button  -->
 
-                            <div id="cto" th:if="${report.reportType.toString() eq 'INITIAL'}">
+                            <div id="cto" th:if="${report.apartmentReportType.toString() eq 'INITIAL'}">
                                 <p align="center">Chciałbyś otrzymywać ten email codziennie?</p>
                                 <table role="presentation" border="0" cellpadding="0" cellspacing="0" class="btn btn-primary">
                                     <tbody>
@@ -417,7 +417,7 @@
                 <!-- END CENTERED WHITE CONTAINER -->
 
                 <!-- START FOOTER -->
-                <div id="footer" th:if="${report.reportType.toString() eq 'NEWEST' or report.reportType.toString() eq 'DAILY'}" class="footer">
+                <div id="footer" th:if="${report.apartmentReportType.toString() eq 'NEWEST' or report.apartmentReportType.toString() eq 'DAILY'}" class="footer">
                     <table role="presentation" border="0" cellpadding="0" cellspacing="0">
                         <tr>
                             <td class="content-block">

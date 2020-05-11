@@ -1,4 +1,4 @@
-package com.jvmops.gumtree.notifications;
+package com.jvmops.gumtree.notifications.adapters;
 
 import org.springframework.context.annotation.Bean;
 import org.thymeleaf.spring5.SpringTemplateEngine;
@@ -8,8 +8,9 @@ import org.thymeleaf.templateresolver.ITemplateResolver;
 
 /**
  * TODO: turn off web env for tests
+ * for {@link EmailTemplateProcessorTest}
  *
- * For {@link EmailTemplateProcessorTest}
+ * When there will be no web context in tests this will be needed
  */
 //@Configuration
 public class TemplateEngineConfiguration {

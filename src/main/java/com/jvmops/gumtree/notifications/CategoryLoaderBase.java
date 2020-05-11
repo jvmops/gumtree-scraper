@@ -1,5 +1,6 @@
 package com.jvmops.gumtree.notifications;
 
+import com.jvmops.gumtree.notifications.ports.AdRepository;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 
@@ -9,7 +10,7 @@ import java.time.LocalDate;
 import static org.springframework.data.domain.Sort.Order.asc;
 import static org.springframework.data.domain.Sort.Order.desc;
 
-abstract class CategoryFactoryBase implements CategoryFactory {
+abstract class CategoryLoaderBase implements CategoryLoader {
     private static final Sort DEFAULT_SORT = Sort.by(
             desc("gumtreeCreationDate"),
             asc("price"));
@@ -18,7 +19,7 @@ abstract class CategoryFactoryBase implements CategoryFactory {
     protected AdRepository adRepository;
     protected Clock clock;
 
-    public CategoryFactoryBase(AdRepository adRepository, Clock clock) {
+    public CategoryLoaderBase(AdRepository adRepository, Clock clock) {
         this.adRepository = adRepository;
         this.clock = clock;
     }

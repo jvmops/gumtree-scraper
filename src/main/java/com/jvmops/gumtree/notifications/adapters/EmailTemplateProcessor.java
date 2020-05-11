@@ -1,6 +1,8 @@
-package com.jvmops.gumtree.notifications;
+package com.jvmops.gumtree.notifications.adapters;
 
 import com.jvmops.gumtree.ScrapperProperties;
+import com.jvmops.gumtree.notifications.model.ApartmentReport;
+import com.jvmops.gumtree.notifications.model.EmailWithReport;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Lazy;
@@ -17,7 +19,7 @@ import java.util.Locale;
 @Component
 @Slf4j
 @AllArgsConstructor
-public class EmailTemplateProcessor {
+class EmailTemplateProcessor {
     private TemplateEngine templateEngine;
     private ScrapperProperties scrapperProperties;
 
@@ -55,5 +57,5 @@ public class EmailTemplateProcessor {
         }
     }
 
-    record EmailWithReport(ApartmentReport report, String html) {}
+
 }

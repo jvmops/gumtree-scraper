@@ -1,4 +1,4 @@
-package com.jvmops.gumtree.notifications;
+package com.jvmops.gumtree;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -12,12 +12,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
-class JsonDataInitializer {
+public class JsonDataInitializer {
     protected static final String DUMPED_ADS = "json/ads.json";
     protected static final String ACCEPTANCE_TEST_ADS = "json/acceptance_test_ads.json";
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
-    protected static void reloadAds(MongoTemplate mongoTemplate, String jsonFilePath) {
+    protected static void reloadReadOnlyAds(MongoTemplate mongoTemplate, String jsonFilePath) {
         mongoTemplate.getCollection("ad")
                 .deleteMany(new Document());
         mongoTemplate.getCollection("ad")

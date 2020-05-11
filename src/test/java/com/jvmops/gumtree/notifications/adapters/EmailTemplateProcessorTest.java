@@ -1,7 +1,12 @@
-package com.jvmops.gumtree.notifications;
+package com.jvmops.gumtree.notifications.adapters;
 
 import com.jvmops.gumtree.Main;
-import com.jvmops.gumtree.notifications.EmailTemplateProcessor.EmailWithReport;
+import com.jvmops.gumtree.notifications.ApartmentReportFactory;
+import com.jvmops.gumtree.JsonDataInitializer;
+import com.jvmops.gumtree.notifications.model.ApartmentReport;
+import com.jvmops.gumtree.notifications.model.CategoryType;
+import com.jvmops.gumtree.notifications.model.ApartmentReportType;
+import com.jvmops.gumtree.notifications.model.EmailWithReport;
 import com.jvmops.gumtree.subscriptions.City;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -18,8 +23,8 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import java.util.Collection;
 import java.util.Set;
 
-import static com.jvmops.gumtree.notifications.CategoryType.NEWS;
-import static com.jvmops.gumtree.notifications.ReportType.*;
+import static com.jvmops.gumtree.notifications.model.CategoryType.NEWS;
+import static com.jvmops.gumtree.notifications.model.ApartmentReportType.*;
 
 @SpringBootTest(classes = Main.class)
 class EmailTemplateProcessorTest extends JsonDataInitializer {
@@ -36,7 +41,7 @@ class EmailTemplateProcessorTest extends JsonDataInitializer {
 
     @BeforeAll
     static void setup(@Autowired MongoTemplate mongoTemplate) {
-        reloadAds(mongoTemplate, DUMPED_ADS);
+        reloadReadOnlyAds(mongoTemplate, DUMPED_ADS);
     }
 
     @Test
@@ -149,8 +154,8 @@ class EmailTemplateProcessorTest extends JsonDataInitializer {
         Assert.assertEquals("http://localhost:8080/unsubscribe?city=Katowice", url);
     }
 
-    private ApartmentReport generateReport(ReportType reportType) {
-        return switch (reportType) {
+    private ApartmentReport generateReport(ApartmentReportType apartmentReportType) {
+        return switch (apartmentReportType) {
             case INITIAL -> apartmentReportFactory.create(KATOWICE, INITIAL);
             case NEWEST -> apartmentReportFactory.create(KATOWICE, NEWEST);
             case DAILY -> apartmentReportFactory.create(KATOWICE, DAILY);

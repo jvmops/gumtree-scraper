@@ -1,5 +1,9 @@
 package com.jvmops.gumtree.notifications;
 
+import com.jvmops.gumtree.notifications.model.ApartmentReport;
+import com.jvmops.gumtree.notifications.model.ApartmentReportType;
+import com.jvmops.gumtree.notifications.model.Category;
+import com.jvmops.gumtree.notifications.model.CategoryType;
 import com.jvmops.gumtree.subscriptions.City;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Lazy;
@@ -10,52 +14,53 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import static com.jvmops.gumtree.notifications.CategoryType.*;
+import static com.jvmops.gumtree.notifications.model.CategoryType.*;
 
 @Component
 @Lazy
 @Slf4j
-class ApartmentReportFactory {
-    private Map<CategoryType, CategoryFactory> categoryFactories;
+public class ApartmentReportFactory {
+    private Map<CategoryType, CategoryLoader> categoryLoaders;
 
-    ApartmentReportFactory(List<CategoryFactory> categoryFactories) {
-        this.categoryFactories = categoryFactories.stream()
+    ApartmentReportFactory(List<CategoryLoader> categoryLoaders) {
+        this.categoryLoaders = categoryLoaders.stream()
                 .collect(Collectors.toMap(
-                        CategoryFactory::categoryType,
+                        CategoryLoader::categoryType,
                         Function.identity()
                 ));
     }
 
-    ApartmentReport create(City city, ReportType reportType) {
-        List<CategoryFactory> filteredCategoryFactories = switch(reportType) {
+    public ApartmentReport create(City city, ApartmentReportType apartmentReportType) {
+        log.info("Loading {} apartment report for {}", city.getName(), apartmentReportType);
+        var filteredCategories = switch(apartmentReportType) {
             case INITIAL -> List.of(
-                    categoryFactories.get(NEWS),
-                    categoryFactories.get(DISHWASHER_AND_GAS),
-                    categoryFactories.get(DISHWASHER_ONLY),
-                    categoryFactories.get(CHEAPEST));
+                    categoryLoaders.get(NEWS),
+                    categoryLoaders.get(DISHWASHER_AND_GAS),
+                    categoryLoaders.get(DISHWASHER_ONLY),
+                    categoryLoaders.get(CHEAPEST));
             case DAILY -> List.of(
-                    categoryFactories.get(DISHWASHER_AND_GAS),
-                    categoryFactories.get(DISHWASHER_ONLY),
-                    categoryFactories.get(CHEAPEST));
-            case NEWEST -> List.of(categoryFactories.get(NEWS));
+                    categoryLoaders.get(DISHWASHER_AND_GAS),
+                    categoryLoaders.get(DISHWASHER_ONLY),
+                    categoryLoaders.get(CHEAPEST));
+            case NEWEST -> List.of(categoryLoaders.get(NEWS));
         };
 
-        List<Category> categories = filteredCategoryFactories.stream()
-                .map(categoryFactory -> categoryFactory.of(city.getName()))
+        List<Category> loadedCategories = filteredCategories.stream()
+                .map(categoryLoader -> categoryLoader.load(city.getName()))
                 .collect(Collectors.toList());
-        List<Category> emptyCategories = categories.stream()
+        List<Category> emptyCategories = loadedCategories.stream()
                 .filter(Category::isEmpty)
                 .collect(Collectors.toList());
 
-        if (categories.size() == emptyCategories.size()) {
-            log.info("All categories from {} {} report are empty!", city.getName(), reportType);
-            return ApartmentReport.empty(city, reportType);
+        if (loadedCategories.size() == emptyCategories.size()) {
+            log.warn("{} {} apartment report is empty", city.getName(), ApartmentReportType.INITIAL);
+            return ApartmentReport.empty(city, apartmentReportType);
         }
 
         return ApartmentReport.builder()
-                .reportType(reportType)
+                .apartmentReportType(apartmentReportType)
                 .city(city)
-                .categories(categories)
+                .categories(loadedCategories)
                 .build();
     }
 }

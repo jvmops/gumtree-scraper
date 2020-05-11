@@ -1,4 +1,4 @@
-package com.jvmops.gumtree.notifications;
+package com.jvmops.gumtree.notifications.adapters;
 
 import com.jvmops.gumtree.subscriptions.City;
 import com.jvmops.gumtree.subscriptions.CityService;
@@ -29,6 +29,7 @@ import java.util.stream.Collectors;
 public class EmailSubscriptionController {
     private CityService cityService;
 
+
     @GetMapping("/subscribe")
     public String subscribe(
             @RequestParam @NotEmpty String city,
@@ -44,6 +45,9 @@ public class EmailSubscriptionController {
         return "redirect:/?subscribed";
     }
 
+    /**
+     * Url to this view is only visible in email
+     */
     @GetMapping("/unsubscribe")
     public String unsubscribeForm(
             @RequestParam(required = false) String city,
@@ -60,6 +64,9 @@ public class EmailSubscriptionController {
         return "unsubscribe";
     }
 
+    /**
+     * This method is called from within an email "unsubscribe" button
+     */
     @PostMapping("/unsubscribe")
     public String unsubscribe(
             @Valid Subscription subscription,
@@ -68,4 +75,5 @@ public class EmailSubscriptionController {
         redirectAttributes.addAttribute("unsubscribedCity", subscription.getCity());
         return "redirect:/unsubscribe?unsubscribed";
     }
+
 }

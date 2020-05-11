@@ -1,6 +1,8 @@
 package com.jvmops.gumtree.notifications;
 
-import com.jvmops.gumtree.notifications.EmailTemplateProcessor.EmailWithReport;
+import com.jvmops.gumtree.notifications.model.ApartmentReport;
+import com.jvmops.gumtree.notifications.model.ApartmentReportType;
+import com.jvmops.gumtree.notifications.ports.EmailSender;
 import com.jvmops.gumtree.subscriptions.City;
 import com.jvmops.gumtree.subscriptions.CityService;
 import lombok.AllArgsConstructor;
@@ -17,36 +19,20 @@ import java.util.function.Predicate;
 public class NotificationService {
     private CityService cityService;
     private ApartmentReportFactory apartmentReportFactory;
-    private EmailTemplateProcessor emailTemplateProcessor;
-    private NotificationSender notificationSender;
+    private EmailSender emailSender;
 
     public void initialEmail(City city, String subscriberWannabe) {
-        ApartmentReport apartmentReport = apartmentReportFactory.create(city, ReportType.INITIAL);
+        ApartmentReport apartmentReport = apartmentReportFactory.create(city, ApartmentReportType.INITIAL);
         if (apartmentReport.isEmpty()) {
             return;
         }
-
-        EmailWithReport email = emailTemplateProcessor.initialEmail(apartmentReport, subscriberWannabe);
-        notificationSender.initialEmail(email, subscriberWannabe);
+        emailSender.initialEmail(apartmentReport, subscriberWannabe);
     }
 
-    @SuppressWarnings("squid:S3864")
-    public void notifySubscribers(ReportType reportType) {
+    public void notifySubscribers(ApartmentReportType apartmentReportType) {
         cityService.cities().stream()
-                .filter(this::hasSubscribers)
-                .peek(city -> log.info("Creating {} apartment report", city.getName()))
-                .map(city -> apartmentReportFactory.create(city, reportType))
+                .map(city -> apartmentReportFactory.create(city, apartmentReportType))
                 .filter(Predicate.not(ApartmentReport::isEmpty))
-                .map(emailTemplateProcessor::subscriptionEmail)
-                .peek(email -> log.info("Preparing to notify {} subscribers about new {} report", email.report().getCity().getName(), reportType))
-                .forEach(notificationSender::notifySubscribers);
-    }
-
-    private boolean hasSubscribers(City city) {
-        boolean hasSubscribers = city.hasSubscribers();
-        if (!hasSubscribers) {
-            log.info("{} apartment report has no subscribers", city.getName());
-        }
-        return hasSubscribers;
+                .forEach(apartmentReport -> emailSender.notifySubscribers(apartmentReport));
     }
 }

@@ -1,20 +1,25 @@
 package com.jvmops.gumtree.notifications;
 
+import com.jvmops.gumtree.notifications.model.Ad;
+import com.jvmops.gumtree.notifications.model.Category;
+import com.jvmops.gumtree.notifications.model.CategoryType;
+import com.jvmops.gumtree.notifications.ports.AdRepository;
+import com.jvmops.gumtree.notifications.ports.ShameRepository;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 import java.time.Clock;
 import java.util.List;
 
-import static com.jvmops.gumtree.notifications.CategoryType.DISHWASHER_ONLY;
+import static com.jvmops.gumtree.notifications.model.CategoryType.DISHWASHER_ONLY;
 
 @Component
 @Lazy
-class DishwasherOnlyApartments extends CategoryFactoryBase {
-    private SuperQuerasyK regexpAdRepository;
+class DishwasherOnlyApartments extends CategoryLoaderBase {
+    private ShameRepository regexpAdRepository;
 
     public DishwasherOnlyApartments(
-            SuperQuerasyK regexpAdRepository,
+            ShameRepository regexpAdRepository,
             AdRepository adRepository,
             Clock clock) {
         super(adRepository, clock);
@@ -27,7 +32,7 @@ class DishwasherOnlyApartments extends CategoryFactoryBase {
     }
 
     @Override
-    public Category of(String city) {
+    public Category load(String city) {
         List<Ad> ads = regexpAdRepository.findAllByCityWithDishwasherOnly(
                 city,
                 oneWeekAgo(),

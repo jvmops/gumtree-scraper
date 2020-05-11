@@ -1,5 +1,6 @@
-package com.jvmops.gumtree.notifications;
+package com.jvmops.gumtree.notifications.ports;
 
+import com.jvmops.gumtree.notifications.model.Ad;
 import org.bson.types.ObjectId;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.repository.MongoRepository;
@@ -20,11 +21,11 @@ import java.util.List;
  * against a text index. That is why I had to go with regexp over a regular
  * field. End result looks ridiculous.
  *
- * But fuck it. I'm keeping the mongo here. Let it be the lesson for us. If you
+ * But lets leave it as it is. Let it be the lesson for me. If you
  * need anything more than basic search from a text index just stick with lucene.
  */
 @Repository
-public interface SuperQuerasyK extends MongoRepository<Ad, ObjectId> {
+public interface ShameRepository extends MongoRepository<Ad, ObjectId> {
 
     @Query(value = """
             { $and:

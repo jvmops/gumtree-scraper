@@ -1,6 +1,9 @@
 package com.jvmops.gumtree.notifications;
 
+import com.jvmops.gumtree.JsonDataInitializer;
 import com.jvmops.gumtree.Main;
+import com.jvmops.gumtree.notifications.model.Ad;
+import com.jvmops.gumtree.notifications.ports.ShameRepository;
 import org.bson.types.ObjectId;
 import org.junit.Assert;
 import org.junit.jupiter.api.BeforeAll;
@@ -15,7 +18,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 /**
- * In before {@link SuperQuerasyK}
+ * In before {@link ShameRepository}
  */
 @SpringBootTest(classes = Main.class)
 class MongoRegexpQueryAcceptanceTest extends JsonDataInitializer {
@@ -24,7 +27,7 @@ class MongoRegexpQueryAcceptanceTest extends JsonDataInitializer {
 
     @BeforeAll
     static void setup(@Autowired MongoTemplate mongoTemplate) {
-        reloadAds(mongoTemplate, ACCEPTANCE_TEST_ADS);
+        reloadReadOnlyAds(mongoTemplate, ACCEPTANCE_TEST_ADS);
     }
 
     @Test

@@ -1,5 +1,7 @@
-package com.jvmops.gumtree.notifications;
+package com.jvmops.gumtree.notifications.adapters;
 
+import com.jvmops.gumtree.notifications.NotificationService;
+import com.jvmops.gumtree.notifications.model.ApartmentReportType;
 import com.jvmops.gumtree.subscriptions.City;
 import com.jvmops.gumtree.subscriptions.CityService;
 import com.jvmops.gumtree.subscriptions.Subscription;
@@ -24,6 +26,9 @@ public class NotificationsController {
     private NotificationService notificationService;
     private CityService cityService;
 
+    /**
+     * its a "home" view
+     */
     @GetMapping
     public String notifications(Model model) {
         model.addAttribute("subscription", new Subscription());
@@ -34,6 +39,9 @@ public class NotificationsController {
         return "notifications";
     }
 
+    /**
+     * form with city dropdown and email input
+     */
     @PostMapping
     public String initialEmail(
             @Valid Subscription subscription,
@@ -49,9 +57,12 @@ public class NotificationsController {
         return "redirect:/?initialEmailSent";
     }
 
+    /**
+     * form with only "Send Report" button on admin view
+     */
     @PostMapping("notify")
     public String notifySubscribers() {
-        notificationService.notifySubscribers(ReportType.DAILY);
+        notificationService.notifySubscribers(ApartmentReportType.NEWEST);
         return "redirect:/subscriptions?reportSent";
     }
 }

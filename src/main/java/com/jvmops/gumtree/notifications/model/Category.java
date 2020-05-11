@@ -1,4 +1,4 @@
-package com.jvmops.gumtree.notifications;
+package com.jvmops.gumtree.notifications.model;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -7,7 +7,7 @@ import java.util.List;
 
 @Builder
 @Getter
-class Category {
+public class Category {
     private CategoryType type;
     private List<Ad> ads;
 
@@ -15,7 +15,7 @@ class Category {
         return type.getHeader();
     }
 
-    boolean isEmpty() {
+    public boolean isEmpty() {
         return ads.isEmpty();
     }
 }

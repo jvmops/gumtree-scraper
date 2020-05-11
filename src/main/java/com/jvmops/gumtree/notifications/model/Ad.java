@@ -1,4 +1,4 @@
-package com.jvmops.gumtree.notifications;
+package com.jvmops.gumtree.notifications.model;
 
 import lombok.Builder;
 import lombok.Data;
@@ -18,7 +18,7 @@ import java.util.List;
 @Data
 @EqualsAndHashCode(of = "id")
 @Builder
-class Ad {
+public class Ad {
     @Id
     private ObjectId id;
     private String city;
