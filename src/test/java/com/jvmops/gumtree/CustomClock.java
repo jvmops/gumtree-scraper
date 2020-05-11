@@ -13,7 +13,7 @@ public class CustomClock {
     @Bean
     @Primary
     public Clock fixedClock() {
-        Instant instant = Instant.parse("2020-05-07T23:01:00Z");
+        Instant instant = Instant.parse("2020-05-07T21:01:00Z");
         return Clock.fixed(instant, ZoneId.of("+2"));
     }
 }

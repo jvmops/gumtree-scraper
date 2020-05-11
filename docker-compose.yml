@@ -8,6 +8,7 @@ services:
       - 27017:27017
     environment:
       GUMTREE_DB_PASSWORD: "${ADMIN_PASSWORD}"
+      TZ: "Europe/Warsaw"
     volumes:
       - ./mongo/init.sh:/docker-entrypoint-initdb.d/init.sh:ro
 
