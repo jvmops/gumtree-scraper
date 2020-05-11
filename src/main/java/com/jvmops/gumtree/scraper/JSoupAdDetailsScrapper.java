@@ -25,7 +25,7 @@ class JSoupAdDetailsScrapper {
     Ad scrap(ListedAd listedAd) {
         slowdown.waitABit();
 
-        log.info("Scrapping - {} :: {}", listedAd.getTitle(), listedAd.getUrl());
+        log.debug("Scrapping - {} :: {}", listedAd.getTitle(), listedAd.getUrl());
         String adHtml = htmlProvider.adDetails(listedAd);
         Document adPage = Jsoup.parse(adHtml);
         String description = adPage.select("div.description")

@@ -21,7 +21,7 @@ class AdEvaluator {
         Ad ad = findInRepository(scrapped)
                 .map(saved -> updateModificationTime(saved, scrapped))
                 .orElse(scrapped);
-        // TODO: check if price changed
+        // TODO: check if price changed?
 
         logIfNew(ad);
         scrappedAdRepository.save(ad);
@@ -52,7 +52,7 @@ class AdEvaluator {
 
     private void logIfNew(Ad ad) {
         if (isNull(ad.getId())) {
-            log.info("Saving \"{}\"", ad.getTitle());
+            log.debug("Saving \"{}\"", ad.getTitle());
         }
     }
 }

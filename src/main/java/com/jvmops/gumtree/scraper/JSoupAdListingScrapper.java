@@ -34,12 +34,12 @@ class JSoupAdListingScrapper {
         List<ListedAd> featuredAds = featuredAds(adListing).stream()
                 .map(ad -> parse(ad, city, true))
                 .collect(Collectors.toList());
-        log.info("{} featured ads scrapped from page {}", featuredAds.size(), pageNumber);
+        log.debug("{} featured ads scrapped from page {}", featuredAds.size(), pageNumber);
 
         List<ListedAd> regularAds = regularAds(adListing).stream()
                 .map(ad -> parse(ad, city))
                 .collect(Collectors.toList());
-        log.info("{} regular ads scrapped from page {}", regularAds.size(), pageNumber);
+        log.debug("{} regular ads scrapped from page {}", regularAds.size(), pageNumber);
 
         if (regularAds.size() == 0) {
             throw new EmptyAdListingPage(city, pageNumber);

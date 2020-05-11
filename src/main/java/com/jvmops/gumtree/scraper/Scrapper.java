@@ -27,17 +27,20 @@ public class Scrapper {
         Set<Ad> scrapped = filteredListing(city).stream()
                 .map(adDetailsScrapper::scrap)
                 .collect(Collectors.toSet());
+        log.info("{} ads scrapped from {}", scrapped.size(), city.getName());
         return scrapped;
     }
 
     Set<ListedAd> filteredListing(City city) {
         Set<ListedAd> listing = listing(city);
+        log.info("Retrieved {} ads from a {} listing", listing.size(), city.getName());
         Set<String> gumtreeIds = listing.stream()
                 .map(ListedAd::getGumtreeId)
                 .collect(Collectors.toSet());
         Set<ListedAd> duplicated = listedAdRepository.findByGumtreeIdIn(gumtreeIds);
-        listing.removeAll(duplicated);
-        log.info("{} ads left after removing duplicates that are existing in the db", listing.size());
+        if (listing.removeAll(duplicated)) {
+            log.info("{} ads left after removing duplicates from a listing", listing.size());
+        }
         return listing;
     }
 
@@ -48,15 +51,14 @@ public class Scrapper {
         while(pageNumber <= scrapperProperties.getMaxScrappedPages() && scrapNextPage) {
             List<ListedAd> page = adListingScrapper.scrap(city, pageNumber);
             listedAds.addAll(page);
-            boolean alreadySavedExist = checkIfAlreadySavedExist(page);
+            boolean alreadySavedExist = checkIfAnyAlreadySaved(page);
             scrapNextPage = !alreadySavedExist;
             pageNumber++;
         }
-        log.info("{} ads scrapped from {} pages", listedAds.size(), pageNumber-1);
         return listedAds;
     }
 
-    private boolean checkIfAlreadySavedExist(List<ListedAd> ads) {
+    private boolean checkIfAnyAlreadySaved(List<ListedAd> ads) {
         Set<String> gumtreeIds = ads.stream()
                 .filter(Predicate.not(ListedAd::isFeatured))
                 .map(ListedAd::getGumtreeId)
