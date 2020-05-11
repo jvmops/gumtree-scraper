@@ -21,6 +21,7 @@ public class ScrapJob {
     @PostConstruct
     void scrapAds() {
         cityService.cities().stream()
+                .peek(city -> log.info("Scrapping ads from {} started", city.getName()))
                 .map(scrapper::scrapAds)
                 .flatMap(Collection::stream)
                 .forEach(adEvaluator::processAd);

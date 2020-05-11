@@ -27,19 +27,19 @@ public class Scrapper {
         Set<Ad> scrapped = filteredListing(city).stream()
                 .map(adDetailsScrapper::scrap)
                 .collect(Collectors.toSet());
-        log.info("{} ads scrapped from {}", scrapped.size(), city.getName());
+        log.info("Total of {} ads scrapped from {}", scrapped.size(), city.getName());
         return scrapped;
     }
 
     Set<ListedAd> filteredListing(City city) {
         Set<ListedAd> listing = listing(city);
-        log.info("Retrieved {} ads from a {} listing", listing.size(), city.getName());
+        log.info("Retrieved {} offers from a {} listing", listing.size(), city.getName());
         Set<String> gumtreeIds = listing.stream()
                 .map(ListedAd::getGumtreeId)
                 .collect(Collectors.toSet());
         Set<ListedAd> duplicated = listedAdRepository.findByGumtreeIdIn(gumtreeIds);
         if (listing.removeAll(duplicated)) {
-            log.info("{} ads left after removing duplicates from a listing", listing.size());
+            log.info("{} offers left after removing duplicates from a {} listing", listing.size(), city.getName());
         }
         return listing;
     }
