@@ -31,6 +31,7 @@ ext {
 }
 
 dependencies {
+	implementation 'org.joda:joda-money:1.0.1'
 	implementation 'javax.validation:validation-api'
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'

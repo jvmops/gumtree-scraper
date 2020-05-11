@@ -372,7 +372,7 @@
                                                         </td>
                                                     </tr>
                                                     <tr name="ad" th:each="ad : ${category.ads}">
-                                                        <td align="right" th:text="${ad.price}">
+                                                        <td name="price" align="right" th:text="${ad.price.getAmountMajorInt()}">
                                                             1500
                                                         </td>
                                                         <td align="left">

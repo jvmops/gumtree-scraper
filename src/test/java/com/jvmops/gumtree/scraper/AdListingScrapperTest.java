@@ -109,7 +109,7 @@ public class AdListingScrapperTest {
         ListedAd listedAd = adListingScrapper.scrap(katowice(), 1)
                 .get(0);
 
-        Assertions.assertEquals(2490, listedAd.getPrice());
+        Assertions.assertEquals(2490, listedAd.getPrice().getAmountMajorInt());
     }
 
     private void setupHtmlMockFor(HtmlFile htmlFile) {

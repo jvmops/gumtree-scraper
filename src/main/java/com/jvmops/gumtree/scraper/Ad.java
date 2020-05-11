@@ -4,6 +4,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import org.bson.types.ObjectId;
+import org.joda.money.Money;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.mongodb.core.index.CompoundIndex;
@@ -27,7 +28,7 @@ class Ad {
     private boolean featured;
     @Indexed
     private String title;
-    private Integer price;
+    private Money price;
     @Indexed
     private String description;
     private LocalDate availableSince;

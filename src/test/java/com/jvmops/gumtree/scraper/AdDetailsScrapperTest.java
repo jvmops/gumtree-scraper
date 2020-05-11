@@ -1,5 +1,6 @@
 package com.jvmops.gumtree.scraper;
 
+import org.joda.money.Money;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -10,6 +11,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
 
+import static com.jvmops.gumtree.ScrapperConfig.DEFAULT_CURRENCY;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -38,7 +40,7 @@ public class AdDetailsScrapperTest {
         Assertions.assertEquals("Fajne mieszkanie do wynajecia", adDetails.getTitle());
         Assertions.assertEquals("https://www.gumtree.pl/a-mieszkania-i-domy-do-wynajecia/katowice/0195021950192", adDetails.getUrl());
         Assertions.assertEquals("0195021950192", adDetails.getGumtreeId());
-        Assertions.assertEquals(3_300, adDetails.getPrice());
+        Assertions.assertEquals(3300, adDetails.getPrice().getAmountMajorInt());
         Assertions.assertTrue(adDetails.isFeatured());
     }
 
@@ -101,7 +103,7 @@ public class AdDetailsScrapperTest {
         return ListedAd.builder()
                 .city("Katowice")
                 .gumtreeId("0195021950192")
-                .price(3_300)
+                .price(Money.of(DEFAULT_CURRENCY, 3300))
                 .featured(true)
                 .title("Fajne mieszkanie do wynajecia")
                 .url("https://www.gumtree.pl/a-mieszkania-i-domy-do-wynajecia/katowice/0195021950192")

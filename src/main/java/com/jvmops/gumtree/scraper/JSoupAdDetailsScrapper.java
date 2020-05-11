@@ -40,7 +40,6 @@ class JSoupAdDetailsScrapper {
                 .title(listedAd.getTitle())
                 .featured(listedAd.isFeatured())
                 .description(description.toLowerCase())
-                // TODO: mb check if there is a price somewhere in the description?
                 .price(listedAd.getPrice())
                 .availableSince(adAttributes.getAvailableSince())
                 .landlord(adAttributes.getLandlord())

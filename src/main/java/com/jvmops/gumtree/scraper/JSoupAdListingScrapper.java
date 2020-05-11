@@ -1,9 +1,11 @@
 package com.jvmops.gumtree.scraper;
 
+import com.jvmops.gumtree.ScrapperConfig;
 import com.jvmops.gumtree.scraper.AdUrlBuilder.AdUrl;
 import com.jvmops.gumtree.subscriptions.City;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.joda.money.Money;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -11,10 +13,13 @@ import org.jsoup.select.Elements;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
+import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import static com.jvmops.gumtree.ScrapperConfig.DEFAULT_CURRENCY;
 
 @Component
 @Slf4j
@@ -68,27 +73,30 @@ class JSoupAdListingScrapper {
         String urlSuffix = title.select("a[href]").attr("href");
         AdUrl adUrl = adUrlBuilder.buildAdUrl(urlSuffix);
         String priceSpanValue = adFromList.selectFirst("span.price-text").text();
-        Integer price = parse(priceSpanValue);
+        BigDecimal price = parse(priceSpanValue);
 
         return ListedAd.builder()
                 .city(city.getName())
                 .gumtreeId(adUrl.gumtreeId())
                 .url(adUrl.url())
                 .title(title.text().trim())
-                .price(price)
+                .price(Money.of(DEFAULT_CURRENCY, price))
                 .featured(featured)
                 .build();
     }
 
-    private Integer parse(String priceSpanValue) {
+    /**
+     * It's always a natural number here
+     */
+    private BigDecimal parse(String priceSpanValue) {
         if (StringUtils.hasText(priceSpanValue)
                 && priceSpanValue.contains("zł")) {
             String price = priceSpanValue.replace("zł", "")
                     .trim()
                     .replace(" ", ""); // "2 200"
-            return Integer.valueOf(price);
+            return new BigDecimal(price);
         } else {
-            return 0;
+            return BigDecimal.ZERO;
         }
     }
 

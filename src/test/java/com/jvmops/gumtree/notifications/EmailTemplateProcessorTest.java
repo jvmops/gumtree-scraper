@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.mongodb.core.MongoTemplate;
 
+import java.util.Collection;
 import java.util.Set;
 
 import static com.jvmops.gumtree.notifications.CategoryType.NEWS;
@@ -81,6 +82,22 @@ class EmailTemplateProcessorTest extends JsonDataInitializer {
         categories(email).stream()
                 .map(this::ads)
                 .forEach(ads -> Assertions.assertFalse(ads.isEmpty()));
+    }
+
+    @Test
+    void ad_price_is_rendered_properly() {
+        EmailWithReport email = emailTemplateProcessor.initialEmail(generateReport(INITIAL), SUBSCRIBERS_EMAIL);
+        String adPrice = categories(email).stream()
+                .map(this::ads)
+                .map(this::price)
+                .flatMap(Collection::stream)
+                .findFirst()
+                .map(Element::text)
+                .orElseThrow(() -> new IllegalStateException(
+                        String.format("There are ads prepared for this test in %s file! Html attribute names could change too.", DUMPED_ADS)));
+
+        Assert.assertNotNull(adPrice);
+        Assert.assertEquals("1900", adPrice);
     }
 
     @Test
@@ -154,6 +171,10 @@ class EmailTemplateProcessorTest extends JsonDataInitializer {
 
     private Elements ads(Element category) {
         return category.select("tr[name=ad]");
+    }
+
+    private Elements price(Elements ad) {
+        return ad.select("td[name=price]");
     }
 
     private Element subscribeButton(EmailWithReport email) {
