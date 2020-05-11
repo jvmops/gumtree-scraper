@@ -49,7 +49,7 @@ public class NotificationsController {
         return "redirect:/?initialEmailSent";
     }
 
-    @PostMapping("notifications")
+    @PostMapping("notify")
     public String notifySubscribers() {
         notificationService.notifySubscribers(ReportType.DAILY);
         return "redirect:/subscriptions?reportSent";
