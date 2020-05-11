@@ -1,6 +1,5 @@
 package com.jvmops.gumtree.notifications;
 
-import com.jvmops.gumtree.JsonDataInitializer;
 import com.jvmops.gumtree.Main;
 import com.jvmops.gumtree.notifications.model.Ad;
 import com.jvmops.gumtree.notifications.model.ApartmentReport;
@@ -79,6 +78,6 @@ class ApartmentReportFactoryTest extends JsonDataInitializer {
     void non_empty_report_has_title() {
         String title = apartmentReportFactory.create(KATOWICE, ApartmentReportType.NEWEST)
                 .getTitle();
-        assertEquals("Nowe ogłoszenia! - Katowice", title);
+        assertEquals("Mieszkania dodane w ciągu ostatnich 2 godzin! - Katowice", title);
     }
 }

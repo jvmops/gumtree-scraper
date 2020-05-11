@@ -1,4 +1,4 @@
-package com.jvmops.gumtree.scraper;
+package com.jvmops.gumtree.scraper.adapters;
 
 import lombok.RequiredArgsConstructor;
 import org.jsoup.Jsoup;

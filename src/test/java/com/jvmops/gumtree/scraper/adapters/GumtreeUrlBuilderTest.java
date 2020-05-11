@@ -1,6 +1,7 @@
-package com.jvmops.gumtree.scraper;
+package com.jvmops.gumtree.scraper.adapters;
 
-import com.jvmops.gumtree.scraper.GumtreeUrlBuilder.AdUrl;
+import com.jvmops.gumtree.scraper.adapters.GumtreeUrlBuilder;
+import com.jvmops.gumtree.scraper.adapters.GumtreeUrlBuilder.AdUrl;
 import com.jvmops.gumtree.subscriptions.City;
 import org.junit.Assert;
 import org.junit.jupiter.api.Assertions;

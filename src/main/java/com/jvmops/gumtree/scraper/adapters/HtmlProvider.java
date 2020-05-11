@@ -1,5 +1,6 @@
-package com.jvmops.gumtree.scraper;
+package com.jvmops.gumtree.scraper.adapters;
 
+import com.jvmops.gumtree.scraper.model.ListedAd;
 import com.jvmops.gumtree.subscriptions.City;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

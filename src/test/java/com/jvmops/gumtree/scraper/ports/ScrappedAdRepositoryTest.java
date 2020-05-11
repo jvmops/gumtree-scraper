@@ -1,6 +1,8 @@
-package com.jvmops.gumtree.scraper;
+package com.jvmops.gumtree.scraper.ports;
 
 import com.jvmops.gumtree.Main;
+import com.jvmops.gumtree.scraper.ScrapperDataInitializer;
+import com.jvmops.gumtree.scraper.ports.ScrappedAdRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
  * @CompoundIndex acceptance test
  */
 @SpringBootTest(classes = Main.class)
-public class ScrappedAdRepositoryTest extends DataInitializer {
+public class ScrappedAdRepositoryTest extends ScrapperDataInitializer {
 
     @Autowired
     ScrappedAdRepository scrappedAdRepository;

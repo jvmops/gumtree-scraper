@@ -2,7 +2,7 @@ package com.jvmops.gumtree.notifications.adapters;
 
 import com.jvmops.gumtree.Main;
 import com.jvmops.gumtree.notifications.ApartmentReportFactory;
-import com.jvmops.gumtree.JsonDataInitializer;
+import com.jvmops.gumtree.notifications.JsonDataInitializer;
 import com.jvmops.gumtree.notifications.model.ApartmentReport;
 import com.jvmops.gumtree.notifications.model.CategoryType;
 import com.jvmops.gumtree.notifications.model.ApartmentReportType;
@@ -78,7 +78,7 @@ class EmailTemplateProcessorTest extends JsonDataInitializer {
     void category_consist_of_header() {
         EmailWithReport email = emailTemplateProcessor.initialEmail(generateReport(INITIAL), SUBSCRIBERS_EMAIL);
         String headerContent = categoryHeader(email, NEWS);
-        Assertions.assertEquals("Jeszcze ciepłe:", headerContent);
+        Assertions.assertEquals("Mieszkania przed 2 godzin:", headerContent);
     }
 
     @Test

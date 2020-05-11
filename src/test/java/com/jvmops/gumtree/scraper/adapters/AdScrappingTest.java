@@ -1,7 +1,15 @@
-package com.jvmops.gumtree.scraper;
+package com.jvmops.gumtree.scraper.adapters;
 
 import com.jvmops.gumtree.Main;
 import com.jvmops.gumtree.ScrapperProperties;
+import com.jvmops.gumtree.scraper.HtmlFile;
+import com.jvmops.gumtree.scraper.ScrapperDataInitializer;
+import com.jvmops.gumtree.scraper.ScrappingManager;
+import com.jvmops.gumtree.scraper.Slowdown;
+import com.jvmops.gumtree.scraper.model.ListedAd;
+import com.jvmops.gumtree.scraper.model.ScrappedAd;
+import com.jvmops.gumtree.scraper.ports.GumtreeAdScrapper;
+import com.jvmops.gumtree.scraper.ports.ListedAdRepository;
 import com.jvmops.gumtree.subscriptions.City;
 import org.junit.Assert;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,11 +27,15 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.when;
 
+/**
+ * TODO: move this test to main package (another layer of abstraction needed for mocks)
+ */
 @ExtendWith({MockitoExtension.class, SpringExtension.class})
 @SpringBootTest(classes = Main.class)
-public class ScrapperTest extends DataInitializer {
+public class AdScrappingTest extends ScrapperDataInitializer {
 
-    private Scrapper scrapper;
+    private GumtreeAdScrapper scrapper;
+    private ScrappingManager scrappingManager;
 
     @Mock
     private HtmlProvider htmlProvider;
@@ -31,17 +43,23 @@ public class ScrapperTest extends DataInitializer {
     @Autowired
     private GumtreeUrlBuilder gumtreeUrlBuilder;
     @Autowired
-    private ListedAdRepository listedAdRepository;
-    @Autowired
     private Slowdown slowdown;
     @Autowired
+    private ListedAdRepository listedAdRepository;
+    @Autowired
     private ScrapperProperties scrapperProperties;
+
 
     @BeforeEach
     public void setup() {
         JSoupAdListingScrapper adListingScrapper = new JSoupAdListingScrapper(htmlProvider, gumtreeUrlBuilder);
-        JSoupAdDetailsScrapper adDetailsScrapper = new JSoupAdDetailsScrapper(htmlProvider, slowdown);
-        scrapper = new Scrapper(adListingScrapper, adDetailsScrapper, listedAdRepository, scrapperProperties);
+        JSoupAdDetailsScrapper jSoupAdDetailsScrapper = new JSoupAdDetailsScrapper(htmlProvider, slowdown);
+        scrapper = new JsoupAdScrapper(
+                adListingScrapper,
+                jSoupAdDetailsScrapper,
+                listedAdRepository,
+                scrapperProperties);
+        scrappingManager = new ScrappingManager(scrapper, listedAdRepository);
         reloadApartments();
     }
 
@@ -51,7 +69,7 @@ public class ScrapperTest extends DataInitializer {
                 HtmlFile.AD_LISTING_PAGE_3.getHtml()
         );
 
-        Set<ListedAd> ads = scrapper.listing(katowice());
+        Set<ListedAd> ads = scrapper.adListing(katowice());
 
         Assert.assertEquals(13, ads.size());
     }
@@ -63,7 +81,7 @@ public class ScrapperTest extends DataInitializer {
                 HtmlFile.AD_LISTING_PAGE_1.getHtml() // otherwise it will fall in the endless loop
         );
 
-        Set<ListedAd> ads = scrapper.listing(katowice());
+        Set<ListedAd> ads = scrapper.adListing(katowice());
 
         Assert.assertEquals(13, ads.size());
     }
@@ -73,8 +91,11 @@ public class ScrapperTest extends DataInitializer {
         when(htmlProvider.adListing(any(), anyInt())).thenReturn(
                 HtmlFile.AD_LISTING_PAGE_3.getHtml()
         );
+        when(htmlProvider.adDetails(any())).thenReturn(
+                HtmlFile.AD_DETAILS.getHtml()
+        );
 
-        Set<ListedAd> ads = scrapper.filteredListing(katowice());
+        Set<ScrappedAd> ads = scrappingManager.scrapAds(katowice());
 
         Assert.assertEquals(12, ads.size());
     }
@@ -90,7 +111,7 @@ public class ScrapperTest extends DataInitializer {
                 HtmlFile.AD_DETAILS.getHtml()
         );
 
-        Set<Ad> ads = scrapper.scrapAds(katowice());
+        Set<ScrappedAd> ads = scrappingManager.scrapAds(katowice());
 
         // 3x 10 regular ads = 30 + 3 featured = 33
         // 1 ad on page 2 comes from page 1 = 33 - 1 = 32

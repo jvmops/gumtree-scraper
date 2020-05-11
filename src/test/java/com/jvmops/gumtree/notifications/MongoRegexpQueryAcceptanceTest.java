@@ -1,6 +1,5 @@
 package com.jvmops.gumtree.notifications;
 
-import com.jvmops.gumtree.JsonDataInitializer;
 import com.jvmops.gumtree.Main;
 import com.jvmops.gumtree.notifications.model.Ad;
 import com.jvmops.gumtree.notifications.ports.ShameRepository;

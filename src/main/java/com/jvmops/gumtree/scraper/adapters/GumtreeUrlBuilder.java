@@ -1,4 +1,4 @@
-package com.jvmops.gumtree.scraper;
+package com.jvmops.gumtree.scraper.adapters;
 
 import com.jvmops.gumtree.subscriptions.City;
 import org.springframework.stereotype.Component;

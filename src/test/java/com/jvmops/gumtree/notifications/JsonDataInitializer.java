@@ -1,4 +1,4 @@
-package com.jvmops.gumtree;
+package com.jvmops.gumtree.notifications;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;

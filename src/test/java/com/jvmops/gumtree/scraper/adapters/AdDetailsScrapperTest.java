@@ -1,5 +1,12 @@
-package com.jvmops.gumtree.scraper;
+package com.jvmops.gumtree.scraper.adapters;
 
+import com.jvmops.gumtree.scraper.HtmlFile;
+import com.jvmops.gumtree.scraper.Slowdown;
+import com.jvmops.gumtree.scraper.adapters.GumtreeUrlBuilder;
+import com.jvmops.gumtree.scraper.adapters.HtmlProvider;
+import com.jvmops.gumtree.scraper.adapters.JSoupAdDetailsScrapper;
+import com.jvmops.gumtree.scraper.model.ListedAd;
+import com.jvmops.gumtree.scraper.model.ScrappedAd;
 import org.joda.money.Money;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -33,7 +40,7 @@ public class AdDetailsScrapperTest {
         setupHtmlMockFor(HtmlFile.AD_DETAILS);
         ListedAd listedAd = listedAd();
 
-        Ad adDetails = adDetailsScrapper.scrap(listedAd);
+        ScrappedAd adDetails = adDetailsScrapper.scrap(listedAd);
 
         // those comes from adListing
         Assertions.assertEquals("Katowice", adDetails.getCity());
@@ -49,7 +56,7 @@ public class AdDetailsScrapperTest {
         setupHtmlMockFor(HtmlFile.AD_DETAILS);
         ListedAd listedAd = listedAd();
 
-        Ad adDetails = adDetailsScrapper.scrap(listedAd);
+        ScrappedAd adDetails = adDetailsScrapper.scrap(listedAd);
 
         Assertions.assertTrue(adDetails.getDescription().length() > 500);
     }
@@ -59,7 +66,7 @@ public class AdDetailsScrapperTest {
         setupHtmlMockFor(HtmlFile.AD_DETAILS);
         ListedAd listedAd = listedAd();
 
-        Ad adDetails = adDetailsScrapper.scrap(listedAd);
+        ScrappedAd adDetails = adDetailsScrapper.scrap(listedAd);
 
         Assertions.assertEquals("Agencja", adDetails.getLandlord());
     }
@@ -69,7 +76,7 @@ public class AdDetailsScrapperTest {
         setupHtmlMockFor(HtmlFile.AD_DETAILS);
         ListedAd listedAd = listedAd();
 
-        Ad adDetails = adDetailsScrapper.scrap(listedAd);
+        ScrappedAd adDetails = adDetailsScrapper.scrap(listedAd);
 
         Assertions.assertEquals(LocalDate.parse("2019-11-10"), adDetails.getGumtreeCreationDate());
     }
@@ -79,17 +86,17 @@ public class AdDetailsScrapperTest {
         setupHtmlMockFor(HtmlFile.AD_DETAILS);
         ListedAd listedAd = listedAd();
 
-        Ad adDetails = adDetailsScrapper.scrap(listedAd);
+        ScrappedAd adDetails = adDetailsScrapper.scrap(listedAd);
 
         Assertions.assertEquals(32, adDetails.getSize());
     }
 
     @Test
-    void not_present_specification_will_be_translated_to_nulls() {
+    void not_present_attribute_available_since_will_result_in_null() {
         setupHtmlMockFor(HtmlFile.AD_DETAILS);
         ListedAd listedAd = listedAd();
 
-        Ad adDetails = adDetailsScrapper.scrap(listedAd);
+        ScrappedAd adDetails = adDetailsScrapper.scrap(listedAd);
 
         Assertions.assertNull(adDetails.getAvailableSince());
     }

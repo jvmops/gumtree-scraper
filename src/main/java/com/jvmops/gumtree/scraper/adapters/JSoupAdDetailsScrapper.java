@@ -1,5 +1,9 @@
-package com.jvmops.gumtree.scraper;
+package com.jvmops.gumtree.scraper.adapters;
 
+import com.jvmops.gumtree.scraper.Slowdown;
+import com.jvmops.gumtree.scraper.model.ListedAd;
+import com.jvmops.gumtree.scraper.model.ScrappedAd;
+import com.jvmops.gumtree.scraper.model.ScrappedAdAttributes;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
@@ -22,7 +26,7 @@ class JSoupAdDetailsScrapper {
     private final HtmlProvider htmlProvider;
     private final Slowdown slowdown;
 
-    Ad scrap(ListedAd listedAd) {
+    ScrappedAd scrap(ListedAd listedAd) {
         slowdown.waitABit();
 
         log.debug("Scrapping - {} :: {}", listedAd.getTitle(), listedAd.getUrl());
@@ -33,7 +37,7 @@ class JSoupAdDetailsScrapper {
                 .text();
         ScrappedAdAttributes adAttributes = scrapAttributes(adPage);
 
-        return Ad.builder()
+        return ScrappedAd.builder()
                 .city(listedAd.getCity())
                 .gumtreeId(listedAd.getGumtreeId())
                 .url(listedAd.getUrl())
@@ -60,7 +64,7 @@ class JSoupAdDetailsScrapper {
         Map<String, String> adAttributes = scrappedAdAttributes.stream()
                 .map(this::findAttributeElement)
                 .flatMap(Optional::stream)
-                .map(this::parseAttribute)
+                .map(this::scrapAttribute)
                 .collect(Collectors.toMap(
                         Pair::getFirst,
                         Pair::getSecond
@@ -79,7 +83,7 @@ class JSoupAdDetailsScrapper {
         return Optional.ofNullable(attributeElement);
     }
 
-    private Pair<String, String> parseAttribute(Element element) {
+    private Pair<String, String> scrapAttribute(Element element) {
         String key = element.select("span.name").text();
         String value = element.select("span.value").text();
         return Pair.of(key, value);

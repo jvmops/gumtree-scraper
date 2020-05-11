@@ -1,5 +1,7 @@
-package com.jvmops.gumtree.scraper;
+package com.jvmops.gumtree.scraper.adapters;
 
+import com.jvmops.gumtree.scraper.AdEvaluator;
+import com.jvmops.gumtree.scraper.ScrappingManager;
 import com.jvmops.gumtree.subscriptions.CityService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -13,9 +15,9 @@ import java.util.Collection;
 @Component
 @Slf4j
 @AllArgsConstructor
-public class ScrapJob {
+class ScrapJob {
     private CityService cityService;
-    private Scrapper scrapper;
+    private ScrappingManager scrapper;
     private AdEvaluator adEvaluator;
 
     @PostConstruct

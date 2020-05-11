@@ -1,5 +1,9 @@
-package com.jvmops.gumtree.scraper;
+package com.jvmops.gumtree.scraper.adapters;
 
+import com.jvmops.gumtree.scraper.AdEvaluator;
+import com.jvmops.gumtree.scraper.ScrappingManager;
+import com.jvmops.gumtree.scraper.adapters.ScrapJob;
+import com.jvmops.gumtree.scraper.model.ScrappedAd;
 import com.jvmops.gumtree.subscriptions.City;
 import com.jvmops.gumtree.subscriptions.CityService;
 import org.junit.jupiter.api.BeforeEach;
@@ -18,7 +22,7 @@ public class ScrapJobTest {
     @Mock
     private CityService cityService;
     @Mock
-    private Scrapper scrapper;
+    private ScrappingManager scrapper;
     @Mock
     private AdEvaluator adEvaluator;
 
@@ -39,8 +43,8 @@ public class ScrapJobTest {
 
     @Test
     public void ad_evaluator_will_be_called_for_each_scrapped_city() {
-        when(scrapper.scrapAds(katowice())).thenReturn(Set.of(Ad.builder().gumtreeId("1").build(), Ad.builder().gumtreeId("2").build()));
-        when(scrapper.scrapAds(wroclaw())).thenReturn(Set.of(Ad.builder().gumtreeId("3").build()));
+        when(scrapper.scrapAds(katowice())).thenReturn(Set.of(ScrappedAd.builder().gumtreeId("1").build(), ScrappedAd.builder().gumtreeId("2").build()));
+        when(scrapper.scrapAds(wroclaw())).thenReturn(Set.of(ScrappedAd.builder().gumtreeId("3").build()));
 
         scrapJob.scrapAds();
 

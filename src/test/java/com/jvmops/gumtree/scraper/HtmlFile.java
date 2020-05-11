@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-enum HtmlFile {
+public enum HtmlFile {
     AD_LISTING_EMPTY_PAGE("Katowice", FileReader.toString("html/ad_listing_empty.html")),
     AD_LISTING_SINGLE_AD("Katowice", FileReader.toString("html/ad_listing_single_ad.html")),
     AD_LISTING_PAGE_1("Katowice", FileReader.toString("html/ad_listing_1.html")),

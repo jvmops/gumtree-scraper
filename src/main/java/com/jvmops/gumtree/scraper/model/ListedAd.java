@@ -1,4 +1,4 @@
-package com.jvmops.gumtree.scraper;
+package com.jvmops.gumtree.scraper.model;
 
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -12,7 +12,7 @@ import java.net.URL;
 @Value
 @EqualsAndHashCode(of = "gumtreeId")
 @Builder
-class ListedAd {
+public class ListedAd {
     String city;
     String gumtreeId;
     URL url;

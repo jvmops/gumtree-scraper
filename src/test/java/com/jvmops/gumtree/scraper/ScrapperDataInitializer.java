@@ -1,5 +1,7 @@
 package com.jvmops.gumtree.scraper;
 
+import com.jvmops.gumtree.scraper.model.ScrappedAd;
+import com.jvmops.gumtree.scraper.ports.ScrappedAdRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.joda.money.Money;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,20 +14,20 @@ import java.util.List;
 import static com.jvmops.gumtree.ScrapperConfig.DEFAULT_CURRENCY;
 
 @Slf4j
-abstract class DataInitializer {
+public abstract class ScrapperDataInitializer {
 
     @Autowired
     protected ScrappedAdRepository scrappedAdRepository;
     @Autowired
     protected Clock clock;
 
-    void reloadApartments() {
+    public void reloadApartments() {
         scrappedAdRepository.deleteAll();
         createTestAds().forEach(scrappedAdRepository::save);
     }
 
-    protected Ad scrappedAd(String city, String title) {
-        return Ad.builder()
+    protected ScrappedAd scrappedAd(String city, String title) {
+        return ScrappedAd.builder()
                 .city(city)
                 .title(title)
                 .gumtreeCreationDate(LocalDate.now(clock))
@@ -33,9 +35,9 @@ abstract class DataInitializer {
                 .build();
     }
 
-    private List<Ad> createTestAds() {
+    private List<ScrappedAd> createTestAds() {
         LocalDateTime lastSeen = LocalDateTime.now(clock).minusWeeks(4);
-        Ad thisWillBeModifiedInTest = Ad.builder()
+        ScrappedAd thisWillBeModifiedInTest = ScrappedAd.builder()
                 .city("Katowice")
                 .gumtreeId("0000000")
                 .title("Modify this ad")
@@ -47,7 +49,7 @@ abstract class DataInitializer {
                 .updates(List.of(LocalDate.now(clock).minusWeeks(5), lastSeen.toLocalDate()))
                 .build();
 
-        Ad recentlyPostedApartmentInWroclaw = Ad.builder()
+        ScrappedAd recentlyPostedApartmentInWroclaw = ScrappedAd.builder()
                 .city("Wroclaw")
                 .gumtreeId("1111111")
                 .title("Takie sobie mieszkanie")
@@ -59,7 +61,7 @@ abstract class DataInitializer {
                 .updates(List.of(LocalDate.now(clock)))
                 .build();
 
-        Ad oldAdInKatowice = Ad.builder()
+        ScrappedAd oldAdInKatowice = ScrappedAd.builder()
                 .city("Katowice")
                 .gumtreeId("10072336504490911177635309")
                 .title("BEZ PROWIZJI- przestronna kawalerka w Centrum Katowic do wynajęcia")
