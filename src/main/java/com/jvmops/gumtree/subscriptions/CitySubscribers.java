@@ -1,15 +1,15 @@
 package com.jvmops.gumtree.subscriptions;
 
 import lombok.Builder;
-import lombok.Data;
+import lombok.Value;
 
 import java.time.LocalDateTime;
 import java.util.Set;
 
-@Data
+@Value
 @Builder
 public class CitySubscribers {
-    private String cityName;
-    private Set<String> emails;
-    private LocalDateTime modificationTime;
+    String cityName;
+    Set<String> emails;
+    LocalDateTime modificationTime;
 }

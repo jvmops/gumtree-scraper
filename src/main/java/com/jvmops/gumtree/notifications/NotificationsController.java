@@ -26,7 +26,7 @@ public class NotificationsController {
 
     @GetMapping
     public String notifications(Model model) {
-        model.addAttribute("subscription", Subscription.builder().build());
+        model.addAttribute("subscription", new Subscription());
         List<String> cityNames = cityService.cities().stream()
                 .map(City::getName)
                 .collect(Collectors.toList());
