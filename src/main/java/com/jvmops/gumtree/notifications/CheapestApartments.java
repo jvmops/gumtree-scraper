@@ -1,11 +1,11 @@
 package com.jvmops.gumtree.notifications;
 
-import com.jvmops.gumtree.Time;
 import org.joda.money.Money;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
+import java.time.Clock;
 import java.util.List;
 
 import static com.jvmops.gumtree.ScrapperConfig.DEFAULT_CURRENCY;
@@ -18,8 +18,8 @@ class CheapestApartments extends CategoryFactoryBase {
     private static final Money MINIMUM_PRICE = Money.of(DEFAULT_CURRENCY, 300);
     private static final Sort SORT_BY_PRICE = Sort.by("price");
 
-    public CheapestApartments(AdRepository adRepository, Time time) {
-        super(adRepository, time);
+    public CheapestApartments(AdRepository adRepository, Clock clock) {
+        super(adRepository, clock);
     }
 
     @Override

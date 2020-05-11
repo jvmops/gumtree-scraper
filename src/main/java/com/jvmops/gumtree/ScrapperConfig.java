@@ -10,12 +10,19 @@ import org.springframework.data.convert.ReadingConverter;
 import org.springframework.data.convert.WritingConverter;
 import org.springframework.data.mongodb.core.convert.MongoCustomConversions;
 
+import java.time.Clock;
+import java.time.ZoneId;
 import java.util.List;
 
 @Configuration
 @Slf4j
 public class ScrapperConfig {
     public static final CurrencyUnit DEFAULT_CURRENCY = CurrencyUnit.of("PLN");
+
+    @Bean
+    Clock clock() {
+        return Clock.system(ZoneId.of("+2"));
+    }
 
     @Bean
     MongoCustomConversions customConverters() {

@@ -1,9 +1,9 @@
 package com.jvmops.gumtree.notifications;
 
-import com.jvmops.gumtree.Time;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 
+import java.time.Clock;
 import java.time.LocalDate;
 
 import static org.springframework.data.domain.Sort.Order.asc;
@@ -16,14 +16,15 @@ abstract class CategoryFactoryBase implements CategoryFactory {
     protected static final PageRequest DEFAULT_PAGE_REQUEST = PageRequest.of(0, 20, DEFAULT_SORT);
 
     protected AdRepository adRepository;
-    protected Time time;
+    protected Clock clock;
 
-    public CategoryFactoryBase(AdRepository adRepository, Time time) {
+    public CategoryFactoryBase(AdRepository adRepository, Clock clock) {
         this.adRepository = adRepository;
-        this.time = time;
+        this.clock = clock;
     }
 
     protected LocalDate oneWeekAgo() {
-        return time.now().minusWeeks(1).toLocalDate();
+        return LocalDate.now(clock)
+                .minusWeeks(1);
     }
 }

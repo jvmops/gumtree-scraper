@@ -1,7 +1,6 @@
 package com.jvmops.gumtree.subscriptions;
 
 import com.jvmops.gumtree.Main;
-import com.jvmops.gumtree.Time;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -10,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DuplicateKeyException;
 
+import java.time.Clock;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 
@@ -24,7 +25,7 @@ public class CityServiceTest {
     @Autowired
     private CityRepository cityRepository;
     @Autowired
-    private Time time;
+    private Clock clock;
 
     @BeforeEach
     private void saveCities() {
@@ -75,13 +76,13 @@ public class CityServiceTest {
                 .id(ObjectId.get())
                 .name("Katowice")
                 .subscribers(Set.of("jvmops@gmail.com", "jvmops+test@gmail.com"))
-                .creationTime(time.now())
+                .creationTime(LocalDateTime.now(clock))
                 .build();
         City wroclaw = City.builder()
                 .id(ObjectId.get())
                 .name("Wroclaw")
                 .subscribers(Set.of("jvmops@gmail.com"))
-                .creationTime(time.now())
+                .creationTime(LocalDateTime.now(clock))
                 .build();
         return List.of(katowice, wroclaw);
     }

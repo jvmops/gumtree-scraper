@@ -1,9 +1,9 @@
 package com.jvmops.gumtree.notifications;
 
-import com.jvmops.gumtree.Time;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
+import java.time.Clock;
 import java.util.List;
 
 import static com.jvmops.gumtree.notifications.CategoryType.DISHWASHER_AND_GAS;
@@ -16,8 +16,8 @@ class DishwasherAndGasApartments extends CategoryFactoryBase {
     public DishwasherAndGasApartments(
             SuperQuerasyK regexpAdRepository,
             AdRepository adRepository,
-            Time time) {
-        super(adRepository, time);
+            Clock clock) {
+        super(adRepository, clock);
         this.regexpAdRepository = regexpAdRepository;
     }
 

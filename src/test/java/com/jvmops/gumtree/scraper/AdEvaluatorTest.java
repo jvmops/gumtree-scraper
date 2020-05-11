@@ -6,6 +6,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.time.LocalDate;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -47,7 +49,7 @@ class AdEvaluatorTest extends DataInitializer {
 
         Ad fromDb = adEvaluator.findInRepository(scrappedAd)
                 .orElseThrow(() -> new IllegalStateException("Scrapped ad not found in the repository"));
-        assertEquals(time.now().toLocalDate(), fromDb.getGumtreeCreationDate(), "Date has not been updated");
+        assertEquals(LocalDate.now(clock), fromDb.getGumtreeCreationDate(), "Date has not been updated");
         assertEquals(3, fromDb.getUpdates().size());
     }
 }
