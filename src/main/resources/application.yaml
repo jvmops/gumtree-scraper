@@ -1,0 +1,28 @@
+name: gumtree-scrapper
+
+spring:
+  security:
+    user:
+      name: admin
+      password: changeme
+  data:
+    mongodb:
+      database: gumtree
+      authentication-database: gumtree
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: your_email@gmail.com
+    password: your_password
+    properties:
+      mail.smtp.auth: true
+      mail.smtp.starttls.enable: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+          - health
+          - info
+          - mtrics

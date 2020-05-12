@@ -1,0 +1,7 @@
+gumtree:
+  scrapper:
+    max-scrapped-pages: 3
+
+spring:
+  main:
+    web-application-type=none: none

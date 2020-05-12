@@ -12,8 +12,8 @@ import javax.annotation.PostConstruct;
 @Setter
 @Slf4j
 public class ScrapperProperties {
-    private int maxScrappedPages;
-    private String websiteUrl;
+    private int maxScrappedPages = 2;
+    private String websiteUrl = "http://localhost:8080";
 
     @PostConstruct
     void log() {

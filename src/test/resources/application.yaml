@@ -1,0 +1,19 @@
+
+gumtree:
+  scraper:
+    max-scrapped-pages: 3
+
+# testcontainers stuff
+embedded:
+  mongodb:
+    dockerImage: mongo:4
+    database: test-gumtree
+
+spring:
+  main:
+    web-application-type: none
+  data:
+    mongodb:
+      # testcontainers again
+      uri: mongodb://${embedded.mongodb.host}:${embedded.mongodb.port}/${embedded.mongodb.database}
+
