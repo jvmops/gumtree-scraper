@@ -3,8 +3,8 @@ package com.jvmops.gumtree.notifications;
 import com.jvmops.gumtree.notifications.model.ApartmentReport;
 import com.jvmops.gumtree.notifications.model.ApartmentReportType;
 import com.jvmops.gumtree.notifications.ports.EmailSender;
-import com.jvmops.gumtree.subscriptions.model.City;
 import com.jvmops.gumtree.subscriptions.CityService;
+import com.jvmops.gumtree.subscriptions.model.City;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Lazy;
@@ -31,8 +31,16 @@ public class NotificationService {
 
     public void notifySubscribers(ApartmentReportType apartmentReportType) {
         cityService.cities().stream()
+                .filter(this::hasSubscribers)
                 .map(city -> apartmentReportFactory.create(city, apartmentReportType))
                 .filter(Predicate.not(ApartmentReport::isEmpty))
                 .forEach(apartmentReport -> emailSender.notifySubscribers(apartmentReport));
+    }
+
+    private boolean hasSubscribers(City city) {
+        if (!city.hasSubscribers()) {
+            log.info("Noone to notify in {}. Aborting...", city.getName());
+        }
+        return city.hasSubscribers();
     }
 }

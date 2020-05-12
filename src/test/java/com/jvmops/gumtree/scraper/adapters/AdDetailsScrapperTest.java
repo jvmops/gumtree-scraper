@@ -2,9 +2,6 @@ package com.jvmops.gumtree.scraper.adapters;
 
 import com.jvmops.gumtree.scraper.HtmlFile;
 import com.jvmops.gumtree.scraper.Slowdown;
-import com.jvmops.gumtree.scraper.adapters.GumtreeUrlBuilder;
-import com.jvmops.gumtree.scraper.adapters.HtmlProvider;
-import com.jvmops.gumtree.scraper.adapters.JSoupAdDetailsScrapper;
 import com.jvmops.gumtree.scraper.model.ListedAd;
 import com.jvmops.gumtree.scraper.model.ScrappedAd;
 import org.joda.money.Money;

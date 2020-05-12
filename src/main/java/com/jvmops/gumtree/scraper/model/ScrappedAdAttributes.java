@@ -2,7 +2,6 @@ package com.jvmops.gumtree.scraper.model;
 
 import lombok.AllArgsConstructor;
 
-import javax.swing.text.html.Option;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;

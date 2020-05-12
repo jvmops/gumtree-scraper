@@ -2,7 +2,6 @@ package com.jvmops.gumtree.scraper.ports;
 
 import com.jvmops.gumtree.Main;
 import com.jvmops.gumtree.scraper.ScrapperDataInitializer;
-import com.jvmops.gumtree.scraper.ports.ScrappedAdRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

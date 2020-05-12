@@ -2,8 +2,8 @@ package com.jvmops.gumtree.notifications.adapters;
 
 import com.jvmops.gumtree.notifications.NotificationService;
 import com.jvmops.gumtree.notifications.model.ApartmentReportType;
-import com.jvmops.gumtree.subscriptions.model.City;
 import com.jvmops.gumtree.subscriptions.CityService;
+import com.jvmops.gumtree.subscriptions.model.City;
 import com.jvmops.gumtree.subscriptions.model.Subscription;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Profile;

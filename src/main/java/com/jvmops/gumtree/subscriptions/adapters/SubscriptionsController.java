@@ -2,10 +2,10 @@ package com.jvmops.gumtree.subscriptions.adapters;
 
 import com.jvmops.gumtree.scraper.adapters.CityCodeValidator;
 import com.jvmops.gumtree.subscriptions.CityService;
-import com.jvmops.gumtree.subscriptions.model.Subscription;
 import com.jvmops.gumtree.subscriptions.model.City;
 import com.jvmops.gumtree.subscriptions.model.CitySubscribers;
 import com.jvmops.gumtree.subscriptions.model.NewCityDto;
+import com.jvmops.gumtree.subscriptions.model.Subscription;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Profile;

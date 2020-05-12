@@ -21,15 +21,6 @@ public class CityService {
 
     private final CityRepository cityRepository;
 
-    public Set<City> cities() {
-        return findAll().collect(Collectors.toSet());
-    }
-
-    public City getByName(String city) {
-        return cityRepository.findByNameIgnoreCase(city)
-                .orElseThrow(() -> new CityNotFound(city));
-    }
-
     public City start(Subscription subscription) {
         City city = cityRepository.findByNameIgnoreCase(subscription.getCity())
                 .orElseThrow(() -> new CityNotFound(subscription.getCity()));
@@ -57,6 +48,15 @@ public class CityService {
         }
 
         return city;
+    }
+
+    public Set<City> cities() {
+        return findAll().collect(Collectors.toSet());
+    }
+
+    public City getByName(String city) {
+        return cityRepository.findByNameIgnoreCase(city)
+                .orElseThrow(() -> new CityNotFound(city));
     }
 
     /**

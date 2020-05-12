@@ -4,8 +4,8 @@ import com.jvmops.gumtree.Main;
 import com.jvmops.gumtree.notifications.ApartmentReportFactory;
 import com.jvmops.gumtree.notifications.JsonDataInitializer;
 import com.jvmops.gumtree.notifications.model.ApartmentReport;
-import com.jvmops.gumtree.notifications.model.CategoryType;
 import com.jvmops.gumtree.notifications.model.ApartmentReportType;
+import com.jvmops.gumtree.notifications.model.CategoryType;
 import com.jvmops.gumtree.notifications.model.EmailWithReport;
 import com.jvmops.gumtree.subscriptions.model.City;
 import org.jsoup.Jsoup;
@@ -23,8 +23,8 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import java.util.Collection;
 import java.util.Set;
 
-import static com.jvmops.gumtree.notifications.model.CategoryType.NEWS;
 import static com.jvmops.gumtree.notifications.model.ApartmentReportType.*;
+import static com.jvmops.gumtree.notifications.model.CategoryType.NEWS;
 
 @SpringBootTest(classes = Main.class)
 class EmailTemplateProcessorTest extends JsonDataInitializer {

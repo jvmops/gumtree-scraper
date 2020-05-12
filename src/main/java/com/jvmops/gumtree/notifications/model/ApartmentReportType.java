@@ -1,7 +1,6 @@
 package com.jvmops.gumtree.notifications.model;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
 
 @AllArgsConstructor
 public enum ApartmentReportType {
