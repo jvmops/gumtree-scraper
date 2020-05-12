@@ -1,5 +1,6 @@
-package com.jvmops.gumtree.notifications;
+package com.jvmops.gumtree.notifications.adapters;
 
+import com.jvmops.gumtree.notifications.NotificationService;
 import com.jvmops.gumtree.notifications.model.ApartmentReportType;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
