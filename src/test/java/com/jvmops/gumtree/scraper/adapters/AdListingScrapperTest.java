@@ -1,11 +1,8 @@
 package com.jvmops.gumtree.scraper.adapters;
 
 import com.jvmops.gumtree.scraper.HtmlFile;
-import com.jvmops.gumtree.scraper.adapters.GumtreeUrlBuilder;
-import com.jvmops.gumtree.scraper.adapters.HtmlProvider;
-import com.jvmops.gumtree.scraper.adapters.JSoupAdListingScrapper;
 import com.jvmops.gumtree.scraper.model.ListedAd;
-import com.jvmops.gumtree.subscriptions.City;
+import com.jvmops.gumtree.subscriptions.model.City;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

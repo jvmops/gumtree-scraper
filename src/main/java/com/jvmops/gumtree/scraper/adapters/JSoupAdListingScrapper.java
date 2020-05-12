@@ -2,7 +2,7 @@ package com.jvmops.gumtree.scraper.adapters;
 
 import com.jvmops.gumtree.scraper.adapters.GumtreeUrlBuilder.AdUrl;
 import com.jvmops.gumtree.scraper.model.ListedAd;
-import com.jvmops.gumtree.subscriptions.City;
+import com.jvmops.gumtree.subscriptions.model.City;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.joda.money.Money;

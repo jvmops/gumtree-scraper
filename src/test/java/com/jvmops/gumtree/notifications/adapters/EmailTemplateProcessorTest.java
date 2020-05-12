@@ -7,7 +7,7 @@ import com.jvmops.gumtree.notifications.model.ApartmentReport;
 import com.jvmops.gumtree.notifications.model.CategoryType;
 import com.jvmops.gumtree.notifications.model.ApartmentReportType;
 import com.jvmops.gumtree.notifications.model.EmailWithReport;
-import com.jvmops.gumtree.subscriptions.City;
+import com.jvmops.gumtree.subscriptions.model.City;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;

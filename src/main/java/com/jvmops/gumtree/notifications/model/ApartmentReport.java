@@ -1,6 +1,6 @@
 package com.jvmops.gumtree.notifications.model;
 
-import com.jvmops.gumtree.subscriptions.City;
+import com.jvmops.gumtree.subscriptions.model.City;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;

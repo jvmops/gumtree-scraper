@@ -3,7 +3,7 @@ package com.jvmops.gumtree.notifications;
 import com.jvmops.gumtree.notifications.model.ApartmentReport;
 import com.jvmops.gumtree.notifications.model.ApartmentReportType;
 import com.jvmops.gumtree.notifications.ports.EmailSender;
-import com.jvmops.gumtree.subscriptions.City;
+import com.jvmops.gumtree.subscriptions.model.City;
 import com.jvmops.gumtree.subscriptions.CityService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

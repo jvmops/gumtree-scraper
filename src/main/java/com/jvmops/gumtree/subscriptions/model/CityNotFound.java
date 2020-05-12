@@ -1,4 +1,4 @@
-package com.jvmops.gumtree.subscriptions;
+package com.jvmops.gumtree.subscriptions.model;
 
 public class CityNotFound extends RuntimeException {
     public CityNotFound(String cityName) {

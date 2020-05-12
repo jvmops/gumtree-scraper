@@ -2,9 +2,8 @@ package com.jvmops.gumtree.scraper.adapters;
 
 import com.jvmops.gumtree.scraper.AdEvaluator;
 import com.jvmops.gumtree.scraper.ScrappingManager;
-import com.jvmops.gumtree.scraper.adapters.ScrapJob;
 import com.jvmops.gumtree.scraper.model.ScrappedAd;
-import com.jvmops.gumtree.subscriptions.City;
+import com.jvmops.gumtree.subscriptions.model.City;
 import com.jvmops.gumtree.subscriptions.CityService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

@@ -1,6 +1,6 @@
 package com.jvmops.gumtree.scraper.adapters;
 
-import com.jvmops.gumtree.subscriptions.City;
+import com.jvmops.gumtree.subscriptions.model.City;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 

@@ -5,7 +5,7 @@ import com.jvmops.gumtree.scraper.model.ListedAd;
 import com.jvmops.gumtree.scraper.model.ScrappedAd;
 import com.jvmops.gumtree.scraper.ports.GumtreeAdScrapper;
 import com.jvmops.gumtree.scraper.ports.ListedAdRepository;
-import com.jvmops.gumtree.subscriptions.City;
+import com.jvmops.gumtree.subscriptions.model.City;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 

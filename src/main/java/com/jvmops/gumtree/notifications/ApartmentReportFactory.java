@@ -4,7 +4,7 @@ import com.jvmops.gumtree.notifications.model.ApartmentReport;
 import com.jvmops.gumtree.notifications.model.ApartmentReportType;
 import com.jvmops.gumtree.notifications.model.Category;
 import com.jvmops.gumtree.notifications.model.CategoryType;
-import com.jvmops.gumtree.subscriptions.City;
+import com.jvmops.gumtree.subscriptions.model.City;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;

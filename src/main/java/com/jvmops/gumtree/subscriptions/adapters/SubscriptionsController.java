@@ -1,6 +1,11 @@
-package com.jvmops.gumtree.subscriptions;
+package com.jvmops.gumtree.subscriptions.adapters;
 
-import com.jvmops.gumtree.scraper.CityCodeValidator;
+import com.jvmops.gumtree.scraper.adapters.CityCodeValidator;
+import com.jvmops.gumtree.subscriptions.CityService;
+import com.jvmops.gumtree.subscriptions.model.Subscription;
+import com.jvmops.gumtree.subscriptions.model.City;
+import com.jvmops.gumtree.subscriptions.model.CitySubscribers;
+import com.jvmops.gumtree.subscriptions.model.NewCityDto;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Profile;
@@ -24,6 +29,9 @@ public class SubscriptionsController {
     private CityService cityService;
     private CityCodeValidator cityCodeValidator;
 
+    /**
+     * admin panel view
+     */
     @GetMapping
     public String cities(Model model) {
         Set<CitySubscribers> citySubscribers = cityService.cities().stream()
@@ -40,12 +48,9 @@ public class SubscriptionsController {
         return "subscriptions";
     }
 
-    @PostMapping
-    public String subscribe(@Valid Subscription subscription) {
-        cityService.start(subscription);
-        return "redirect:/subscriptions";
-    }
-
+    /**
+     * form with two inputs city and code
+     */
     @PostMapping("/cities")
     public String addCity(NewCityDto city) {
         String cityCode = stripPaginationInfo(city.getUrlCode());
@@ -57,6 +62,18 @@ public class SubscriptionsController {
         return "redirect:/subscriptions";
     }
 
+    /**
+     * form with city dropdown and email input
+     */
+    @PostMapping
+    public String subscribe(@Valid Subscription subscription) {
+        cityService.start(subscription);
+        return "redirect:/subscriptions";
+    }
+
+    /**
+     * form with city dropdown
+     */
     @PostMapping("/cities/remove")
     public String removeCity(String cityName) {
         City city = cityService.getByName(cityName);

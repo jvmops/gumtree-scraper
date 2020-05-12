@@ -1,5 +1,9 @@
 package com.jvmops.gumtree.subscriptions;
 
+import com.jvmops.gumtree.subscriptions.model.City;
+import com.jvmops.gumtree.subscriptions.model.CityNotFound;
+import com.jvmops.gumtree.subscriptions.model.Subscription;
+import com.jvmops.gumtree.subscriptions.ports.CityRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
@@ -58,7 +62,7 @@ public class CityService {
     /**
      * @param cityUrlCode - gumtree thingy, just check url for apartment listing and you will know
      */
-    City add(String cityName, String cityUrlCode) {
+    public City add(String cityName, String cityUrlCode) {
         return cityRepository.save(
                 City.builder()
                         .id(ObjectId.get())

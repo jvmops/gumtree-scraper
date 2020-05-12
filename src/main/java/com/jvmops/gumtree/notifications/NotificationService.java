@@ -3,7 +3,7 @@ package com.jvmops.gumtree.notifications;
 import com.jvmops.gumtree.notifications.model.ApartmentReport;
 import com.jvmops.gumtree.notifications.model.ApartmentReportType;
 import com.jvmops.gumtree.notifications.ports.EmailSender;
-import com.jvmops.gumtree.subscriptions.City;
+import com.jvmops.gumtree.subscriptions.model.City;
 import com.jvmops.gumtree.subscriptions.CityService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

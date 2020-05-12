@@ -1,6 +1,10 @@
 package com.jvmops.gumtree.subscriptions;
 
 import com.jvmops.gumtree.Main;
+import com.jvmops.gumtree.subscriptions.model.City;
+import com.jvmops.gumtree.subscriptions.model.CityNotFound;
+import com.jvmops.gumtree.subscriptions.model.Subscription;
+import com.jvmops.gumtree.subscriptions.ports.CityRepository;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;

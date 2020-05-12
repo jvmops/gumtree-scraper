@@ -1,4 +1,4 @@
-package com.jvmops.gumtree.subscriptions;
+package com.jvmops.gumtree.subscriptions.model;
 
 import lombok.*;
 import org.bson.types.ObjectId;
