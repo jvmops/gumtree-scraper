@@ -10,25 +10,18 @@ import org.springframework.util.Assert;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.BiPredicate;
-import java.util.function.Predicate;
-
-import static java.util.Objects.isNull;
 
 @Component
 @AllArgsConstructor
 @Slf4j
 public class AdEvaluator {
-    static final BiPredicate<ScrappedAd, ScrappedAd> GUMTREE_ID_HAS_CHANGED = (saved, scrapped) -> {
-        return  ! Objects.equals(
-                scrapped.getGumtreeId(),
-                saved.getGumtreeId());
-    };
+    static final BiPredicate<ScrappedAd, ScrappedAd> GUMTREE_ID_HAS_CHANGED =
+            (saved, scrapped) -> ! Objects.equals(
+                    scrapped.getGumtreeId(), saved.getGumtreeId());
 
-    static final BiPredicate<ScrappedAd, ScrappedAd> PRICE_HAS_CHANGED = (saved, scrapped) -> {
-        return ! Objects.equals(
-                saved.getPrice(),
-                scrapped.getPrice());
-    };
+    static final BiPredicate<ScrappedAd, ScrappedAd> PRICE_HAS_CHANGED =
+            (saved, scrapped) -> ! Objects.equals(
+                    saved.getPrice(), scrapped.getPrice());
 
     private ScrappedAdRepository scrappedAdRepository;
 
@@ -37,9 +30,6 @@ public class AdEvaluator {
         ScrappedAd ad = findInRepository(scrapped)
                 .map(saved -> modifyAd(saved, scrapped))
                 .orElse(scrapped);
-        // TODO: check if price changed?
-
-        logIfNew(ad);
         return scrappedAdRepository.save(ad);
     }
 
@@ -69,15 +59,10 @@ public class AdEvaluator {
                         scrapped.getPrice());
                 log.trace("Price has changed from: {}, to: {}", priceChange.oldPrice(), priceChange.newPrice());
                 saved.setPrice(priceChange.newPrice());
+                // TODO: WIP
                 // saved.addToPriceHistory(priceChange);
             }
         }
         return saved;
-    }
-
-    private void logIfNew(ScrappedAd ad) {
-        if (isNull(ad.getId())) {
-            log.debug("Saving \"{}\"", ad.getTitle());
-        }
     }
 }

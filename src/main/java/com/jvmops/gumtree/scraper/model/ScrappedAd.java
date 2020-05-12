@@ -51,10 +51,8 @@ public class ScrappedAd {
         this.gumtreeModificationDate = modificationDate;
     }
 
-    /**
-     * TODO: add price change history
-     */
     public void addPriceChange(PriceChange priceChange) {
+//        TODO: WIP
 //        this.priceChanges.add(priceChange);
     }
 }
