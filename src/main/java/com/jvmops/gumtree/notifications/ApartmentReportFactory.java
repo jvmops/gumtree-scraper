@@ -14,6 +14,7 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import static com.jvmops.gumtree.notifications.model.ApartmentReportType.INITIAL;
 import static com.jvmops.gumtree.notifications.model.CategoryType.*;
 
 @Component
@@ -32,20 +33,20 @@ public class ApartmentReportFactory {
 
     public ApartmentReport create(City city, ApartmentReportType apartmentReportType) {
         log.info("Loading {} apartment report for {}", city.getName(), apartmentReportType);
-        var filteredCategories = switch(apartmentReportType) {
+        List<CategoryLoader> categoryLoaders = switch(apartmentReportType) {
             case INITIAL -> List.of(
-                    categoryLoaders.get(NEWS),
-                    categoryLoaders.get(DISHWASHER_AND_GAS),
-                    categoryLoaders.get(DISHWASHER_ONLY),
-                    categoryLoaders.get(CHEAPEST));
+                    this.categoryLoaders.get(NEWS),
+                    this.categoryLoaders.get(DISHWASHER_AND_GAS),
+                    this.categoryLoaders.get(DISHWASHER_ONLY),
+                    this.categoryLoaders.get(CHEAPEST));
             case DAILY -> List.of(
-                    categoryLoaders.get(DISHWASHER_AND_GAS),
-                    categoryLoaders.get(DISHWASHER_ONLY),
-                    categoryLoaders.get(CHEAPEST));
-            case NEWEST -> List.of(categoryLoaders.get(NEWS));
+                    this.categoryLoaders.get(DISHWASHER_AND_GAS),
+                    this.categoryLoaders.get(DISHWASHER_ONLY),
+                    this.categoryLoaders.get(CHEAPEST));
+            case NEWEST -> List.of(this.categoryLoaders.get(NEWS));
         };
 
-        List<Category> loadedCategories = filteredCategories.stream()
+        List<Category> loadedCategories = categoryLoaders.stream()
                 .map(categoryLoader -> categoryLoader.load(city.getName()))
                 .collect(Collectors.toList());
         List<Category> emptyCategories = loadedCategories.stream()
@@ -53,7 +54,7 @@ public class ApartmentReportFactory {
                 .collect(Collectors.toList());
 
         if (loadedCategories.size() == emptyCategories.size()) {
-            log.warn("{} {} apartment report is empty", city.getName(), ApartmentReportType.INITIAL);
+            log.warn("{} apartment report from {} is empty", INITIAL, city.getName());
             return ApartmentReport.empty(city, apartmentReportType);
         }
 

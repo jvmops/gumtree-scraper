@@ -1,7 +1,6 @@
 package com.jvmops.gumtree.notifications;
 
 import com.jvmops.gumtree.Main;
-import com.jvmops.gumtree.notifications.model.Ad;
 import com.jvmops.gumtree.notifications.model.ApartmentReport;
 import com.jvmops.gumtree.notifications.model.ApartmentReportType;
 import com.jvmops.gumtree.subscriptions.model.City;
@@ -11,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.mongodb.core.MongoTemplate;
 
-import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -27,31 +25,37 @@ class ApartmentReportFactoryTest extends JsonDataInitializer {
 
     @BeforeAll
     static void setup(@Autowired MongoTemplate mongoTemplate) {
-        reloadReadOnlyAds(mongoTemplate, DUMPED_ADS);
+        reload(mongoTemplate, DUMPED_ADS);
     }
 
     @Test
     void report_is_empty_because_there_are_no_ads_for_wroclaw() {
-        ApartmentReport apartmentReport = apartmentReportFactory.create(WROCLAW, ApartmentReportType.DAILY);
+        var apartmentReport = apartmentReportFactory.create(WROCLAW, ApartmentReportType.DAILY);
         assertTrue(apartmentReport.isEmpty());
     }
 
     @Test
     void all_the_categories_are_used_for_initial_report() {
-        ApartmentReport apartmentReport = apartmentReportFactory.create(KATOWICE, ApartmentReportType.INITIAL);
+        var apartmentReport = apartmentReportFactory.create(KATOWICE, ApartmentReportType.INITIAL);
         assertEquals(4, apartmentReport.getCategories().size());
     }
 
     @Test
     void there_is_only_one_category_for_newest_report() {
-        ApartmentReport apartmentReport = apartmentReportFactory.create(KATOWICE, ApartmentReportType.NEWEST);
+        var apartmentReport = apartmentReportFactory.create(KATOWICE, ApartmentReportType.NEWEST);
         assertEquals(1, apartmentReport.getCategories().size());
     }
 
     @Test
     void there_are_three_categories_for_daily_report() {
-        ApartmentReport apartmentReport = apartmentReportFactory.create(KATOWICE, ApartmentReportType.DAILY);
+        var apartmentReport = apartmentReportFactory.create(KATOWICE, ApartmentReportType.DAILY);
         assertEquals(3, apartmentReport.getCategories().size());
+    }
+
+    @Test
+    void newest_report_has_only_one_category() {
+        var apartmentReport = apartmentReportFactory.create(KATOWICE, ApartmentReportType.NEWEST);
+        assertEquals(1, apartmentReport.getCategories().size());
     }
 
     /**
@@ -59,7 +63,8 @@ class ApartmentReportFactoryTest extends JsonDataInitializer {
      */
     @Test
     void newest_report_contains_2_ads() {
-        List<Ad> ads = apartmentReportFactory.create(KATOWICE, ApartmentReportType.NEWEST)
+        ApartmentReport apartmentReport = apartmentReportFactory.create(KATOWICE, ApartmentReportType.NEWEST);
+        var ads = apartmentReport
                 .getCategories()
                 .get(0)
                 .getAds();
@@ -68,7 +73,7 @@ class ApartmentReportFactoryTest extends JsonDataInitializer {
 
     @Test
     void non_empty_report_has_city_set() {
-        String cityName = apartmentReportFactory.create(KATOWICE, ApartmentReportType.NEWEST)
+        var cityName = apartmentReportFactory.create(KATOWICE, ApartmentReportType.NEWEST)
                 .getCity()
                 .getName();
         assertEquals("Katowice", cityName);

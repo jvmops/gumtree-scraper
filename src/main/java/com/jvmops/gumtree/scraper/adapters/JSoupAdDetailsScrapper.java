@@ -49,7 +49,6 @@ class JSoupAdDetailsScrapper {
                 .landlord(adAttributes.getLandlord())
                 .size(adAttributes.getSize())
                 .gumtreeCreationDate(adAttributes.getCreationDate())
-                .updates(Collections.singletonList(adAttributes.getCreationDate()))
                 .build();
     }
 

@@ -1,5 +1,6 @@
 package com.jvmops.gumtree.scraper.model;
 
+import com.jvmops.gumtree.scraper.PriceChange;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,6 +15,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Document("ad")
@@ -38,7 +41,7 @@ public class ScrappedAd {
     @Indexed
     private LocalDate gumtreeCreationDate;
     private LocalDate gumtreeModificationDate;
-    private List<LocalDate> updates;
+//    private List<PriceChange> priceChangeHistory = new ArrayList<>();
     @CreatedDate
     private LocalDateTime creationTime;
     @LastModifiedDate
@@ -46,6 +49,12 @@ public class ScrappedAd {
 
     public void setGumtreeModificationDate(LocalDate modificationDate) {
         this.gumtreeModificationDate = modificationDate;
-        this.updates.add(gumtreeCreationDate);
+    }
+
+    /**
+     * TODO: add price change history
+     */
+    public void addPriceChange(PriceChange priceChange) {
+//        this.priceChanges.add(priceChange);
     }
 }

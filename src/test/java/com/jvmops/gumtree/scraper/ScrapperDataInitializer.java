@@ -31,7 +31,6 @@ public abstract class ScrapperDataInitializer {
                 .city(city)
                 .title(title)
                 .gumtreeCreationDate(LocalDate.now(clock))
-                .updates(List.of())
                 .build();
     }
 
@@ -44,9 +43,7 @@ public abstract class ScrapperDataInitializer {
                 .description("This ad can be modified during tests")
                 .price(Money.of(DEFAULT_CURRENCY, 1800))
                 .creationTime(LocalDateTime.now(clock).minusWeeks(5))
-                .modificationTime(lastSeen)
                 .gumtreeCreationDate(lastSeen.toLocalDate())
-                .updates(List.of(LocalDate.now(clock).minusWeeks(5), lastSeen.toLocalDate()))
                 .build();
 
         ScrappedAd recentlyPostedApartmentInWroclaw = ScrappedAd.builder()
@@ -56,9 +53,7 @@ public abstract class ScrapperDataInitializer {
                 .description("Ma miejsce parkingowe ale w srodku bieda")
                 .price(Money.of(DEFAULT_CURRENCY, 2200))
                 .creationTime(LocalDateTime.now(clock))
-                .modificationTime(LocalDateTime.now(clock))
                 .gumtreeCreationDate(LocalDate.now(clock))
-                .updates(List.of(LocalDate.now(clock)))
                 .build();
 
         ScrappedAd oldAdInKatowice = ScrappedAd.builder()
@@ -68,9 +63,7 @@ public abstract class ScrapperDataInitializer {
                 .description("Ma miejsce parkingowe ale w srodku bieda")
                 .price(Money.of(DEFAULT_CURRENCY, 2500))
                 .creationTime(LocalDateTime.now(clock))
-                .modificationTime(LocalDateTime.now(clock))
                 .gumtreeCreationDate(LocalDate.now(clock))
-                .updates(List.of(LocalDate.now(clock)))
                 .build();
 
         return List.of(thisWillBeModifiedInTest, recentlyPostedApartmentInWroclaw, oldAdInKatowice);
