@@ -9,6 +9,8 @@ import org.springframework.util.Assert;
 
 import java.util.Objects;
 import java.util.Optional;
+import java.util.function.BiPredicate;
+import java.util.function.Predicate;
 
 import static java.util.Objects.isNull;
 
@@ -16,17 +18,29 @@ import static java.util.Objects.isNull;
 @AllArgsConstructor
 @Slf4j
 public class AdEvaluator {
+    static final BiPredicate<ScrappedAd, ScrappedAd> GUMTREE_ID_HAS_CHANGED = (saved, scrapped) -> {
+        return  ! Objects.equals(
+                scrapped.getGumtreeId(),
+                saved.getGumtreeId());
+    };
+
+    static final BiPredicate<ScrappedAd, ScrappedAd> PRICE_HAS_CHANGED = (saved, scrapped) -> {
+        return ! Objects.equals(
+                saved.getPrice(),
+                scrapped.getPrice());
+    };
+
     private ScrappedAdRepository scrappedAdRepository;
 
     @SuppressWarnings("squid:S3864")
-    public void processAd(ScrappedAd scrapped) {
+    public ScrappedAd processAd(ScrappedAd scrapped) {
         ScrappedAd ad = findInRepository(scrapped)
-                .map(saved -> updateGumtreeModificationTime(saved, scrapped))
+                .map(saved -> modifyAd(saved, scrapped))
                 .orElse(scrapped);
         // TODO: check if price changed?
 
         logIfNew(ad);
-        scrappedAdRepository.save(ad);
+        return scrappedAdRepository.save(ad);
     }
 
     Optional<ScrappedAd> findInRepository(ScrappedAd scrapped) {
@@ -37,19 +51,28 @@ public class AdEvaluator {
     }
 
     // this is about the ads with the same title but different gumtreeId
-    private ScrappedAd updateGumtreeModificationTime(ScrappedAd saved, ScrappedAd scrapped) {
-        if (scrappedIsNewer(saved, scrapped)) {
-            log.info("Updating gumtree creation time for \"{}\" :: {}", saved.getTitle(), saved.getId());
+    private ScrappedAd modifyAd(ScrappedAd saved, ScrappedAd scrapped) {
+        if (GUMTREE_ID_HAS_CHANGED.test(saved, scrapped)) {
+            log.debug("{} ad was reposted: \"{}\"", saved.getCity(), saved.getTitle());
+            saved.setGumtreeId(scrapped.getGumtreeId());
+
+            log.trace("Updating gumtree modtime from {} to {}", saved.getGumtreeModificationDate(), scrapped.getGumtreeModificationDate());
             saved.setGumtreeModificationDate(scrapped.getGumtreeCreationDate());
+
+            log.trace("Updating url from: {} to {}", saved.getUrl(), scrapped.getUrl());
+            saved.setUrl(scrapped.getUrl());
+
+            if (PRICE_HAS_CHANGED.test(saved, scrapped)) {
+                var priceChange = new PriceChange(
+                        saved.getGumtreeModificationDate(),
+                        saved.getPrice(),
+                        scrapped.getPrice());
+                log.trace("Price has changed from: {}, to: {}", priceChange.oldPrice(), priceChange.newPrice());
+                saved.setPrice(priceChange.newPrice());
+                // saved.addToPriceHistory(priceChange);
+            }
         }
         return saved;
-    }
-
-    private boolean scrappedIsNewer(ScrappedAd saved, ScrappedAd scrapped) {
-        return ! Objects.equals(
-                scrapped.getGumtreeCreationDate(),
-                saved.getGumtreeCreationDate()
-        );
     }
 
     private void logIfNew(ScrappedAd ad) {
