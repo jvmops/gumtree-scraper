@@ -25,7 +25,7 @@ class CategoryLoaderTest extends JsonDataInitializer {
 
     @BeforeAll
     static void setup(@Autowired MongoTemplate mongoTemplate) {
-        reloadReadOnlyAds(mongoTemplate, DUMPED_ADS);
+        reload(mongoTemplate, DUMPED_ADS);
     }
 
     @Test
