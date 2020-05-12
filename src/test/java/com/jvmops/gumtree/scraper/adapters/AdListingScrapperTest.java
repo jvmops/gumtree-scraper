@@ -22,12 +22,12 @@ public class AdListingScrapperTest {
 
     @Mock
     private HtmlProvider htmlProvider;
-    private JSoupAdListingScrapper adListingScrapper;
+    private JSoupAdListingScraper adListingScrapper;
 
     @BeforeEach
     void initializeDependencies() {
         var adUrlBuilder = new GumtreeUrlBuilder();
-        adListingScrapper = new JSoupAdListingScrapper(htmlProvider, adUrlBuilder);
+        adListingScrapper = new JSoupAdListingScraper(htmlProvider, adUrlBuilder);
     }
 
     @Test
@@ -35,7 +35,7 @@ public class AdListingScrapperTest {
         setupHtmlMockFor(HtmlFile.AD_LISTING_EMPTY_PAGE);
 
         assertThrows(
-                JSoupAdListingScrapper.EmptyAdListingPage.class,
+                JSoupAdListingScraper.EmptyAdListingPage.class,
                 () -> adListingScrapper.scrap(katowice(), 1)
         );
     }

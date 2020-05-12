@@ -52,11 +52,11 @@ public class AdScrappingTest extends ScrapperDataInitializer {
 
     @BeforeEach
     public void setup() {
-        JSoupAdListingScrapper adListingScrapper = new JSoupAdListingScrapper(htmlProvider, gumtreeUrlBuilder);
-        JSoupAdDetailsScrapper jSoupAdDetailsScrapper = new JSoupAdDetailsScrapper(htmlProvider, slowdown);
-        scrapper = new JsoupAdScrapper(
+        JSoupAdListingScraper adListingScrapper = new JSoupAdListingScraper(htmlProvider, gumtreeUrlBuilder);
+        JSoupAdDetailsScraper jSoupAdDetailsScraper = new JSoupAdDetailsScraper(htmlProvider, slowdown);
+        scrapper = new JsoupAdScraper(
                 adListingScrapper,
-                jSoupAdDetailsScrapper,
+                jSoupAdDetailsScraper,
                 listedAdRepository,
                 scrapperProperties);
         scrappingManager = new ScrappingManager(scrapper, listedAdRepository);

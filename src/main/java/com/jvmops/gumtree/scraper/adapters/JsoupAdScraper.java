@@ -20,11 +20,11 @@ import java.util.stream.Collectors;
 @Component
 @Slf4j
 @AllArgsConstructor
-class JsoupAdScrapper implements GumtreeAdScrapper {
+class JsoupAdScraper implements GumtreeAdScrapper {
     private static final int FIRST_PAGE = 1;
 
-    private JSoupAdListingScrapper adListingScrapper;
-    private JSoupAdDetailsScrapper adDetailsScrapper;
+    private JSoupAdListingScraper adListingScrapper;
+    private JSoupAdDetailsScraper adDetailsScrapper;
     private ListedAdRepository listedAdRepository;
     private ScrapperProperties scrapperProperties;
 

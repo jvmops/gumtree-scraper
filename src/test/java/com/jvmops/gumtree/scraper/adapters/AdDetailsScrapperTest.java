@@ -25,11 +25,11 @@ public class AdDetailsScrapperTest {
     private HtmlProvider htmlProvider;
     @Mock
     private Slowdown slowdown;
-    private JSoupAdDetailsScrapper adDetailsScrapper;
+    private JSoupAdDetailsScraper adDetailsScrapper;
 
     @BeforeEach
     void initializeDependencies() {
-        adDetailsScrapper = new JSoupAdDetailsScrapper(htmlProvider, slowdown);
+        adDetailsScrapper = new JSoupAdDetailsScraper(htmlProvider, slowdown);
     }
 
     @Test

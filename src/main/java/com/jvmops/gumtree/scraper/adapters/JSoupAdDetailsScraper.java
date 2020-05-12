@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 @Component
 @Slf4j
 @RequiredArgsConstructor
-class JSoupAdDetailsScrapper {
+class JSoupAdDetailsScraper {
     private final HtmlProvider htmlProvider;
     private final Slowdown slowdown;
 

@@ -24,7 +24,7 @@ import static com.jvmops.gumtree.ScrapperConfig.DEFAULT_CURRENCY;
 @Component
 @AllArgsConstructor
 @Slf4j
-class JSoupAdListingScrapper {
+class JSoupAdListingScraper {
     private HtmlProvider htmlProvider;
     private GumtreeUrlBuilder gumtreeUrlBuilder;
 
