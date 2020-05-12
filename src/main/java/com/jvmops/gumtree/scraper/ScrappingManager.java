@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -22,6 +23,7 @@ public class ScrappingManager {
     public Set<ScrappedAd> scrapAds(City city) {
         Set<ScrappedAd> scrapped = filteredListing(city).stream()
                 .map(gumtreeAdScrapper::adDetails)
+                .flatMap(Optional::stream)
                 .collect(Collectors.toSet());
         log.info("Total of {} ads scrapped from {}", scrapped.size(), city.getName());
         return scrapped;

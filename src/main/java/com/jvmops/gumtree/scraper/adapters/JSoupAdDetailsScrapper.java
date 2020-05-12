@@ -13,7 +13,6 @@ import org.jsoup.select.Elements;
 import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Component;
 
-import java.util.Collections;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -26,7 +25,7 @@ class JSoupAdDetailsScrapper {
     private final HtmlProvider htmlProvider;
     private final Slowdown slowdown;
 
-    ScrappedAd scrap(ListedAd listedAd) {
+    Optional<ScrappedAd> scrap(ListedAd listedAd) {
         slowdown.waitABit();
 
         log.debug("Scrapping - {} :: {}", listedAd.getTitle(), listedAd.getUrl());
@@ -37,7 +36,7 @@ class JSoupAdDetailsScrapper {
                 .text();
         ScrappedAdAttributes adAttributes = scrapAttributes(adPage);
 
-        return ScrappedAd.builder()
+        ScrappedAd scrappedAd = ScrappedAd.builder()
                 .city(listedAd.getCity())
                 .gumtreeId(listedAd.getGumtreeId())
                 .url(listedAd.getUrl())
@@ -50,6 +49,7 @@ class JSoupAdDetailsScrapper {
                 .size(adAttributes.getSize())
                 .gumtreeCreationDate(adAttributes.getCreationDate())
                 .build();
+        return Optional.of(scrappedAd);
     }
 
     private ScrappedAdAttributes scrapAttributes(Document adPage) {

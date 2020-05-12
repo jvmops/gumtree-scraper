@@ -35,9 +35,8 @@ public class AdDetailsScrapperTest {
     @Test
     void ad_details_can_be_scrapped_from_the_listing() {
         setupHtmlMockFor(HtmlFile.AD_DETAILS);
-        ListedAd listedAd = listedAd();
 
-        ScrappedAd adDetails = adDetailsScrapper.scrap(listedAd);
+        ScrappedAd adDetails = scrap(listedAd());
 
         // those comes from adListing
         Assertions.assertEquals("Katowice", adDetails.getCity());
@@ -51,9 +50,8 @@ public class AdDetailsScrapperTest {
     @Test
     void description_is_scrapped() {
         setupHtmlMockFor(HtmlFile.AD_DETAILS);
-        ListedAd listedAd = listedAd();
 
-        ScrappedAd adDetails = adDetailsScrapper.scrap(listedAd);
+        ScrappedAd adDetails = scrap(listedAd());
 
         Assertions.assertTrue(adDetails.getDescription().length() > 500);
     }
@@ -61,9 +59,8 @@ public class AdDetailsScrapperTest {
     @Test
     void landlord_is_scrapped() {
         setupHtmlMockFor(HtmlFile.AD_DETAILS);
-        ListedAd listedAd = listedAd();
 
-        ScrappedAd adDetails = adDetailsScrapper.scrap(listedAd);
+        ScrappedAd adDetails = scrap(listedAd());
 
         Assertions.assertEquals("Agencja", adDetails.getLandlord());
     }
@@ -71,9 +68,8 @@ public class AdDetailsScrapperTest {
     @Test
     void gumtree_creation_date_is_parsed() {
         setupHtmlMockFor(HtmlFile.AD_DETAILS);
-        ListedAd listedAd = listedAd();
 
-        ScrappedAd adDetails = adDetailsScrapper.scrap(listedAd);
+        ScrappedAd adDetails = scrap(listedAd());
 
         Assertions.assertEquals(LocalDate.parse("2019-11-10"), adDetails.getGumtreeCreationDate());
     }
@@ -81,9 +77,8 @@ public class AdDetailsScrapperTest {
     @Test
     void size_is_parsed() {
         setupHtmlMockFor(HtmlFile.AD_DETAILS);
-        ListedAd listedAd = listedAd();
 
-        ScrappedAd adDetails = adDetailsScrapper.scrap(listedAd);
+        ScrappedAd adDetails = scrap(listedAd());
 
         Assertions.assertEquals(32, adDetails.getSize());
     }
@@ -91,9 +86,8 @@ public class AdDetailsScrapperTest {
     @Test
     void not_present_attribute_available_since_will_result_in_null() {
         setupHtmlMockFor(HtmlFile.AD_DETAILS);
-        ListedAd listedAd = listedAd();
 
-        ScrappedAd adDetails = adDetailsScrapper.scrap(listedAd);
+        ScrappedAd adDetails = scrap(listedAd());
 
         Assertions.assertNull(adDetails.getAvailableSince());
     }
@@ -103,7 +97,12 @@ public class AdDetailsScrapperTest {
                 .thenReturn(htmlFile.getHtml());
     }
 
-    private ListedAd listedAd() {
+    private ScrappedAd scrap(ListedAd listedAd) {
+        return adDetailsScrapper.scrap(listedAd)
+                .orElseThrow(() -> new IllegalArgumentException("Ad details scrapping failed"));
+    }
+
+    private static ListedAd listedAd() {
         return ListedAd.builder()
                 .city("Katowice")
                 .gumtreeId("0195021950192")

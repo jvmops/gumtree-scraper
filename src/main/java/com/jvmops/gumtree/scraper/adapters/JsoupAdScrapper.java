@@ -7,15 +7,18 @@ import com.jvmops.gumtree.scraper.ports.GumtreeAdScrapper;
 import com.jvmops.gumtree.scraper.ports.ListedAdRepository;
 import com.jvmops.gumtree.subscriptions.model.City;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 @Component
+@Slf4j
 @AllArgsConstructor
 class JsoupAdScrapper implements GumtreeAdScrapper {
     private static final int FIRST_PAGE = 1;
@@ -41,8 +44,13 @@ class JsoupAdScrapper implements GumtreeAdScrapper {
     }
 
     @Override
-    public ScrappedAd adDetails(ListedAd listedAd) {
-        return adDetailsScrapper.scrap(listedAd);
+    public Optional<ScrappedAd> adDetails(ListedAd listedAd) {
+        try {
+            return adDetailsScrapper.scrap(listedAd);
+        } catch (RuntimeException e) {
+            log.error("Unable to scrap ad from: {}", listedAd.getUrl());
+            return Optional.empty();
+        }
     }
 
     private boolean checkIfAnyAlreadySaved(List<ListedAd> ads) {
