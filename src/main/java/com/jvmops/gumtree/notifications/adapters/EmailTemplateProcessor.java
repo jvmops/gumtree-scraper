@@ -27,12 +27,14 @@ class EmailTemplateProcessor {
         Context context = initializeContext(apartmentReport);
         context.setVariable("email", encodeForUrl(email));
         String html = processTemplate(context);
+        log.debug("Initial email with {} {} apartment report generated", apartmentReport.getCity(), apartmentReport.getApartmentReportType());
         return new EmailWithReport(apartmentReport, html);
     }
 
     EmailWithReport subscriptionEmail(ApartmentReport apartmentReport) {
         Context context = initializeContext(apartmentReport);
         String html = processTemplate(context);
+        log.debug("Subscription email with {} {} apartment report generated", apartmentReport.getCity(), apartmentReport.getApartmentReportType());
         return new EmailWithReport(apartmentReport, html);
     }
 

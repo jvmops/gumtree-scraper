@@ -37,15 +37,15 @@ class GmailClient implements EmailSender {
     }
 
     private void initialEmail(EmailWithReport email, String subscriberWannabe) {
-        String emailSubject = email.report().getTitle();
-        String emailContent = email.html();
-        // for logs
-        String cityName = email.report().getCity().getName();
+        var report = email.report();
+        var emailSubject = report.getTitle();
+        var emailContent = email.html();
         try {
             MimeMessageWrapper message = prepareMessage(emailSubject, emailContent);
             sendInitialMessage(message, subscriberWannabe);
+            log.info("Initial email with {} {} apartment report sent", report.getCity().getName(),  report.getApartmentReportType());
         } catch (MessagingException e) {
-            log.error("Unable to send initial email for {} subscription to {}", cityName, subscriberWannabe, e);
+            log.error("Unable to send email to {}", subscriberWannabe, e);
         }
     }
 
@@ -58,20 +58,15 @@ class GmailClient implements EmailSender {
 
         if (isEmpty(subscribers)) {
             // this is handled before
-            log.warn("No one is subscribed to {} report!", cityName);
+            log.warn("No one is subscribed to {} report! Abort mission...", cityName);
         }
 
         try {
             MimeMessageWrapper message = prepareMessage(emailSubject, email.html());
-            log.info("Sending {} {} report to: {}", cityName,  subscribers, apartmentReportType);
             notifySubscribers(message, subscribers);
+            log.info("Subscription email with {} {} apartment report sent to all subscribers", cityName,  apartmentReportType);
         } catch (MessagingException e) {
-            log.error("Unable to send {} {} report to {}",
-                    cityName,
-                    apartmentReportType,
-                    subscribers,
-                    e
-            );
+            log.error("Unable to send email to: {}", subscribers, e);
         }
     }
 
