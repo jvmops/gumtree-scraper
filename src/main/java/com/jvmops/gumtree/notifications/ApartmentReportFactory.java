@@ -32,7 +32,7 @@ public class ApartmentReportFactory {
     }
 
     public ApartmentReport create(City city, ApartmentReportType apartmentReportType) {
-        log.info("Loading {} apartment report for {}", city.getName(), apartmentReportType);
+        log.info("Creating {} {} apartment report", city.getName(), apartmentReportType);
         List<CategoryLoader> categoryLoaders = switch(apartmentReportType) {
             case INITIAL -> List.of(
                     this.categoryLoaders.get(NEWS),
