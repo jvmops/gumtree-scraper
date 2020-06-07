@@ -45,8 +45,8 @@
                             <span>By submitting this form you are sending yourself a single email with the latest crawler findings.
                                 Those findings are the most recent and relevant apartment ads posted on a popular polish website.</span>
                         </div>
-                        <div class="mt-5 mb-5">
-                            <canvas id="adsPerDay" width="400" height="200"></canvas>
+                        <div id="chart" class="mt-5 mb-5">
+                            <canvas id="adsPerDay"></canvas>
                         </div>
                     </div>
                 </div>
@@ -59,7 +59,20 @@
     <th:block th:replace="shared :: scripts"/>
 
     <script>
-    function drawChart() {
+    function drawChart(statistics) {
+        var newPerDay = [];
+        if( statistics.newPerDay ) {
+           new Map(Object.entries(statistics.newPerDay)).forEach(function(val, key) {
+                newPerDay.push({
+                    x: key,
+                    y: val
+                });
+            })
+        }
+
+        document.getElementById('adsPerDay').remove();
+        $('#chart').append('<canvas id="adsPerDay" width="400" height="200"></canvas>');
+
         var ctx = document.getElementById('adsPerDay').getContext('2d');
         var myChart = new Chart(ctx, {
             type: 'scatter',
@@ -84,15 +97,7 @@
 <!--                    },-->
                     {
                         label: '# of new ads',
-                        data: [
-                            {x: '2020-05-01 00:00:00', y: '14'},
-                            {x: '2020-05-02 00:00:00', y: '8'},
-                            {x: '2020-05-03 00:00:00', y: '18'},
-                            {x: '2020-05-04 00:00:00', y: '14'},
-                            {x: '2020-05-05 00:00:00', y: '12'},
-                            {x: '2020-05-06 00:00:00', y: '38'},
-                            {x: '2020-05-07 00:00:00', y: '30'}
-                        ],
+                        data: newPerDay,
                         fill: false,
                         showLine: true,
                         borderColor: 'rgba(75, 192, 192, 0.5)',
@@ -110,6 +115,12 @@
                         time: {
                                 unit: 'day'
                         }
+                    }],
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true,
+                            precision: 0
+                        }
                     }]
                 }
 <!--                ,title: {-->
@@ -120,23 +131,40 @@
         });
     }
     </script>
-    <script>
-    function getStatisticsFor(city) {
-        if (!strValue ||  strValue === "") {
-            return;
-        }
-        $(document).ready(function() {
+    <script th:inline="javascript">
+    /*<![CDATA[*/
+        function getStatisticsAndDrawChart(city) {
+            if ( !city || city === "") {
+                drawChart([]);
+                return;
+            }
+
             $.ajax({
-                url: "http://localhost:8080/statistics"
+                method: 'GET',
+                dataType: 'json',
+                url: [[${websiteUrl}]] + "/statistics",
+                timeout: 5000,
+                data: {
+                    city: city
+                },
+                success: function(res){
+                    drawChart(res);
+                },
+                error: function(xhr, textStatus, errorThrown){
+                    drawChart([]);
+                }
             });
-        });
-        data: {
-            city: Katowice
         }
-    }
+    /*]]>*/
     </script>
     <script>
-        drawChart()
+        getStatisticsAndDrawChart('')
+    </script>
+    <script>
+        $( "#cityName" ).bind('change', function() {
+            var city = $(this).find("option:selected").val();
+            getStatisticsAndDrawChart(city)
+        });
     </script>
 </body>
 </html>

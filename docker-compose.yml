@@ -11,6 +11,7 @@ services:
       TZ: "Europe/Warsaw"
     volumes:
       - ./mongo/init.sh:/docker-entrypoint-initdb.d/init.sh:ro
+#      - /var/local/mongo:/data/db
 
   gumtree-web:
     container_name: gumtree-web

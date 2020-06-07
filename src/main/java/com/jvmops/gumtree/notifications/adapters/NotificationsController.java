@@ -1,5 +1,6 @@
 package com.jvmops.gumtree.notifications.adapters;
 
+import com.jvmops.gumtree.ScrapperProperties;
 import com.jvmops.gumtree.notifications.NotificationService;
 import com.jvmops.gumtree.notifications.model.ApartmentReportType;
 import com.jvmops.gumtree.subscriptions.CityService;
@@ -25,6 +26,7 @@ import java.util.stream.Collectors;
 public class NotificationsController {
     private NotificationService notificationService;
     private CityService cityService;
+    private ScrapperProperties scrapperProperties;
 
     /**
      * its a "home" view
@@ -36,6 +38,7 @@ public class NotificationsController {
                 .map(City::getName)
                 .collect(Collectors.toList());
         model.addAttribute("cities", cityNames);
+        model.addAttribute("websiteUrl", scrapperProperties.getWebsiteUrl());
         return "notifications";
     }
 

@@ -99,7 +99,7 @@
         <div class="row form-group">
             <div class="dropdown">
                 <div class="col-auto my-1">
-                    <select required name="city" class="custom-select mr-sm-2" onchange="drawChart()">
+                    <select id="cityName" required name="city" class="custom-select mr-sm-2">
                         <option value="">Select city</option>
                         <option th:each="city:${cities}"
                                 th:value="${city}"
