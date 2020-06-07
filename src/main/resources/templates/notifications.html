@@ -45,16 +45,98 @@
                             <span>By submitting this form you are sending yourself a single email with the latest crawler findings.
                                 Those findings are the most recent and relevant apartment ads posted on a popular polish website.</span>
                         </div>
+                        <div class="mt-5 mb-5">
+                            <canvas id="adsPerDay" width="400" height="200"></canvas>
+                        </div>
                     </div>
                 </div>
             </div>
-
         </div>
-
 
         <th:block th:replace="shared :: footer"/>
     </div>
 
     <th:block th:replace="shared :: scripts"/>
+
+    <script>
+    function drawChart() {
+        var ctx = document.getElementById('adsPerDay').getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'scatter',
+            responsive: false,
+            data: {
+                datasets: [
+<!--                    {-->
+<!--                        label: '# of all unique ads',-->
+<!--                        data: [-->
+<!--                            {x: '2020-05-01 00:00:00', y: '122'},-->
+<!--                            {x: '2020-05-02 00:00:00', y: '102'},-->
+<!--                            {x: '2020-05-03 00:00:00', y: '142'},-->
+<!--                            {x: '2020-05-04 00:00:00', y: '130'},-->
+<!--                            {x: '2020-05-05 00:00:00', y: '124'},-->
+<!--                            {x: '2020-05-06 00:00:00', y: '180'},-->
+<!--                            {x: '2020-05-07 00:00:00', y: '206'}-->
+<!--                        ],-->
+<!--                        fill: false,-->
+<!--                        showLine: true,-->
+<!--                        borderColor: 'rgba(255, 99, 132, 0.5)',-->
+<!--                        borderWidth: 2-->
+<!--                    },-->
+                    {
+                        label: '# of new ads',
+                        data: [
+                            {x: '2020-05-01 00:00:00', y: '14'},
+                            {x: '2020-05-02 00:00:00', y: '8'},
+                            {x: '2020-05-03 00:00:00', y: '18'},
+                            {x: '2020-05-04 00:00:00', y: '14'},
+                            {x: '2020-05-05 00:00:00', y: '12'},
+                            {x: '2020-05-06 00:00:00', y: '38'},
+                            {x: '2020-05-07 00:00:00', y: '30'}
+                        ],
+                        fill: false,
+                        showLine: true,
+                        borderColor: 'rgba(75, 192, 192, 0.5)',
+                        borderWidth: 2
+                    }
+                ]
+            },
+            options: {
+                scales: {
+                    maintainAspectRatio:false,
+                    responsive:false,
+                    xAxes: [{
+                        type: 'time',
+                        position: 'bottom',
+                        time: {
+                                unit: 'day'
+                        }
+                    }]
+                }
+<!--                ,title: {-->
+<!--                    display: true,-->
+<!--                    text: 'Ads per day'-->
+<!--                }-->
+            }
+        });
+    }
+    </script>
+    <script>
+    function getStatisticsFor(city) {
+        if (!strValue ||  strValue === "") {
+            return;
+        }
+        $(document).ready(function() {
+            $.ajax({
+                url: "http://localhost:8080/statistics"
+            });
+        });
+        data: {
+            city: Katowice
+        }
+    }
+    </script>
+    <script>
+        drawChart()
+    </script>
 </body>
 </html>

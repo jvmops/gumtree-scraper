@@ -99,7 +99,7 @@
         <div class="row form-group">
             <div class="dropdown">
                 <div class="col-auto my-1">
-                    <select required name="city" class="custom-select mr-sm-2"  >
+                    <select required name="city" class="custom-select mr-sm-2" onchange="drawChart()">
                         <option value="">Select city</option>
                         <option th:each="city:${cities}"
                                 th:value="${city}"
@@ -147,6 +147,8 @@
         <script src="static/js/bootstrap-datepicker.min.js"></script>
         <script src="static/js/aos.js"></script>
         <script src="static/js/main.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.26.0/moment-with-locales.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
     </th:block>
 
 </body>
