@@ -1,5 +1,5 @@
 plugins {
-	id 'org.springframework.boot' version '2.2.7.RELEASE'
+	id 'org.springframework.boot' version '2.3.0.RELEASE'
 	id 'io.spring.dependency-management' version '1.0.9.RELEASE'
 	id 'java'
 	id 'jacoco'
@@ -25,8 +25,8 @@ repositories {
 
 ext {
 	jsoupVersion = '1.12.1'
-	testcontainersVersion = '1.14.1'
-	testcontainersEmbeddedMongoVersion = '1.48'
+	testcontainersVersion = '1.14.3'
+	testcontainersEmbeddedMongoVersion = '1.71'
 	springCloudVersion = 'Hoxton.SR4'
 }
 

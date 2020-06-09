@@ -6,6 +6,7 @@ gumtree:
 # testcontainers stuff
 embedded:
   mongodb:
+    enabled: true
     dockerImage: mongo:4
     database: test-gumtree
 
@@ -16,4 +17,5 @@ spring:
     mongodb:
       # testcontainers again
       uri: mongodb://${embedded.mongodb.host}:${embedded.mongodb.port}/${embedded.mongodb.database}
+      auto-index-creation: true
 
