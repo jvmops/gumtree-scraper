@@ -14,7 +14,10 @@ import java.time.LocalDateTime;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 @Service
 @AllArgsConstructor
@@ -25,23 +28,52 @@ public class StatisticsGenerator {
     private Clock clock;
 
     public Statistics getStatistics(City city) {
-        LocalDateTime now = LocalDateTime.now(clock);
-        var oneMonthAgo = now.minusMonths(1);
+        var _30daysAgo = LocalDateTime.now(clock).minusDays(30);
         // TODO: scrap more data from ads in order to enhance this
         // TODO: total unique ads per day // new ads chart
-        List<SimpleAd> ads = adRepository.findAllByCityAndCreationTimeGreaterThan(city.getName(), oneMonthAgo, BY_CREATION_TIME);
+        List<SimpleAd> ads = adRepository.findAllByCityAndCreationTimeGreaterThan(city.getName(), _30daysAgo, BY_CREATION_TIME);
         return Statistics.builder()
-                .newPerDay(countPerDay(ads, now.toLocalDate().toString()))
+                .newPerDay(countPerDay(ads))
                 .build();
     }
 
-    private Map<String, Long> countPerDay(List<SimpleAd> ads, String today) {
-        return ads.stream()
-                .filter(ad -> !ad.getCreationTimeAsString().equals(today))
+    private Map<LocalDate, Integer> countPerDay(List<SimpleAd> ads) {
+        LinkedHashMap<LocalDate, Long> perDayCount = ads.stream()
                 .collect(Collectors.groupingBy(
-                        SimpleAd::getCreationTimeAsString,
+                        SimpleAd::getCreationDate,
                         LinkedHashMap::new,
                         Collectors.counting()
                 ));
+
+        // I don't want to have today's data on a chart and that is why I am skipping 1 day at the end
+        return datesIncrementedBy1ThatEndsOnYesterday()
+                .collect(Collectors.toMap(
+                        Function.identity(),
+                        date -> getCount(date, perDayCount),
+                        (k, v) -> { throw new IllegalStateException(String.format("Duplicate key: %s", k)); },
+                        LinkedHashMap::new
+                ));
+    }
+
+    /**
+     * package protected for test purposes
+     * @see IntStreamToDateTest
+     */
+    Stream<LocalDate> datesIncrementedBy1ThatEndsOnYesterday() {
+        LocalDate _30daysAgo =  LocalDate.now(clock).minusDays(30);
+        return IntStream.range(0, 30)
+                .mapToObj(_30daysAgo::plusDays);
+    }
+
+    /**
+     * There are days without any new ad - I want this to be more clear on a chart
+     */
+    private static Integer getCount(LocalDate date, LinkedHashMap<LocalDate, Long> perDayCount) {
+        Long count = perDayCount.get(date);
+        if (count == null) {
+            return 0;
+        } else {
+            return count.intValue();
+        }
     }
 }

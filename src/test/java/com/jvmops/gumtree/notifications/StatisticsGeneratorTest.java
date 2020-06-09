@@ -15,6 +15,7 @@ class StatisticsGeneratorTest extends JsonDataInitializer {
 
     @Autowired StatisticsGenerator statisticsGenerator;
 
+    // TODO: fabricate better data for this test
     @BeforeAll
     static void setup(@Autowired MongoTemplate mongoTemplate) {
         reload(mongoTemplate, DUMPED_ADS);
