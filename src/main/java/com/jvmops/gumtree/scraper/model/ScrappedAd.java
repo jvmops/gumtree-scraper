@@ -41,7 +41,15 @@ public class ScrappedAd {
     @Indexed
     private LocalDate gumtreeCreationDate;
     private LocalDate gumtreeModificationDate;
-//    private List<PriceChange> priceChangeHistory = new ArrayList<>();
+
+    @CreatedDate
+    private LocalDate creationDate;
+    @LastModifiedDate
+    private LocalDate modificationDate;
+
+    // TODO: private List<PriceChange> priceChangeHistory = new ArrayList<>();
+
+    // TODO: remove times, refactor to dates
     @CreatedDate
     private LocalDateTime creationTime;
     @LastModifiedDate

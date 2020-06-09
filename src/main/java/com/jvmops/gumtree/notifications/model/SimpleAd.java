@@ -5,14 +5,12 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.bson.types.ObjectId;
 import org.joda.money.Money;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.net.URL;
+import java.beans.Transient;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.Set;
 
 @Document("ad")
 @Data
@@ -24,8 +22,20 @@ public class SimpleAd {
     private Money price;
     private LocalDateTime creationTime;
     private LocalDateTime modificationTime;
+    private Set<LocalDate> seenOn;
 
-    public String getCreationTimeAsString() {
-        return creationTime.toLocalDate().toString();
+    @Transient
+    public LocalDate getCreationDate() {
+        return creationTime.toLocalDate();
+    }
+
+    @Transient
+    public LocalDate getLastSeenOn() {
+        return modificationTime.toLocalDate();
+    }
+
+    @Transient
+    public boolean wasSeenOn(LocalDate date) {
+        return seenOn.contains(date);
     }
 }
