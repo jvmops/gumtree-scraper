@@ -12,5 +12,4 @@ import java.util.List;
 @Repository
 public interface StatisticsRepository extends MongoRepository<SimpleAd, ObjectId> {
     List<SimpleAd> findAllByCityAndCreationTimeGreaterThan(String city, LocalDateTime creationTime, Sort sort);
-    List<SimpleAd> findAllByCity(String city);
 }

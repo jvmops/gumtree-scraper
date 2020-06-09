@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.mongodb.core.MongoTemplate;
 
+import java.time.LocalDate;
+
 @SpringBootTest(classes = Main.class)
 class StatisticsGeneratorTest extends JsonDataInitializer {
     private static final City KATOWICE = new City("Katowice");
@@ -28,14 +30,14 @@ class StatisticsGeneratorTest extends JsonDataInitializer {
     }
 
     @Test
-    public void new_ads_per_day_has_2_days_of_statistics() {
+    public void count_0_register_as_a_day_of_statistic() {
         var statistics = statisticsGenerator.getStatistics(KATOWICE);
-        Assertions.assertEquals(2, statistics.getNewPerDay().size());
+        Assertions.assertEquals(0, statistics.getNewPerDay().get(LocalDate.parse("2020-05-02")));
     }
 
     @Test
     public void there_is_1_new_ad_posted_on_2020_05_05() {
         var statistics = statisticsGenerator.getStatistics(KATOWICE);
-        Assertions.assertEquals(1, statistics.getNewPerDay().get("2020-05-05"));
+        Assertions.assertEquals(1, statistics.getNewPerDay().get(LocalDate.parse("2020-05-05")));
     }
 }

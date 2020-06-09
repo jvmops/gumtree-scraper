@@ -20,14 +20,10 @@ public class SimpleAd {
     private ObjectId id;
     private String city;
     private Money price;
+    private LocalDate gumtreeCreationDate;
     private LocalDateTime creationTime;
     private LocalDateTime modificationTime;
     private Set<LocalDate> seenOn;
-
-    @Transient
-    public LocalDate getCreationDate() {
-        return creationTime.toLocalDate();
-    }
 
     @Transient
     public LocalDate getLastSeenOn() {

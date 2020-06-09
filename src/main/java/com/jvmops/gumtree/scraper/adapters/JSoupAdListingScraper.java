@@ -15,6 +15,7 @@ import org.springframework.util.StringUtils;
 
 import java.math.BigDecimal;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -81,6 +82,7 @@ class JSoupAdListingScraper {
                 .title(title.text().trim())
                 .price(Money.of(DEFAULT_CURRENCY, price))
                 .featured(featured)
+                .seenOn(new HashSet<>())
                 .build();
     }
 

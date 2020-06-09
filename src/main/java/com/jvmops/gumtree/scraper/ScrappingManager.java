@@ -9,9 +9,13 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+import java.time.Clock;
+import java.time.LocalDate;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import static org.springframework.util.CollectionUtils.isEmpty;
 
 @Component
 @Slf4j
@@ -19,6 +23,7 @@ import java.util.stream.Collectors;
 public class ScrappingManager {
     private GumtreeAdScrapper gumtreeAdScrapper;
     private ListedAdRepository listedAdRepository;
+    private Clock clock;
 
     public Set<ScrappedAd> scrapAds(City city) {
         Set<ScrappedAd> scrapped = filteredListing(city).stream()
@@ -36,9 +41,16 @@ public class ScrappingManager {
                 .map(ListedAd::getGumtreeId)
                 .collect(Collectors.toSet());
         Set<ListedAd> duplicated = listedAdRepository.findByGumtreeIdIn(gumtreeIds);
-        if (listing.removeAll(duplicated)) {
+        if ( ! isEmpty(duplicated) ) {
+            markThatTheyWereReposted(duplicated);
+            listing.removeAll(duplicated);
             log.info("{} offers left after removing duplicates from a {} listing", listing.size(), city.getName());
         }
         return listing;
+    }
+
+    private void markThatTheyWereReposted(Set<ListedAd> duplicated) {
+        duplicated.forEach(ad -> ad.seenOn(LocalDate.now(clock)));
+        listedAdRepository.saveAll(duplicated);
     }
 }

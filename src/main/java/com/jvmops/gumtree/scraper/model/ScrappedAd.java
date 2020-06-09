@@ -15,9 +15,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.Set;
 
 @Document("ad")
 @CompoundIndex(name = "city_title", def = "{'city' : 1, 'title': 1}", unique = true)
@@ -40,27 +38,15 @@ public class ScrappedAd {
     private Integer size;
     @Indexed
     private LocalDate gumtreeCreationDate;
-    private LocalDate gumtreeModificationDate;
+    private Set<LocalDate> seenOn;
 
-    @CreatedDate
-    private LocalDate creationDate;
-    @LastModifiedDate
-    private LocalDate modificationDate;
-
-    // TODO: private List<PriceChange> priceChangeHistory = new ArrayList<>();
-
-    // TODO: remove times, refactor to dates
     @CreatedDate
     private LocalDateTime creationTime;
     @LastModifiedDate
     private LocalDateTime modificationTime;
 
-    public void setGumtreeModificationDate(LocalDate modificationDate) {
-        this.gumtreeModificationDate = modificationDate;
-    }
-
-    public void addPriceChange(PriceChange priceChange) {
-//        TODO: WIP
-//        this.priceChanges.add(priceChange);
-    }
+    // TODO: private List<PriceChange> priceChangeHistory = new ArrayList<>();
+//    public void addPriceChange(PriceChange priceChange) {
+//        this.priceChangeHistory.add(priceChange);
+//    }
 }

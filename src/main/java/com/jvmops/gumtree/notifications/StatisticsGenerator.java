@@ -40,7 +40,7 @@ public class StatisticsGenerator {
     private Map<LocalDate, Integer> countPerDay(List<SimpleAd> ads) {
         LinkedHashMap<LocalDate, Long> perDayCount = ads.stream()
                 .collect(Collectors.groupingBy(
-                        SimpleAd::getCreationDate,
+                        SimpleAd::getGumtreeCreationDate,
                         LinkedHashMap::new,
                         Collectors.counting()
                 ));

@@ -41,9 +41,9 @@ class CategoryLoaderTest extends JsonDataInitializer {
     }
 
     @Test
-    void there_are_13_cheapest_apartments() {
+    void there_are_9_cheapest_apartments() {
         Category category = cheapestApartments.load(KATOWICE);
-        Assert.assertEquals(8, category.getAds().size());
+        Assert.assertEquals(9, category.getAds().size());
     }
 
     @Test

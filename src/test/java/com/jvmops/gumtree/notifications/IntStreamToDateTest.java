@@ -1,20 +1,19 @@
 package com.jvmops.gumtree.notifications;
 
-import com.jvmops.gumtree.CustomClock;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 
-import java.time.Clock;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.jvmops.gumtree.CustomClock.staticlyFixedClock;
+
 public class IntStreamToDateTest {
-    private static final Clock FIXED_CLOCK = new CustomClock().fixedClock();
-    private static final LocalDate TODAY = LocalDate.now(FIXED_CLOCK);
+    private static final LocalDate TODAY = LocalDate.now(staticlyFixedClock());
     private static final LocalDate _30_DAYS_AGO = TODAY.minusDays(30);
 
-    StatisticsGenerator statisticsGenerator = new StatisticsGenerator(null, FIXED_CLOCK);
+    StatisticsGenerator statisticsGenerator = new StatisticsGenerator(null, staticlyFixedClock());
 
     @Test
     void today_is_2020_05_07() {

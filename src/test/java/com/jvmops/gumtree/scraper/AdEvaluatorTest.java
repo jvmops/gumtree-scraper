@@ -51,7 +51,7 @@ class AdEvaluatorTest extends ScrapperDataInitializer {
         adEvaluator.processAd(scrappedAd);
 
         ScrappedAd fromDb = load(scrappedAd);
-        assertEquals(LocalDate.now(clock), fromDb.getGumtreeModificationDate(), "Date has not been updated");
+        assertEquals(LocalDate.now(clock), fromDb.getModificationTime().toLocalDate(), "Date has not been updated");
 //        assertEquals(1, fromDb.getPriceChanges().size());
     }
 

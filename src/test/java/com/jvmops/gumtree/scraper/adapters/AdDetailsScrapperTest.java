@@ -15,6 +15,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
 
+import static com.jvmops.gumtree.CustomClock.staticlyFixedClock;
 import static com.jvmops.gumtree.ScrapperConfig.DEFAULT_CURRENCY;
 import static org.mockito.Mockito.when;
 
@@ -29,7 +30,7 @@ public class AdDetailsScrapperTest {
 
     @BeforeEach
     void initializeDependencies() {
-        adDetailsScrapper = new JSoupAdDetailsScraper(htmlProvider, slowdown);
+        adDetailsScrapper = new JSoupAdDetailsScraper(htmlProvider, slowdown, staticlyFixedClock());
     }
 
     @Test

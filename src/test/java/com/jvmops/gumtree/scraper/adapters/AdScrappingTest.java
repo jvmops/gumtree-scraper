@@ -21,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.time.Clock;
 import java.util.Set;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -48,18 +49,20 @@ public class AdScrappingTest extends ScrapperDataInitializer {
     private ListedAdRepository listedAdRepository;
     @Autowired
     private ScrapperProperties scrapperProperties;
+    @Autowired
+    private Clock clock;
 
 
     @BeforeEach
     public void setup() {
         JSoupAdListingScraper adListingScrapper = new JSoupAdListingScraper(htmlProvider, gumtreeUrlBuilder);
-        JSoupAdDetailsScraper jSoupAdDetailsScraper = new JSoupAdDetailsScraper(htmlProvider, slowdown);
+        JSoupAdDetailsScraper jSoupAdDetailsScraper = new JSoupAdDetailsScraper(htmlProvider, slowdown, clock);
         scrapper = new JsoupAdScraper(
                 adListingScrapper,
                 jSoupAdDetailsScraper,
                 listedAdRepository,
                 scrapperProperties);
-        scrappingManager = new ScrappingManager(scrapper, listedAdRepository);
+        scrappingManager = new ScrappingManager(scrapper, listedAdRepository, clock);
         reloadApartments();
     }
 

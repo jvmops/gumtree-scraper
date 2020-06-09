@@ -10,6 +10,8 @@ import java.time.Clock;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static com.jvmops.gumtree.ScrapperConfig.DEFAULT_CURRENCY;
 
@@ -35,7 +37,6 @@ public abstract class ScrapperDataInitializer {
     }
 
     private List<ScrappedAd> createTestAds() {
-        LocalDateTime lastSeen = LocalDateTime.now(clock).minusWeeks(4);
         ScrappedAd thisWillBeModifiedInTest = ScrappedAd.builder()
                 .city("Katowice")
                 .gumtreeId("0000000")
@@ -43,7 +44,8 @@ public abstract class ScrapperDataInitializer {
                 .description("This ad can be modified during tests")
                 .price(Money.of(DEFAULT_CURRENCY, 1800))
                 .creationTime(LocalDateTime.now(clock).minusWeeks(5))
-                .gumtreeCreationDate(lastSeen.toLocalDate())
+                .gumtreeCreationDate(LocalDate.now(clock).minusWeeks(5))
+                .seenOn(Stream.of(LocalDate.now(clock).minusWeeks(5)).collect(Collectors.toSet()))
                 .build();
 
         ScrappedAd recentlyPostedApartmentInWroclaw = ScrappedAd.builder()
@@ -54,6 +56,7 @@ public abstract class ScrapperDataInitializer {
                 .price(Money.of(DEFAULT_CURRENCY, 2200))
                 .creationTime(LocalDateTime.now(clock))
                 .gumtreeCreationDate(LocalDate.now(clock))
+                .seenOn(Stream.of(LocalDate.now(clock)).collect(Collectors.toSet()))
                 .build();
 
         ScrappedAd oldAdInKatowice = ScrappedAd.builder()
@@ -64,6 +67,7 @@ public abstract class ScrapperDataInitializer {
                 .price(Money.of(DEFAULT_CURRENCY, 2500))
                 .creationTime(LocalDateTime.now(clock))
                 .gumtreeCreationDate(LocalDate.now(clock))
+                .seenOn(Stream.of(LocalDate.now(clock)).collect(Collectors.toSet()))
                 .build();
 
         return List.of(thisWillBeModifiedInTest, recentlyPostedApartmentInWroclaw, oldAdInKatowice);

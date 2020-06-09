@@ -7,6 +7,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
+import java.time.Clock;
+import java.time.LocalDate;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.BiPredicate;
@@ -24,6 +26,7 @@ public class AdEvaluator {
                     saved.getPrice(), scrapped.getPrice());
 
     private ScrappedAdRepository scrappedAdRepository;
+    private Clock clock;
 
     @SuppressWarnings("squid:S3864")
     public ScrappedAd processAd(ScrappedAd scrapped) {
@@ -46,15 +49,12 @@ public class AdEvaluator {
             log.debug("{} ad was reposted: \"{}\"", saved.getCity(), saved.getTitle());
             saved.setGumtreeId(scrapped.getGumtreeId());
 
-            log.trace("Updating gumtree modtime from {} to {}", saved.getGumtreeModificationDate(), scrapped.getGumtreeModificationDate());
-            saved.setGumtreeModificationDate(scrapped.getGumtreeCreationDate());
-
             log.trace("Updating url from: {} to {}", saved.getUrl(), scrapped.getUrl());
             saved.setUrl(scrapped.getUrl());
 
             if (PRICE_HAS_CHANGED.test(saved, scrapped)) {
                 var priceChange = new PriceChange(
-                        saved.getGumtreeModificationDate(),
+                        LocalDate.now(clock),
                         saved.getPrice(),
                         scrapped.getPrice());
                 log.trace("Price has changed from: {}, to: {}", priceChange.oldPrice(), priceChange.newPrice());
