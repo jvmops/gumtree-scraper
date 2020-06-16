@@ -15,10 +15,7 @@ import org.springframework.stereotype.Component;
 
 import java.time.Clock;
 import java.time.LocalDate;
-import java.util.Map;
-import java.util.NoSuchElementException;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Component
@@ -40,7 +37,7 @@ class JSoupAdDetailsScraper {
                 .text();
         ScrappedAdAttributes adAttributes = scrapAttributes(adPage);
 
-        ScrappedAd scrappedAd = ScrappedAd.builder()
+        ScrappedAd.ScrappedAdBuilder builder = ScrappedAd.builder()
                 .city(listedAd.getCity())
                 .gumtreeId(listedAd.getGumtreeId())
                 .url(listedAd.getUrl())
@@ -52,8 +49,13 @@ class JSoupAdDetailsScraper {
                 .landlord(adAttributes.getLandlord())
                 .size(adAttributes.getSize())
                 .gumtreeCreationDate(adAttributes.getCreationDate())
-                .seenOn(Set.of(adAttributes.getCreationDate()))
-                .build();
+                .seenOn(Set.of(adAttributes.getCreationDate()));
+
+        if (!Objects.equals(adAttributes.getCreationDate(), LocalDate.now(clock))) {
+            builder.creationTime(adAttributes.getCreationDate().atStartOfDay());
+        }
+
+        ScrappedAd scrappedAd = builder.build();
         return Optional.of(scrappedAd);
     }
 
@@ -73,7 +75,7 @@ class JSoupAdDetailsScraper {
                         Pair::getFirst,
                         Pair::getSecond
                 ));
-        return new ScrappedAdAttributes(adAttributes);
+        return new ScrappedAdAttributes(adAttributes, clock);
     }
 
     private Optional<Element> findAttributeElement(Element element) {

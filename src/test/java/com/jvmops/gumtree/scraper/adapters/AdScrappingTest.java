@@ -10,6 +10,7 @@ import com.jvmops.gumtree.scraper.model.ListedAd;
 import com.jvmops.gumtree.scraper.model.ScrappedAd;
 import com.jvmops.gumtree.scraper.ports.GumtreeAdScrapper;
 import com.jvmops.gumtree.scraper.ports.ListedAdRepository;
+import com.jvmops.gumtree.scraper.ports.UpdateRepository;
 import com.jvmops.gumtree.subscriptions.model.City;
 import org.junit.Assert;
 import org.junit.jupiter.api.BeforeEach;
@@ -50,6 +51,8 @@ public class AdScrappingTest extends ScrapperDataInitializer {
     @Autowired
     private ScrapperProperties scrapperProperties;
     @Autowired
+    private UpdateRepository updateRepository;
+    @Autowired
     private Clock clock;
 
 
@@ -62,7 +65,7 @@ public class AdScrappingTest extends ScrapperDataInitializer {
                 jSoupAdDetailsScraper,
                 listedAdRepository,
                 scrapperProperties);
-        scrappingManager = new ScrappingManager(scrapper, listedAdRepository, clock);
+        scrappingManager = new ScrappingManager(scrapper, listedAdRepository, updateRepository, clock);
         reloadApartments();
     }
 

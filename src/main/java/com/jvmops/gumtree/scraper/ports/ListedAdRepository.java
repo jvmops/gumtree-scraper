@@ -9,6 +9,6 @@ import java.util.Set;
 
 @Repository
 public interface ListedAdRepository extends MongoRepository<ListedAd, ObjectId> {
-    Set<ListedAd> findByGumtreeIdIn(Set<String> gumtreeIds);
+    Set<ListedAd> findByCityAndTitleIn(String city, Set<String> title);
     boolean existsByGumtreeIdIn(Set<String> gumtreeIds);
 }

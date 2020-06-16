@@ -2,6 +2,7 @@ package com.jvmops.gumtree.scraper.model;
 
 import lombok.AllArgsConstructor;
 
+import java.time.Clock;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -20,11 +21,12 @@ public class ScrappedAdAttributes {
     private static final DateTimeFormatter CREATION_DATE_FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
     private Map<String, String> attributes;
+    private Clock clock;
 
     public LocalDate getCreationDate() {
         return getOptionalValue(AttributeNames.CREATION_DATE)
                 .map(this::parseDate)
-                .orElse(LocalDate.now());
+                .orElse(LocalDate.now(clock));
     }
 
     private LocalDate parseDate(String date) {
