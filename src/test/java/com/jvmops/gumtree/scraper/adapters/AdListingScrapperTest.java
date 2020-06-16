@@ -102,8 +102,6 @@ public class AdListingScrapperTest {
         Assertions.assertEquals(GumtreeUrlBuilder.parseUrl("https://www.gumtree.pl/a-mieszkania-i-domy-do-wynajecia/katowice/1007246940240911148463809"), listedAd.getUrl());
     }
 
-
-
     @Test
     void price_is_parsed_from_the_listing() {
         setupHtmlMockFor(HtmlFile.AD_LISTING_SINGLE_AD);

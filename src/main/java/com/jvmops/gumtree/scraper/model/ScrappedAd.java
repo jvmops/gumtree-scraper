@@ -41,12 +41,8 @@ public class ScrappedAd {
     private Set<LocalDate> seenOn;
 
     @CreatedDate
+    @Indexed
     private LocalDateTime creationTime;
     @LastModifiedDate
     private LocalDateTime modificationTime;
-
-    // TODO: private List<PriceChange> priceChangeHistory = new ArrayList<>();
-//    public void addPriceChange(PriceChange priceChange) {
-//        this.priceChangeHistory.add(priceChange);
-//    }
 }

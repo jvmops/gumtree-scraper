@@ -14,6 +14,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Set;
 
 @Document("ad")
@@ -37,6 +38,9 @@ public class ListedAd {
     private LocalDateTime modificationTime;
 
     public void seenOn(LocalDate date) {
+        if (seenOn == null) {
+            seenOn = new HashSet<>();
+        }
         seenOn.add(date);
     }
 }

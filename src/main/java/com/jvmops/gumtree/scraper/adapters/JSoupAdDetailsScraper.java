@@ -52,7 +52,7 @@ class JSoupAdDetailsScraper {
                 .landlord(adAttributes.getLandlord())
                 .size(adAttributes.getSize())
                 .gumtreeCreationDate(adAttributes.getCreationDate())
-                .seenOn(Set.of(LocalDate.now(clock)))
+                .seenOn(Set.of(adAttributes.getCreationDate()))
                 .build();
         return Optional.of(scrappedAd);
     }
